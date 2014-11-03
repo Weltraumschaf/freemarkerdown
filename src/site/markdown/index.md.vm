@@ -1,6 +1,11 @@
 # FreeMarkerDown
 
-TODO
+This   library  is   simply  a   combination  of   [Freemarker][freemarker]  and
+[PegDown][pegdown]. The  use case  is: You  want to  render [Markdown][markdowm]
+but you  also want to  have the  features from a  template engine. Yes,  you can
+combine such two  libraries to do that.  Or you can save time  because I've done
+that for you: Here is FreeMarkerDown.
 
 [freemarker]:   http://freemarker.org/
 [pegdown]:      https://github.com/sirthias/pegdown
+[markdowm]:     http://daringfireball.net/projects/markdown/
