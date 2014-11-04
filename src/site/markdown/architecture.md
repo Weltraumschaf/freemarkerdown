@@ -2,7 +2,7 @@
 
 ## Overview
 
-<img src="images/overview.png"/>
+<img src="uml/overview.png"/>
 
 ## Sequence
 
