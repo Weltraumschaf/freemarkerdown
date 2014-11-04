@@ -31,6 +31,7 @@
     <properties>
         <dependnecy.version.pegdown>1.4.2</dependnecy.version.pegdown>
         <dependency.freemarker.version>2.3.21</dependency.freemarker.version>
+        <dependency.comons.version>1.1.1</dependency.comons.version>
     </properties>
 
     <prerequisites>
@@ -72,6 +73,18 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${dependency.freemarker.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>validate</artifactId>
+            <version>${dependency.comons.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>guava</artifactId>
+            <version>${dependency.comons.version}</version>
         </dependency>
     </dependencies>
 
