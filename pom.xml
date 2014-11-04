@@ -88,5 +88,29 @@
         </dependency>
     </dependencies>
 
-    <build/>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <!-- http://wiki.netbeans.org/MavenCodeCoverage -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
