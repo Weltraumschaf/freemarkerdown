@@ -26,7 +26,8 @@
     <packaging>jar</packaging>
 
     <name>FreeMarkerDown</name>
-    <description>TODO</description>
+    <description>Combination of FreeMarker template engine and PegDown Markdown to HTML converter.</description>
+    <url>http://weltraumschaf.github.io/freemarkerdown/</url>
 
     <properties>
         <dependnecy.version.pegdown>1.4.2</dependnecy.version.pegdown>
