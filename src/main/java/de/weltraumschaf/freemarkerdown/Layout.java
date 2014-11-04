@@ -17,7 +17,7 @@ import freemarker.template.TemplateException;
 import java.io.IOException;
 
 /**
- * Extends the {@link Template template} to provide a two step layout.
+ * Extends the {@link Fragment template} to provide a two step layout.
  * <p>
  * Provides base variables such as title, encoding etc to the layout and inner content template.
  * </p>
@@ -25,22 +25,15 @@ import java.io.IOException;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class Layout extends Template {
+public final class Layout extends Fragment {
 
     /**
      * Inner template to render content string.
      */
     private Renderable content = new DefaultContent();
 
-    /**
-     * Initializes all provided template variables with empty strings as default.
-     *
-     * @param templateConfiguration must not be {@code null}
-     * @param layoutTemplateFile must not be {@code null}
-     * @throws IOException if template can't be opened
-     */
-    public Layout(final Configuration templateConfiguration, final String layoutTemplateFile, final String encoding) throws IOException {
-        super(templateConfiguration, layoutTemplateFile, encoding);
+    public Layout(String template, String encoding) throws IOException {
+        super(template, encoding);
     }
 
     /**

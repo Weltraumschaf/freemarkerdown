@@ -13,7 +13,6 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
-import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,12 +20,12 @@ import java.io.OutputStreamWriter;
 import java.util.Map;
 
 /**
- * Template class which encapsulates FreeMarker.
+ * Fragment class which encapsulates FreeMarker.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class Template implements Renderable, Assignable {
+public class Fragment implements Renderable, Assignable {
 
     /**
      * Rendered template.
@@ -41,28 +40,18 @@ public class Template implements Renderable, Assignable {
      */
     private final String encoding;
 
+    public Fragment(final String template) {
+        this(template, Defaults.ENCODING.getValue());
+    }
+
     /**
      * Creates a template from an template string.
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null}
-     * @throws IOException if template can't be opened
      */
-    public Template(final String template, final String encoding) throws IOException {
-        this(Freemarker.createTemplate(template), encoding);
-    }
-
-    /**
-     * Dedicated constructor.
-     *
-     * @param templateConfiguration must not be {@code null}
-     * @param templateFile must not be {@code null}
-     * @param encoding must not be {@code null} or empty
-     * @throws IOException if template can't be opened
-     */
-    public Template(final Configuration templateConfiguration, final String templateFile, final String encoding)
-        throws IOException {
-        this(templateConfiguration.getTemplate(templateFile), encoding);
+    public Fragment(final String template, final String encoding) {
+        this(FreeMarker.createTemplate(template), encoding);
     }
 
     /**
@@ -70,10 +59,8 @@ public class Template implements Renderable, Assignable {
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
-     * @throws IOException if template can't be opened
      */
-    public Template(final freemarker.template.Template template, final String encoding)
-        throws IOException {
+    Fragment(final freemarker.template.Template template, final String encoding) {
         super();
         this.template = Validate.notNull(template, "template");
         this.encoding = Validate.notEmpty(encoding, "encoding");
@@ -88,22 +75,6 @@ public class Template implements Renderable, Assignable {
     @Override
     public void assignVariable(final String name, final Object value) {
         templateVariables.put(Validate.notEmpty(name, "name"), Validate.notNull(value, "value"));
-    }
-
-    /**
-     * Get a variable.
-     *
-     * @param name must not be {@code null} or empty
-     * @return never {@code null}, maybe empty string
-     */
-    protected Object getVariable(final String name) {
-        Validate.notEmpty(name, "name");
-
-        if (templateVariables.containsKey(name)) {
-            return templateVariables.get(name);
-        }
-
-        return "";
     }
 
     @Override
