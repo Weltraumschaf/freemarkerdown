@@ -15,7 +15,6 @@ import de.weltraumschaf.commons.guava.Maps;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Extends the {@link Fragment template} to provide a two step layout.
