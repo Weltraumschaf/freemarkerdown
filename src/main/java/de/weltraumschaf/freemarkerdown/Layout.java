@@ -11,10 +11,11 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
-import de.weltraumschaf.commons.validate.Validate;
-import freemarker.template.Configuration;
+import de.weltraumschaf.commons.guava.Maps;
 import freemarker.template.TemplateException;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Extends the {@link Fragment template} to provide a two step layout.
@@ -25,76 +26,29 @@ import java.io.IOException;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public final class Layout extends Fragment {
+public final class Layout extends BaseTemplate {
 
-    /**
-     * Inner template to render content string.
-     */
-    private Renderable content = new DefaultContent();
+    private final Map<String, Fragment> fragments = Maps.newHashMap();
 
-    public Layout(String template, String encoding) throws IOException {
+    public Layout(String template) {
+        this(template, Defaults.ENCODING.getValue());
+    }
+
+    public Layout(String template, String encoding) {
         super(template, encoding);
     }
 
-    /**
-     * Set the inner content template.
-     *
-     * @param content must not be {@code null}
-     */
-    public void setContent(final Renderable content) {
-        Validate.notNull(content, "Content template must not be null!");
-        this.content = content;
-    }
-
-    /**
-     * Set the content string.
-     *
-     * @param content must not be {@code null}
-     */
-    public void setContent(final String content) {
-        Validate.notNull(content);
-        setContent(new DefaultContent(content));
+    public void assignFragment(final String name, final Fragment fragment) {
+        fragments.put(name, fragment);
     }
 
     @Override
     public String render() throws IOException, TemplateException {
-        assignVariable("content", content.render());
+        for (final Map.Entry<String, Fragment> fragment : fragments.entrySet()) {
+            assignVariable(fragment.getKey(), fragment.getValue().render());
+        }
 
         return super.render();
     }
 
-    /**
-     * Used as a default template which does only contains a string.
-     */
-    private static final class DefaultContent implements Renderable {
-
-        /**
-         * String which will be used as rendered output.
-         */
-        private final String content;
-
-        /**
-         * Initializes the rendered output with an empty string.
-         */
-        public DefaultContent() {
-            this("");
-        }
-
-        /**
-         * Dedicated constructor.
-         *
-         * @param content must not be {@code null}
-         */
-        public DefaultContent(final String content) {
-            super();
-            Validate.notNull(content, "Content must not be null!");
-            this.content = content;
-        }
-
-        @Override
-        public String render() throws IOException, TemplateException {
-            return content;
-        }
-
-    }
 }
