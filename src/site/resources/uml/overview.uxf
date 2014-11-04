@@ -28,7 +28,7 @@ Preprocessor
 --
 --
 +register(Preprocessor)
-+render(Template):String</panel_attributes>
++render(Renderable):String</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

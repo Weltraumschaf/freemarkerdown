@@ -32,7 +32,7 @@ public final class FreeMarkerDown {
         postrocessors.put(processor.getName(), processor);
     }
 
-    public String render() {
+    public String render(final Renderable template) {
         return "";
     }
 }
