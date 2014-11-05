@@ -12,6 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
+import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.Map;
@@ -27,23 +28,47 @@ import java.util.Map;
  */
 public final class Layout extends BaseTemplate {
 
-    private final Map<String, Fragment> fragments = Maps.newHashMap();
+    /**
+     * Holds the layout fragments.
+     */
+    private final Map<String, Renderable> fragments = Maps.newHashMap();
 
+    /**
+     * Convenience constructor which sets the encoding to {@link Defaults#ENCODING}.
+     *
+     * @param template must not be {@code null}
+     */
     public Layout(String template) {
         this(template, Defaults.ENCODING.getValue());
     }
 
+    /**
+     * Dedicated constructor.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     */
     public Layout(String template, String encoding) {
         super(template, encoding);
     }
 
-    public void assignFragment(final String name, final Fragment fragment) {
-        fragments.put(name, fragment);
+    /**
+     * Assigns a fragment to the layout.
+     * <p>
+     * The content of the rendered fragment will be assigned to the layout's template before
+     * it will be rendered.
+     * </p>
+     *
+     * @param name must not be {@code null} or empty
+     * @param fragment must not be {@code null}
+     */
+    public void assignFragment(final String name, final Renderable fragment) {
+        fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(fragment, "fragment"));
     }
 
     @Override
     public String render() throws IOException, TemplateException {
-        for (final Map.Entry<String, Fragment> fragment : fragments.entrySet()) {
+        for (final Map.Entry<String, Renderable> fragment : fragments.entrySet()) {
             assignVariable(fragment.getKey(), fragment.getValue().render());
         }
 

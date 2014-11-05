@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import freemarker.template.TemplateException;
@@ -51,20 +50,46 @@ public class LayoutTest {
         fruits.add("pears");
         final Layout sut = new Layout(
                 "<p>And BTW we have these fruits:\n"
-                        + "<ul>\n"
-                        + "<#list fruits as fruit>\n"
-                        + " <li>${fruit}</li>\n"
-                        + "</#list>\n"
-                        + "<ul>");
+                + "<ul>\n"
+                + "<#list fruits as fruit>\n"
+                + " <li>${fruit}</li>\n"
+                + "</#list>\n"
+                + "<ul>");
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
-            is("<p>And BTW we have these fruits:\n"
-                + "<ul>\n"
-                + " <li>bananas</li>\n"
-                + " <li>apples</li>\n"
-                + " <li>pears</li>\n"
-                + "<ul>"));
+                is("<p>And BTW we have these fruits:\n"
+                        + "<ul>\n"
+                        + " <li>bananas</li>\n"
+                        + " <li>apples</li>\n"
+                        + " <li>pears</li>\n"
+                        + "<ul>"));
+    }
+
+    @Test
+    public void render_withOneFragement() throws IOException, TemplateException {
+        final Layout sut = new Layout("<p>${fragmentOne}</p>\n");
+        sut.assignFragment("fragmentOne", new Fragment("foo"));
+
+        assertThat(sut.render(), is("<p>foo</p>\n"));
+    }
+
+    @Test
+    public void render_withThreeFragement() throws IOException, TemplateException {
+        final Layout sut = new Layout(
+            "<p>${fragmentOne}</p>\n"
+            + "<p>${fragmentTwo}</p>\n"
+            + "<p>${fragmentThree}</p>\n"
+        );
+        sut.assignFragment("fragmentOne", new Fragment("foo"));
+        sut.assignFragment("fragmentTwo", new Fragment("bar"));
+        sut.assignFragment("fragmentThree", new Fragment("baz"));
+
+        assertThat(sut.render(), is(
+            "<p>foo</p>\n"
+            + "<p>bar</p>\n"
+            + "<p>baz</p>\n"
+        ));
     }
 
 }
