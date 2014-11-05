@@ -20,8 +20,7 @@ import de.weltraumschaf.commons.validate.Validate;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 enum Defaults {
-    ENCODING("utf-8"),
-    FREEMARKER_VERSION("2.3.21");
+    ENCODING("utf-8");
 
     private final String value;
 

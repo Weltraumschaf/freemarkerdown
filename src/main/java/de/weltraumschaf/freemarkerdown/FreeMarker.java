@@ -28,7 +28,8 @@ import java.io.IOException;
  */
 final class FreeMarker {
 
-    private static final Version version = new Version(Defaults.FREEMARKER_VERSION.getValue());
+    private static final FreemarkerProperties properties = new FreemarkerProperties();
+    private static final Version version = new Version(properties.getVersion());
 
     /**
      * Hidden for pure static class.
