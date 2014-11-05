@@ -21,13 +21,16 @@ import java.io.IOError;
 import java.io.IOException;
 
 /**
- * Helper to wrap FreeMarker.
+ * Helper to create FreeMarker objects.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 final class FreeMarker {
 
+    /**
+     * Provide some properties from fixed file.
+     */
     private static final FreemarkerProperties properties = new FreemarkerProperties();
     private static final Version version = new Version(properties.getVersion());
 

@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
+ * Collects assigned variables.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
@@ -39,6 +40,11 @@ final class Variables {
         templateVariables.put(Validate.notEmpty(name, "name"), Validate.notNull(value, "value"));
     }
 
+    /**
+     * Get all assigned variables.
+     *
+     * @return never {@code null}, unmodifiable
+     */
     Map<String, Object> getVariables() {
         return Collections.unmodifiableMap(templateVariables);
     }

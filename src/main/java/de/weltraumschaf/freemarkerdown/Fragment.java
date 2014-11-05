@@ -12,8 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 /**
- * Fragment class which encapsulates FreeMarker.
- *
+ * 
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */

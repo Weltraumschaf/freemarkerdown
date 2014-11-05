@@ -18,38 +18,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Reads the current config from a property file.
- *
- * <p>
- * The property files only defines one property. Important is to switch resource filtering on in your POM for that
- * properties file.
- * </p>
- * <pre>
- *  version=1.0.0
- * </pre>
- *
- * <p>
- * This property file may be processed by a Maven filter to provide the verison from the pom.xml:
- * </p>
- * <pre>
- *  version=${pom.version}
- * </pre>
- *
- * <p>
- * If you save the file in <kbd>src/main/resources/foo/bar/version.properties</kbd>
- * you can use the version this way:
- * </p>
- *
- * <pre>{@code
- * Version version = new Version("/foo/bar/version.properties");
- * version.load()
- * println(version.getVersion);
- * }</pre>
+ * Provides some FreeMarker related properties from file.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 final class FreemarkerProperties {
+
+    /**
+     * Location of properties files in library ({@value}).
+     */
+    private static final String FILE = "/de/weltraumschaf/freemarkerdown/freemarker.properties";
 
     /**
      * Location of property file.
@@ -66,13 +45,17 @@ final class FreemarkerProperties {
      */
     private final Properties properties = new Properties();
 
+    /**
+     * Convenience constructor which loads file from {@link #FILE fixed location}.
+     */
     FreemarkerProperties() {
-        this("/de/weltraumschaf/freemarkerdown/freemarker.properties");
+        this(FILE);
         load();
     }
 
+
     /**
-     * Private constructor for singleton.
+     * Dedicated constructor.
      *
      * @param propertyFileName must not be {@code null} or empty
      */

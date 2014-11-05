@@ -19,7 +19,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 /**
+ * Common template functionality.
  *
+ * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 abstract class BaseTemplate implements Renderable, Assignable {

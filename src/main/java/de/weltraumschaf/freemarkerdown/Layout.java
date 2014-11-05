@@ -18,10 +18,6 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Extends the {@link Fragment template} to provide a two step layout.
- * <p>
- * Provides base variables such as title, encoding etc to the layout and inner content template.
- * </p>
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
