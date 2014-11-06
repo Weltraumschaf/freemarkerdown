@@ -32,4 +32,5 @@ public interface Renderable {
      */
     String render() throws IOException, TemplateException;
 
+    void apply(PreProcessor processor);
 }

@@ -13,6 +13,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,13 +28,14 @@ import java.io.OutputStreamWriter;
 abstract class BaseTemplate implements Renderable, Assignable {
 
     /**
-     * Rendered template.
-     */
-    private final freemarker.template.Template template;
-    /**
      * Holds the assigned variables.
      */
     private final Variables templateVariables = new Variables();
+
+    /**
+     * Rendered template.
+     */
+    private String template;
 
     /**
      * Encoding of rendered template string.
@@ -41,22 +43,12 @@ abstract class BaseTemplate implements Renderable, Assignable {
     private final String encoding;
 
     /**
-     * Creates a template from an template string.
-     *
-     * @param template must not be {@code null}
-     * @param encoding must not be {@code null}
-     */
-    BaseTemplate(final String template, final String encoding) {
-        this(FreeMarker.createTemplate(template), encoding);
-    }
-
-    /**
      * Dedicated constructor.
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    private BaseTemplate(final freemarker.template.Template template, final String encoding) {
+    BaseTemplate(final String template, final String encoding) {
         super();
         this.template = Validate.notNull(template, "template");
         this.encoding = Validate.notEmpty(encoding, "encoding");
@@ -71,9 +63,16 @@ abstract class BaseTemplate implements Renderable, Assignable {
     public String render() throws IOException, TemplateException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        template.process(templateVariables.getVariables(), new OutputStreamWriter(out, encoding));
+        FreeMarker.createTemplate(template).process(
+            templateVariables.getVariables(),
+            new OutputStreamWriter(out, encoding));
 
         return out.toString(encoding);
+    }
+
+    @Override
+    public void apply(final PreProcessor processor) {
+        template = new PreProcessorApplier(template).apply(processor);
     }
 
 }
