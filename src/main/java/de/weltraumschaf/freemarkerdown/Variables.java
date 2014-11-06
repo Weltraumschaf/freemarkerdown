@@ -59,6 +59,9 @@ final class Variables {
         return templateVariables.equals(obj);
     }
 
-
+    @Override
+    public String toString() {
+        return "Variables{" + "templateVariables=" + templateVariables + '}';
+    }
 
 }

@@ -101,9 +101,19 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
         final BaseTemplate other = (BaseTemplate) obj;
         return Objects.equal(templateVariables, other.templateVariables)
-            && Objects.equal(encoding, other.encoding)
-            && Objects.equal(template, other.template)
-            && Objects.equal(preProcessedTemplate, other.preProcessedTemplate);
+                && Objects.equal(encoding, other.encoding)
+                && Objects.equal(template, other.template)
+                && Objects.equal(preProcessedTemplate, other.preProcessedTemplate);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseTemplate{"
+                + "templateVariables=" + templateVariables + ", "
+                + "template=" + template + ", "
+                + "encoding=" + encoding + ", "
+                + "preProcessedTemplate=" + preProcessedTemplate
+                + '}';
     }
 
 }
