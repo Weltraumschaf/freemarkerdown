@@ -13,8 +13,6 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
-import freemarker.template.TemplateException;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -63,7 +61,7 @@ public final class Layout extends BaseTemplate {
     }
 
     @Override
-    public String render() throws IOException, TemplateException {
+    public String render() {
         for (final Map.Entry<String, Renderable> fragment : fragments.entrySet()) {
             assignVariable(fragment.getKey(), fragment.getValue().render());
         }

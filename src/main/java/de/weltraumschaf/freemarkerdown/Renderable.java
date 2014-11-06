@@ -12,9 +12,6 @@
 
 package de.weltraumschaf.freemarkerdown;
 
-import freemarker.template.TemplateException;
-import java.io.IOException;
-
 /**
  * Implementors can render them self to a string.
  *
@@ -25,12 +22,19 @@ public interface Renderable {
 
     /**
      * Renders the template in a string.
+     * <p>
+     * Throws {@link TemplateError} if template can't be parsed.
+     * </p>
      *
      * @return never {@code null}
-     * @throws IOException if template file can't be opened
-     * @throws TemplateException if template can't be parsed
      */
-    String render() throws IOException, TemplateException;
+    String render();
 
+    /**
+     * Apply a pre processor on a renderable.
+     *
+     * @param processor must not be {@code null}
+     */
     void apply(PreProcessor processor);
+
 }

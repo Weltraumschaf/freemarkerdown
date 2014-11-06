@@ -15,38 +15,26 @@ package de.weltraumschaf.freemarkerdown;
 import de.weltraumschaf.commons.validate.Validate;
 
 /**
- * Default values used in the library.
+ * Signals any error in a parsed template such as FreeMarker syntax errors.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-enum Defaults {
-    /**
-     * Used default encoding.
-     */
-    ENCODING("utf-8");
+public final class TemplateError extends Error {
 
     /**
-     * Value of the default.
+     * For serialization's sake
      */
-    private final String value;
+    static final long serialVersionUID = 1L;
 
     /**
      * Dedicated constructor.
      *
-     * @param value must not be {@code null} or empty
+     * @param message must not be {@code null} or empty
+     * @param cause may be {@code null}
      */
-    private Defaults(final String value) {
-        this.value = Validate.notEmpty(value, "value");
-    }
-
-    /**
-     * Get default value.
-     *
-     * @return never {@code null} or empty
-     */
-    public String getValue() {
-        return value;
+    public TemplateError(final String message, final Throwable cause) {
+        super(Validate.notEmpty(message), cause);
     }
 
 }

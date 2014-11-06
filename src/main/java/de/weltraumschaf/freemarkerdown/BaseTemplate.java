@@ -9,13 +9,12 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -60,14 +59,21 @@ abstract class BaseTemplate implements Renderable, Assignable {
     }
 
     @Override
-    public String render() throws IOException, TemplateException {
+    public String render() {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        FreeMarker.createTemplate(template).process(
-            templateVariables.getVariables(),
-            new OutputStreamWriter(out, encoding));
+        try {
+            FreeMarker.createTemplate(template).process(
+                    templateVariables.getVariables(),
+                    new OutputStreamWriter(out, encoding));
 
-        return out.toString(encoding);
+            return out.toString(encoding);
+        } catch (final IOException ex) {
+            // Should never happen because we only operate on strings, not on files.
+            throw new IOError(ex);
+        } catch (final TemplateException ex) {
+            throw new TemplateError(ex.getMessage(), ex);
+        }
     }
 
     @Override

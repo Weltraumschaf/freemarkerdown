@@ -12,8 +12,8 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the main API entry point to render stuff.
@@ -26,11 +26,11 @@ public final class FreeMarkerDown {
     /**
      * Holds the pre processors keyed by name.
      */
-    private final Map<String, PreProcessor> preprocessors = new HashMap<>();
+    private final List<PreProcessor> preProcessors = new ArrayList<>();
     /**
      * Holds the pre processors keyed by name.
      */
-    private final Map<String, PostProcessor> postrocessors = new HashMap<>();
+    private final List<PostProcessor> postProcessors = new ArrayList<>();
 
     /**
      * Registers a pre processor.
@@ -42,7 +42,7 @@ public final class FreeMarkerDown {
      */
     public void register(final PreProcessor processor) {
         Validate.notNull(processor, "processor");
-        preprocessors.put(processor.getTarget(), processor);
+        preProcessors.add(processor);
     }
 
     /**
@@ -55,10 +55,14 @@ public final class FreeMarkerDown {
      */
     public void register(final PostProcessor processor) {
         Validate.notNull(processor, "processor");
-        postrocessors.put(processor.getTarget(), processor);
+        postProcessors.add(processor);
     }
 
     public String render(final Renderable template) {
-        return "";
+        for (final PreProcessor preProcessor : preProcessors) {
+            template.apply(preProcessor);
+        }
+
+        return template.render();
     }
 }
