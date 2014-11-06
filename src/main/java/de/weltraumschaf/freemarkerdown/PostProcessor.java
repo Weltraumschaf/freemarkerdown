@@ -19,5 +19,5 @@ package de.weltraumschaf.freemarkerdown;
 public interface PostProcessor {
 
     String process(String input);
-    String getName();
+    String getTarget();
 }
