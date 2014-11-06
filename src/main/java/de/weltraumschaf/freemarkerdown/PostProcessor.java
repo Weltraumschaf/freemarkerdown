@@ -16,7 +16,7 @@ package de.weltraumschaf.freemarkerdown;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public interface Postprocessor {
+public interface PostProcessor {
 
     String process(String input);
     String getName();

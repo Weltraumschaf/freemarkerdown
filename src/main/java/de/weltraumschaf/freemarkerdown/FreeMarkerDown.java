@@ -21,14 +21,14 @@ import java.util.Map;
  */
 public final class FreeMarkerDown {
 
-    private final Map<String, Preprocessor> preprocessors = new HashMap<>();
-    private final Map<String, Postprocessor> postrocessors = new HashMap<>();
+    private final Map<String, PreProcessor> preprocessors = new HashMap<>();
+    private final Map<String, PostProcessor> postrocessors = new HashMap<>();
 
-    public void register(final Preprocessor processor) {
+    public void register(final PreProcessor processor) {
         preprocessors.put(processor.getName(), processor);
     }
 
-    public void register(final Postprocessor processor) {
+    public void register(final PostProcessor processor) {
         postrocessors.put(processor.getName(), processor);
     }
 
