@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
@@ -32,14 +33,19 @@ abstract class BaseTemplate implements Renderable, Assignable {
     private final Variables templateVariables = new Variables();
 
     /**
-     * Rendered template.
+     * Rendered template as original.
      */
-    private String template;
+    private final String template;
 
     /**
      * Encoding of rendered template string.
      */
     private final String encoding;
+
+    /**
+     * Pre processed template.
+     */
+    private String preProcessedTemplate;
 
     /**
      * Dedicated constructor.
@@ -50,6 +56,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
     BaseTemplate(final String template, final String encoding) {
         super();
         this.template = Validate.notNull(template, "template");
+        this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
     }
 
@@ -63,7 +70,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            FreeMarker.createTemplate(template).process(
+            FreeMarker.createTemplate(preProcessedTemplate).process(
                     templateVariables.getVariables(),
                     new OutputStreamWriter(out, encoding));
 
@@ -78,7 +85,25 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
     @Override
     public void apply(final PreProcessor processor) {
-        template = new PreProcessorApplier(template).apply(processor);
+        preProcessedTemplate = new PreProcessorApplier(preProcessedTemplate).apply(processor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(templateVariables, encoding, template, preProcessedTemplate);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof BaseTemplate)) {
+            return false;
+        }
+
+        final BaseTemplate other = (BaseTemplate) obj;
+        return Objects.equal(templateVariables, other.templateVariables)
+            && Objects.equal(encoding, other.encoding)
+            && Objects.equal(template, other.template)
+            && Objects.equal(preProcessedTemplate, other.preProcessedTemplate);
     }
 
 }

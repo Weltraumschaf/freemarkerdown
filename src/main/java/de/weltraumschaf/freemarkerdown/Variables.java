@@ -49,4 +49,16 @@ final class Variables {
         return Collections.unmodifiableMap(templateVariables);
     }
 
+    @Override
+    public int hashCode() {
+        return templateVariables.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return templateVariables.equals(obj);
+    }
+
+
+
 }
