@@ -10,7 +10,7 @@
       <h>70</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-Preprocessor
+PreProcessor
 --
 --
 +process(String):String</panel_attributes>
@@ -27,7 +27,8 @@ Preprocessor
     <panel_attributes>FreeMarkerDown
 --
 --
-+register(Preprocessor)
++register(PreProcessor)
++register(PostProcessor)
 +render(Renderable):String</panel_attributes>
     <additional_attributes/>
   </element>
@@ -125,7 +126,7 @@ r2=receives string before rendering</panel_attributes>
       <h>70</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-Postprocessor
+PostProcessor
 --
 --
 +process(String):String</panel_attributes>
