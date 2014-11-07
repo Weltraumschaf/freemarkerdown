@@ -18,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Common template functionality.
@@ -25,6 +27,7 @@ import java.io.OutputStreamWriter;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 abstract class BaseTemplate implements Renderable, Assignable {
 
     /**
@@ -44,6 +47,12 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
     /**
      * Pre processed template.
+     * <p>
+     * Not considered as "state" of the template and thus not included in
+     * {@link #hashCode()} and {@link #equals(java.lang.Object)}. This field
+     * is modified by each {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied}
+     * pre processor.
+     * </p>
      */
     private String preProcessedTemplate;
 
@@ -90,7 +99,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(templateVariables, encoding, template, preProcessedTemplate);
+        return Objects.hashCode(templateVariables, encoding, template);
     }
 
     @Override
@@ -102,8 +111,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
         final BaseTemplate other = (BaseTemplate) obj;
         return Objects.equal(templateVariables, other.templateVariables)
                 && Objects.equal(encoding, other.encoding)
-                && Objects.equal(template, other.template)
-                && Objects.equal(preProcessedTemplate, other.preProcessedTemplate);
+                && Objects.equal(template, other.template);
     }
 
     @Override

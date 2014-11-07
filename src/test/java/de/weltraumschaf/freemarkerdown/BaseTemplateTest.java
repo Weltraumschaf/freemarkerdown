@@ -16,6 +16,8 @@ import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -66,6 +68,13 @@ public class BaseTemplateTest {
                 + " <li>apples</li>\n"
                 + " <li>pears</li>\n"
                 + "<ul>"));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(BaseTemplateStub.class)
+                .suppress(Warning.NULL_FIELDS)
+                .verify();
     }
 
     private static final class BaseTemplateStub extends BaseTemplate {

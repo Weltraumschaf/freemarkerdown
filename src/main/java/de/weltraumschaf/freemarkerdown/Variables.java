@@ -16,6 +16,8 @@ import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.Collections;
 import java.util.Map;
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Collects assigned variables.
@@ -23,6 +25,7 @@ import java.util.Map;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 final class Variables {
 
     /**
@@ -56,7 +59,12 @@ final class Variables {
 
     @Override
     public boolean equals(final Object obj) {
-        return templateVariables.equals(obj);
+        if (!(obj instanceof Variables)) {
+            return false;
+        }
+
+        final Variables other = (Variables)obj;
+        return templateVariables.equals(other.templateVariables);
     }
 
     @Override

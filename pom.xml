@@ -34,6 +34,7 @@
         <dependency.freemarker.version>2.3.21</dependency.freemarker.version>
         <dependency.comons.version>1.1.1</dependency.comons.version>
         <dependency.equalsverifier.version>1.5</dependency.equalsverifier.version>
+        <dependency.jcip.annotations>1.0-1</dependency.jcip.annotations>
     </properties>
 
     <prerequisites>
@@ -96,6 +97,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.stephenc.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <version>${dependency.jcip.annotations}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>4.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
             <version>${dependency.equalsverifier.version}</version>
@@ -106,14 +119,6 @@
                     <artifactId>asm</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>4.1</version>
-            <!--<version>4.2</version>-->
-            <!--<version>5.03</version>-->
         </dependency>
     </dependencies>
 

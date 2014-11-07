@@ -11,6 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -59,4 +61,10 @@ public class VariablesTest {
         assertThat(sut.getVariables(), hasEntry("baz", baz));
     }
 
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(Variables.class)
+                .suppress(Warning.NULL_FIELDS)
+                .verify();
+    }
 }

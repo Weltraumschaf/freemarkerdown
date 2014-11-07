@@ -14,6 +14,7 @@ package de.weltraumschaf.freemarkerdown;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
 import java.util.List;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * This is the main API entry point to render stuff.
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 public final class FreeMarkerDown {
 
     /**
