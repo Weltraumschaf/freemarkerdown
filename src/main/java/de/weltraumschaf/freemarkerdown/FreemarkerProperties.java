@@ -72,7 +72,7 @@ final class FreemarkerProperties {
             in = getClass().getResourceAsStream(propertyFileName);
             properties.load(in);
             in.close();
-        } catch (final IOException ex) {
+        } catch (final IOException | NullPointerException ex) {
             throw new IOError(ex);
         } finally {
             if (null != in) {
