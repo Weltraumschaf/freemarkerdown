@@ -13,6 +13,8 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -25,6 +27,9 @@ import net.jcip.annotations.NotThreadSafe;
 @NotThreadSafe
 public final class FreeMarkerDown {
 
+    /**
+     * This is the default encoding ({@value}) used for all string operations.
+     */
     public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();
 
     /**
@@ -52,7 +57,19 @@ public final class FreeMarkerDown {
         preProcessors.add(processor);
     }
 
+    Collection<PreProcessor> getPreProcessors() {
+        return Collections.unmodifiableList(preProcessors);
+    }
+
+    /**
+     * Render the given template.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}
+     */
     public String render(final Renderable template) {
+        Validate.notNull(template, "template");
+
         for (final PreProcessor preProcessor : preProcessors) {
             template.apply(preProcessor);
         }

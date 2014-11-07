@@ -11,6 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import java.nio.channels.UnsupportedAddressTypeException;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
@@ -39,6 +41,26 @@ public class FreeMarkerDownTest {
     @Test(expected = NullPointerException.class)
     public void register_preProcesorMustNotBeNull() {
         sut.register((PreProcessor) null);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void register_returnUnmodifiable() {
+        sut.getPreProcessors().add(mock(PreProcessor.class));
+    }
+
+    @Test
+    public void register() {
+        final PreProcessor processor = mock(PreProcessor.class);
+
+        sut.register(processor);
+
+        assertThat(sut.getPreProcessors().size(), is(1));
+        assertThat(sut.getPreProcessors(), contains(processor));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void render_nulPassedIn() {
+        sut.render(null);
     }
 
     @Test
