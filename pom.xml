@@ -33,6 +33,7 @@
         <dependnecy.version.pegdown>1.4.2</dependnecy.version.pegdown>
         <dependency.freemarker.version>2.3.21</dependency.freemarker.version>
         <dependency.comons.version>1.1.1</dependency.comons.version>
+        <dependency.equalsverifier.version>1.5</dependency.equalsverifier.version>
     </properties>
 
     <prerequisites>
@@ -68,6 +69,12 @@
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>${dependnecy.version.pegdown}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -86,6 +93,27 @@
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>guava</artifactId>
             <version>${dependency.comons.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>${dependency.equalsverifier.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>4.1</version>
+            <!--<version>4.2</version>-->
+            <!--<version>5.03</version>-->
         </dependency>
     </dependencies>
 
@@ -138,6 +166,29 @@
                         <id>convert-uml</id>
                         <goals>
                             <goal>convert</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${maven.version}</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${project.build.version.source}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
                         </goals>
                     </execution>
                 </executions>
