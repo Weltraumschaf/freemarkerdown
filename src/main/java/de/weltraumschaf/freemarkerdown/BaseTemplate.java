@@ -73,20 +73,27 @@ abstract class BaseTemplate implements Renderable, Assignable {
         this.encoding = Validate.notEmpty(encoding, "encoding");
     }
 
-    void setPreProcessorApplier(final PreProcessorApplier preProcessorApplier) {
+    /**
+     * Injection point for applier.
+     *
+     * @param preProcessorApplier must not be {@code null}
+     */
+    final void setPreProcessorApplier(final PreProcessorApplier preProcessorApplier) {
         this.preProcessorApplier = Validate.notNull(preProcessorApplier, "preProcessorApplier");
     }
 
-    public String getPreProcessedTemplate() {
+    /**
+     * The preprocessed template contains the current template after
+     * @link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) pre processing} it.
+     *
+     * @return never {@code null}
+     */
+    final String getPreProcessedTemplate() {
         return preProcessedTemplate;
     }
 
-    void setPreProcessedTemplate(String preProcessedTemplate) {
-        this.preProcessedTemplate = preProcessedTemplate;
-    }
-
     @Override
-    public void assignVariable(final String name, final Object value) {
+    public final void assignVariable(final String name, final Object value) {
         templateVariables.assignVariable(name, value);
     }
 
@@ -110,17 +117,17 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
 
     @Override
-    public void apply(final PreProcessor processor) {
+    public final void apply(final PreProcessor processor) {
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hashCode(templateVariables, encoding, template);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (!(obj instanceof BaseTemplate)) {
             return false;
         }
@@ -132,7 +139,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "BaseTemplate{"
                 + "templateVariables=" + templateVariables + ", "
                 + "template=" + template + ", "
