@@ -72,7 +72,7 @@ public class FreeMarkerDownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub",
+                + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue()
         );
 
@@ -81,7 +81,7 @@ public class FreeMarkerDownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"));
+                + "<?bar snafu ?> bla blub"));
     }
 
     @Test
@@ -110,37 +110,45 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    @Ignore
     public void render_layoutWithFragments() {
         final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"
+                + "<?bar snafu ?> bla blub"
         );
 
-        assertThat(sut.render(renderable), is(""));
+        assertThat(sut.render(renderable), is(
+                "<?foo\n"
+                + "foo bar baz\n"
+                + "?>\n"
+                + "Lorem ipsum dolor.\n"
+                + "<?bar snafu ?> bla blub"));
     }
 
     @Test
-    @Ignore
     public void render_layoutWithFragments_withPreProcessors() {
         final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"
+                + "<?bar snafu ?> bla blub"
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
+        when(one.process("\nfoo bar baz\n")).thenReturn("foo");
         sut.register(one);
         final PreProcessor two = mock(PreProcessor.class);
         when(two.getTarget()).thenReturn("bar");
+        when(two.process(" snafu ")).thenReturn("bar");
         sut.register(two);
 
-        assertThat(sut.render(renderable), is(""));
+        assertThat(sut.render(renderable), is(
+                "foo\n"
+                + "Lorem ipsum dolor.\n"
+                + "bar bla blub"));
     }
 
     @Test
