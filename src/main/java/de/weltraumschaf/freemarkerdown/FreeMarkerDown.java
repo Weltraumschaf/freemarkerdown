@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -76,6 +77,26 @@ public final class FreeMarkerDown {
 
         // TODO Add Markdown generation here.
         return template.render();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.preProcessors);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof FreeMarkerDown)) {
+            return false;
+        }
+
+        final FreeMarkerDown other = (FreeMarkerDown) obj;
+        return Objects.equals(preProcessors, other.preProcessors);
+    }
+
+    @Override
+    public String toString() {
+        return "FreeMarkerDown{" + "preProcessors=" + preProcessors + '}';
     }
 
     /**

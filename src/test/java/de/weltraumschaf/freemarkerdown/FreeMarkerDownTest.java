@@ -12,6 +12,8 @@
 package de.weltraumschaf.freemarkerdown;
 
 import java.nio.channels.UnsupportedAddressTypeException;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -253,6 +255,17 @@ public class FreeMarkerDownTest {
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
         assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(FreeMarkerDown.class)
+                .verify();
+    }
+
+    @Test
+    public void toStringContainsMembers() {
+        assertThat(sut.toString(), is("FreeMarkerDown{preProcessors=[]}"));
     }
 
 }
