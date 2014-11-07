@@ -56,6 +56,11 @@ abstract class BaseTemplate implements Renderable, Assignable {
     private String preProcessedTemplate;
 
     /**
+     * Injectable dependency.
+     */
+    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
+
+    /**
      * Dedicated constructor.
      *
      * @param template must not be {@code null}
@@ -66,6 +71,18 @@ abstract class BaseTemplate implements Renderable, Assignable {
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
+    }
+
+    void setPreProcessorApplier(final PreProcessorApplier preProcessorApplier) {
+        this.preProcessorApplier = Validate.notNull(preProcessorApplier, "preProcessorApplier");
+    }
+
+    public String getPreProcessedTemplate() {
+        return preProcessedTemplate;
+    }
+
+    void setPreProcessedTemplate(String preProcessedTemplate) {
+        this.preProcessedTemplate = preProcessedTemplate;
     }
 
     @Override
@@ -91,9 +108,10 @@ abstract class BaseTemplate implements Renderable, Assignable {
         }
     }
 
+
     @Override
     public void apply(final PreProcessor processor) {
-        preProcessedTemplate = new PreProcessorApplier(preProcessedTemplate).apply(processor);
+        preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
     }
 
     @Override

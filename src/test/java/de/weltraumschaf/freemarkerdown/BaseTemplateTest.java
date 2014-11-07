@@ -21,6 +21,10 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link BaseTemplate}.
@@ -75,6 +79,22 @@ public class BaseTemplateTest {
         EqualsVerifier.forClass(BaseTemplateStub.class)
                 .suppress(Warning.NULL_FIELDS)
                 .verify();
+    }
+
+    @Test
+    public void apply() {
+        final PreProcessor processor = mock(PreProcessor.class);
+        final PreProcessorApplier applier = mock(PreProcessorApplier.class);
+        when(applier.apply("foobar", processor)).thenReturn("snafu");
+
+        final BaseTemplate sut = new BaseTemplateStub("foobar", "utf-8");
+        sut.setPreProcessorApplier(applier);
+        assertThat(sut.getPreProcessedTemplate(), is("foobar"));
+
+        sut.apply(processor);
+
+        verify(applier, times(1)).apply("foobar", processor);
+        assertThat(sut.getPreProcessedTemplate(), is("snafu"));
     }
 
     private static final class BaseTemplateStub extends BaseTemplate {

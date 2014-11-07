@@ -26,13 +26,13 @@ import static org.mockito.Mockito.when;
 public class PreProcessorApplierTest {
 
     @Test(expected = NullPointerException.class)
-    public void constructorThrowsExceptionIfNullPassedIn() {
-        new PreProcessorApplier(null);
+    public void apply_throwsExceptionIfNullPassedInAsSubject() {
+        new PreProcessorApplierImpl().apply(null, mock(PreProcessor.class));
     }
 
     @Test(expected = NullPointerException.class)
-    public void apply_throwsExceptionIfNullPassedIn() {
-        new PreProcessorApplier("").apply(null);
+    public void apply_throwsExceptionIfNullPassedInAsProcessor() {
+        new PreProcessorApplierImpl().apply("", null);
     }
 
     @Test
@@ -42,14 +42,14 @@ public class PreProcessorApplierTest {
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
         when(processor.process(" bar bar bar ")).thenReturn("BAR");
 
-        assertThat(new PreProcessorApplier(
+        assertThat(new PreProcessorApplierImpl().apply(
             "Lorem ipsum dolor sit amet,\n"
             + "<?foo foo foo foo ?>\n"
             + "consetetur sadipscing elitr,\n"
             + "<?foo bar bar bar ?>\n"
             + "sed diam nonumy eirmod tempor\n"
             + "invidunt ut labore et dolore\n"
-            + "magna aliquyam erat, sed diam.").apply(processor),
+            + "magna aliquyam erat, sed diam.", processor),
             is("Lorem ipsum dolor sit amet,\n"
             + "FOO\n"
             + "consetetur sadipscing elitr,\n"
@@ -66,14 +66,14 @@ public class PreProcessorApplierTest {
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
         when(processor.process(" bar bar bar ")).thenReturn("BAR");
 
-        assertThat(new PreProcessorApplier(
+        assertThat(new PreProcessorApplierImpl().apply(
             "Lorem ipsum dolor sit amet "
             + "<?foo foo foo foo ?> "
             + "consetetur sadipscing elitr, "
             + "<?foo bar bar bar ?> "
             + "sed diam nonumy eirmod tempor"
             + "invidunt ut labore et dolore"
-            + "magna aliquyam erat, sed diam.").apply(processor),
+            + "magna aliquyam erat, sed diam.", processor),
             is("Lorem ipsum dolor sit amet "
             + "FOO "
             + "consetetur sadipscing elitr, "
@@ -89,14 +89,14 @@ public class PreProcessorApplierTest {
         when(processor.getTarget()).thenReturn("foo");
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
 
-        assertThat(new PreProcessorApplier(
+        assertThat(new PreProcessorApplierImpl().apply(
             "Lorem ipsum dolor sit amet "
             + "<?foo foo foo foo ?> "
             + "consetetur sadipscing elitr, "
             + "<?bar bar bar bar ?> "
             + "sed diam nonumy eirmod tempor"
             + "invidunt ut labore et dolore"
-            + "magna aliquyam erat, sed diam.").apply(processor),
+            + "magna aliquyam erat, sed diam.", processor),
             is("Lorem ipsum dolor sit amet "
             + "FOO "
             + "consetetur sadipscing elitr, "

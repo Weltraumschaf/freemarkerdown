@@ -20,30 +20,7 @@ import java.util.StringTokenizer;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-class PreProcessorApplier {
-
-    /**
-     * Indicates beginning of preprocessor area.
-     */
-    private static final String START_TOKEN = "<?";
-    /**
-     * Indicates end of preprocessor area.
-     */
-    private static final String END_TOKEN = "?>";
-    /**
-     * Applied to the processor.
-     */
-    private final String subject;
-
-    /**
-     * Dedicated constructor.
-     *
-     * @param subject must not be {@code null}
-     */
-    PreProcessorApplier(final String subject) {
-        super();
-        this.subject = Validate.notNull(subject, "subject");
-    }
+interface PreProcessorApplier {
 
     /**
      * Applies the processor on the {@link #subject} and returns the processed subject.
@@ -51,38 +28,6 @@ class PreProcessorApplier {
      * @param processor must not be {@code null}
      * @return never {@code null}
      */
-    String apply(final PreProcessor processor) {
-        Validate.notNull(subject, "subject");
-        final String startToken = START_TOKEN + processor.getTarget();
-        final StringTokenizer tokenizer = new StringTokenizer(subject, " \t\n\r\f", true);
-        final StringBuilder buffer = new StringBuilder();
-
-        StringBuilder instructionBuffer = new StringBuilder();
-        boolean insideInstruction = false;
-
-        while (tokenizer.hasMoreTokens()) {
-            final String current = tokenizer.nextToken();
-
-            if (startToken.equals(current)) {
-                insideInstruction = true;
-                continue;
-            }
-
-            if (END_TOKEN.equals(current) && insideInstruction) {
-                insideInstruction = false;
-                buffer.append(processor.process(instructionBuffer.toString()));
-                instructionBuffer = new StringBuilder();
-                continue;
-            }
-
-            if (insideInstruction) {
-                instructionBuffer.append(current);
-            } else {
-                buffer.append(current);
-            }
-        }
-
-        return buffer.toString();
-    }
+    String apply(final String subject, final PreProcessor processor);
 
 }
