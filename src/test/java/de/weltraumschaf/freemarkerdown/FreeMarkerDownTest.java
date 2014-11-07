@@ -66,7 +66,6 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    @Ignore
     public void render_fragment() {
         final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
@@ -77,7 +76,12 @@ public class FreeMarkerDownTest {
                 Defaults.ENCODING.getValue()
         );
 
-        assertThat(sut.render(renderable), is("Lorem ipsum dolor.\nbla blub"));
+        assertThat(sut.render(renderable), is(
+                "<?foo\n"
+                + "foo bar baz\n"
+                + "?>\n"
+                + "Lorem ipsum dolor.\n"
+                + "<?bar snafu ?>bla blub"));
     }
 
     @Test
