@@ -34,7 +34,7 @@ public final class TemplateError extends Error {
      * @param cause may be {@code null}
      */
     public TemplateError(final String message, final Throwable cause) {
-        super(Validate.notEmpty(message), cause);
+        super(Validate.notEmpty(message, "message"), cause);
     }
 
 }
