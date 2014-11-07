@@ -11,11 +11,14 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 public interface Layout extends Renderable, Assignable {
 
     /**

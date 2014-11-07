@@ -15,12 +15,14 @@ package de.weltraumschaf.freemarkerdown;
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.Map;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 final class LayoutImpl extends BaseTemplate implements Layout {
 
     /**

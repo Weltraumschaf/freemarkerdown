@@ -11,8 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
-import de.weltraumschaf.commons.validate.Validate;
-import java.util.StringTokenizer;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Apply a processor to a given string.
@@ -20,11 +19,13 @@ import java.util.StringTokenizer;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 interface PreProcessorApplier {
 
     /**
      * Applies the processor on the {@link #subject} and returns the processed subject.
      *
+     * @param subject must not be {@code null}
      * @param processor must not be {@code null}
      * @return never {@code null}
      */

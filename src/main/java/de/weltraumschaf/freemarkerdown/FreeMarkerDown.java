@@ -58,6 +58,11 @@ public final class FreeMarkerDown {
         preProcessors.add(processor);
     }
 
+    /**
+     * Get a copy of the registered pre processors.
+     *
+     * @return never {@code null}, immutable
+     */
     Collection<PreProcessor> getPreProcessors() {
         return Collections.unmodifiableList(preProcessors);
     }

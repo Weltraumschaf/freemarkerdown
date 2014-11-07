@@ -12,13 +12,16 @@
 
 package de.weltraumschaf.freemarkerdown;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 final class FragmentImpl extends BaseTemplate implements Fragment {
-    
+
     /**
      * Dedicated constructor.
      *

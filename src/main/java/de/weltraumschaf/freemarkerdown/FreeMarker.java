@@ -17,7 +17,6 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.Template;
 import freemarker.template.Version;
-import java.io.IOError;
 import java.io.IOException;
 
 /**
@@ -39,7 +38,7 @@ class FreeMarker {
      *
      * @param template must not be {@code null}
      * @return always new instance
-     * @throws Should never happen, because we do not read templates from file.
+     * @throws IOException Should never happen, because we do not read templates from file.
      */
     Template createTemplate(final String template) throws IOException {
         return new Template("", Validate.notNull(template, "template"), createConfiguration());

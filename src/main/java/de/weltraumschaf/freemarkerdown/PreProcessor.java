@@ -11,6 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * A pre processor is invoked for each instruction it is registered for.
  * <p>
@@ -50,9 +52,26 @@ package de.weltraumschaf.freemarkerdown;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 public interface PreProcessor {
 
+    /**
+     * Processes the given input string.
+     *
+     * @param input must not be {@code null}
+     * @return never {@code null}
+     */
     String process(String input);
+
+    /**
+     * Get the target name of the processor.
+     * <p>
+     * If you want to process instructions introduced with {@code <?foo} then you must return {@code foo} in
+     * your implementation of this method.
+     * <p>
+     *
+     * @return never {@code null}, never empty
+     */
     String getTarget();
 
 }

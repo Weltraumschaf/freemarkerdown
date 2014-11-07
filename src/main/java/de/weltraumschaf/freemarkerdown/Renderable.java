@@ -12,6 +12,8 @@
 
 package de.weltraumschaf.freemarkerdown;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * Implementors can render them self to a string.
  *

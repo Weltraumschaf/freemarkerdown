@@ -77,6 +77,11 @@ abstract class BaseTemplate implements Renderable, Assignable {
         this.encoding = Validate.notEmpty(encoding, "encoding");
     }
 
+    /**
+     * Injection point for factory.
+     *
+     * @param factory must not be {@code null}
+     */
     final void setFactory(final FreeMarker factory) {
         this.factory = Validate.notNull(factory, "factory");
     }
