@@ -16,6 +16,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Provides some FreeMarker related properties from file.
@@ -23,6 +24,7 @@ import java.util.Properties;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
+@NotThreadSafe
 final class FreemarkerProperties {
 
     /**
@@ -36,23 +38,16 @@ final class FreemarkerProperties {
     private final String propertyFileName;
 
     /**
-     * Indicates whether the properties are already loaded or not.
-     */
-    private boolean propertiesLoaded;
-
-    /**
      * Properties.
      */
-<span class="fc" id="L46">    private final Properties properties = new Properties();</span>
+<span class="fc" id="L43">    private final Properties properties = new Properties();</span>
 
     /**
      * Convenience constructor which loads file from {@link #FILE fixed location}.
      */
     FreemarkerProperties() {
-<span class="fc" id="L52">        this(FILE);</span>
-<span class="fc" id="L53">        load();</span>
-<span class="fc" id="L54">    }</span>
-
+<span class="fc" id="L49">        this(FILE);</span>
+<span class="fc" id="L50">    }</span>
 
     /**
      * Dedicated constructor.
@@ -60,9 +55,10 @@ final class FreemarkerProperties {
      * @param propertyFileName must not be {@code null} or empty
      */
     FreemarkerProperties(final String propertyFileName) {
-<span class="fc" id="L63">        super();</span>
-<span class="fc" id="L64">        this.propertyFileName = Validate.notEmpty(propertyFileName, &quot;propertyFileName&quot;);</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L58">        super();</span>
+<span class="fc" id="L59">        this.propertyFileName = Validate.notEmpty(propertyFileName, &quot;propertyFileName&quot;);</span>
+<span class="fc" id="L60">        load();</span>
+<span class="fc" id="L61">    }</span>
 
     /**
      * Opens the properties file and loads it.
@@ -70,34 +66,24 @@ final class FreemarkerProperties {
      * Only loads th property file once.
      */
     private void load() {
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (!propertiesLoaded) {</span>
-<span class="fc" id="L74">            loadImpl();</span>
-<span class="fc" id="L75">            propertiesLoaded = true;</span>
-        }
-<span class="fc" id="L77">    }</span>
-
-    /**
-     * Encapsulates the file loading.
-     */
-    private void loadImpl() {
-<span class="fc" id="L83">        InputStream in = null;</span>
+<span class="fc" id="L69">        InputStream in = null;</span>
 
         try {
-<span class="fc" id="L86">            in = getClass().getResourceAsStream(propertyFileName);</span>
-<span class="fc" id="L87">            properties.load(in);</span>
-<span class="fc" id="L88">            in.close();</span>
-<span class="nc" id="L89">        } catch (final IOException ex) {</span>
-<span class="nc" id="L90">            throw new IOError(ex);</span>
+<span class="fc" id="L72">            in = getClass().getResourceAsStream(propertyFileName);</span>
+<span class="fc" id="L73">            properties.load(in);</span>
+<span class="fc" id="L74">            in.close();</span>
+<span class="fc" id="L75">        } catch (final IOException | NullPointerException ex) {</span>
+<span class="fc" id="L76">            throw new IOError(ex);</span>
         } finally {
-<span class="pc bpc" id="L92" title="3 of 4 branches missed.">            if (null != in) {</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">            if (null != in) {</span>
                 try {
-<span class="pc" id="L94">                in.close();</span>
-<span class="nc" id="L95">                } catch (final IOException ex) {</span>
-<span class="nc" id="L96">                    throw new IOError(ex);</span>
-<span class="pc" id="L97">                }</span>
+<span class="pc" id="L80">                    in.close();</span>
+<span class="nc" id="L81">                } catch (final IOException ex) {</span>
+<span class="pc" id="L82">                    throw new IOError(ex);</span>
+<span class="pc" id="L83">                }</span>
             }
         }
-<span class="fc" id="L100">    }</span>
+<span class="fc" id="L86">    }</span>
 
     /**
      * Get the version string.
@@ -105,7 +91,7 @@ final class FreemarkerProperties {
      * @return The version string.
      */
     public String getVersion() {
-<span class="fc" id="L108">        return properties.getProperty(PropertyNames.VERSION.toString(),</span>
+<span class="fc" id="L94">        return properties.getProperty(PropertyNames.VERSION.toString(),</span>
                 PropertyNames.VERSION.getDefaultValue());
     }
 
@@ -116,18 +102,18 @@ final class FreemarkerProperties {
      */
     @Override
     public String toString() {
-<span class="nc" id="L119">        return getVersion();</span>
+<span class="fc" id="L105">        return getVersion();</span>
     }
 
     /**
      * Available properties in the file.
      */
-<span class="pc" id="L125">    private enum PropertyNames {</span>
+<span class="pc" id="L111">    private enum PropertyNames {</span>
 
         /**
          * Version property.
          */
-<span class="fc" id="L130">        VERSION(&quot;version&quot;, &quot;n/a&quot;);</span>
+<span class="fc" id="L116">        VERSION(&quot;version&quot;, &quot;n/a&quot;);</span>
 
         /**
          * Property name.
@@ -145,10 +131,10 @@ final class FreemarkerProperties {
          * @param name The property name.
          * @param defaultValue Fall back value.
          */
-<span class="fc" id="L148">        PropertyNames(final String name, final String defaultValue) {</span>
-<span class="fc" id="L149">            this.name = name;</span>
-<span class="fc" id="L150">            this.defaultValue = defaultValue;</span>
-<span class="fc" id="L151">        }</span>
+<span class="fc" id="L134">        PropertyNames(final String name, final String defaultValue) {</span>
+<span class="fc" id="L135">            this.name = name;</span>
+<span class="fc" id="L136">            this.defaultValue = defaultValue;</span>
+<span class="fc" id="L137">        }</span>
 
         /**
          * Returns the property name.
@@ -157,7 +143,7 @@ final class FreemarkerProperties {
          */
         @Override
         public String toString() {
-<span class="fc" id="L160">            return name;</span>
+<span class="fc" id="L146">            return name;</span>
         }
 
         /**
@@ -166,7 +152,7 @@ final class FreemarkerProperties {
          * @return Return default value string.
          */
         public String getDefaultValue() {
-<span class="fc" id="L169">            return defaultValue;</span>
+<span class="fc" id="L155">            return defaultValue;</span>
         }
 
     }

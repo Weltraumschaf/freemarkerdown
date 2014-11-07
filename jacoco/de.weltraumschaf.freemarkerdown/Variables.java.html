@@ -16,6 +16,7 @@ import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.Collections;
 import java.util.Map;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Collects assigned variables.
@@ -23,12 +24,13 @@ import java.util.Map;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-<span class="fc" id="L26">final class Variables {</span>
+@NotThreadSafe
+<span class="fc" id="L28">final class Variables {</span>
 
     /**
      * Holds the assigned variables.
      */
-<span class="fc" id="L31">    private final Map&lt;String, Object&gt; templateVariables = Maps.newHashMap();</span>
+<span class="fc" id="L33">    private final Map&lt;String, Object&gt; templateVariables = Maps.newHashMap();</span>
 
     /**
      * Assign any object as template variable.
@@ -37,8 +39,8 @@ import java.util.Map;
      * @param value must not be {@code null}
      */
     public void assignVariable(final String name, final Object value) {
-<span class="fc" id="L40">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L42">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
+<span class="fc" id="L43">    }</span>
 
     /**
      * Get all assigned variables.
@@ -46,7 +48,27 @@ import java.util.Map;
      * @return never {@code null}, unmodifiable
      */
     Map&lt;String, Object&gt; getVariables() {
-<span class="fc" id="L49">        return Collections.unmodifiableMap(templateVariables);</span>
+<span class="fc" id="L51">        return Collections.unmodifiableMap(templateVariables);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L56">        return templateVariables.hashCode();</span>
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (!(obj instanceof Variables)) {</span>
+<span class="fc" id="L62">            return false;</span>
+        }
+
+<span class="fc" id="L65">        final Variables other = (Variables)obj;</span>
+<span class="fc" id="L66">        return templateVariables.equals(other.templateVariables);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L71">        return &quot;Variables{&quot; + &quot;templateVariables=&quot; + templateVariables + '}';</span>
     }
 
 }

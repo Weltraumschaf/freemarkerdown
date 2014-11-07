@@ -5,12 +5,12 @@
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>370</x>
-      <y>40</y>
+      <y>20</y>
       <w>180</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-Preprocessor
+PreProcessor
 --
 --
 +process(String):String</panel_attributes>
@@ -20,22 +20,23 @@ Preprocessor
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>20</x>
-      <y>140</y>
+      <y>120</y>
       <w>210</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>FreeMarkerDown
 --
 --
-+register(Preprocessor)
++register(PreProcessor)
++register(PostProcessor)
 +render(Renderable):String</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>600</x>
-      <y>130</y>
+      <x>370</x>
+      <y>120</y>
       <w>180</w>
       <h>70</h>
     </coordinates>
@@ -49,8 +50,8 @@ Renderable
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>580</x>
-      <y>240</y>
+      <x>350</x>
+      <y>230</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -60,8 +61,8 @@ Renderable
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>700</x>
-      <y>240</y>
+      <x>470</x>
+      <y>230</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -71,8 +72,8 @@ Renderable
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>600</x>
-      <y>170</y>
+      <x>370</x>
+      <y>160</y>
       <w>90</w>
       <h>90</h>
     </coordinates>
@@ -82,8 +83,8 @@ Renderable
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>690</x>
-      <y>170</y>
+      <x>460</x>
+      <y>160</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -94,20 +95,20 @@ Renderable
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>200</x>
-      <y>150</y>
-      <w>420</w>
+      <y>130</y>
+      <w>190</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m2=0..n
 r1=render</panel_attributes>
-    <additional_attributes>30;30;400;30</additional_attributes>
+    <additional_attributes>30;30;170;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>70</x>
-      <y>30</y>
+      <y>10</y>
       <w>320</w>
       <h>130</h>
     </coordinates>
@@ -119,36 +120,8 @@ r2=receives string before rendering</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>370</x>
-      <y>260</y>
-      <w>180</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-Postprocessor
---
---
-+process(String):String</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>80</x>
-      <y>190</y>
-      <w>310</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;
-m2=0..n
-r2=receives string after rendering</panel_attributes>
-    <additional_attributes>30;30;30;90;290;90</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>610</x>
-      <y>310</y>
+      <x>380</x>
+      <y>300</y>
       <w>180</w>
       <h>70</h>
     </coordinates>
@@ -162,8 +135,8 @@ Assignable
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>600</x>
-      <y>240</y>
+      <x>370</x>
+      <y>230</y>
       <w>90</w>
       <h>90</h>
     </coordinates>
@@ -173,8 +146,8 @@ Assignable
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>680</x>
-      <y>240</y>
+      <x>450</x>
+      <y>230</y>
       <w>90</w>
       <h>90</h>
     </coordinates>

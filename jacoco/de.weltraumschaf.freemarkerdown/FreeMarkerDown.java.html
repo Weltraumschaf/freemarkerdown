@@ -11,29 +11,122 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
-import java.util.HashMap;
-import java.util.Map;
+import de.weltraumschaf.commons.validate.Validate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
+ * This is the main API entry point to render stuff.
  *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-<span class="nc" id="L22">public final class FreeMarkerDown {</span>
+@NotThreadSafe
+public final class FreeMarkerDown {
 
-<span class="nc" id="L24">    private final Map&lt;String, Preprocessor&gt; preprocessors = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L25">    private final Map&lt;String, Postprocessor&gt; postrocessors = new HashMap&lt;&gt;();</span>
+    /**
+     * This is the default encoding ({@value}) used for all string operations.
+     */
+<span class="fc" id="L33">    public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();</span>
 
-    public void register(final Preprocessor processor) {
-<span class="nc" id="L28">        preprocessors.put(processor.getName(), processor);</span>
-<span class="nc" id="L29">    }</span>
+    /**
+     * Holds the pre processors keyed by name.
+     */
+<span class="fc" id="L38">    private final List&lt;PreProcessor&gt; preProcessors = new ArrayList&lt;&gt;();</span>
 
-    public void register(final Postprocessor processor) {
-<span class="nc" id="L32">        postrocessors.put(processor.getName(), processor);</span>
-<span class="nc" id="L33">    }</span>
+    /**
+     * Use {@link #create()} to create new instances.
+     */
+    private FreeMarkerDown() {
+<span class="fc" id="L44">        super();</span>
+<span class="fc" id="L45">    }</span>
 
+    /**
+     * Registers a pre processor.
+     * &lt;p&gt;
+     * Preprocessors are called before any rendering.
+     * &lt;/p&gt;
+     *
+     * @param processor must not be {@code null}
+     */
+    public void register(final PreProcessor processor) {
+<span class="fc" id="L56">        Validate.notNull(processor, &quot;processor&quot;);</span>
+<span class="fc" id="L57">        preProcessors.add(processor);</span>
+<span class="fc" id="L58">    }</span>
+
+    Collection&lt;PreProcessor&gt; getPreProcessors() {
+<span class="fc" id="L61">        return Collections.unmodifiableList(preProcessors);</span>
+    }
+
+    /**
+     * Render the given template.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}
+     */
     public String render(final Renderable template) {
-<span class="nc" id="L36">        return &quot;&quot;;</span>
+<span class="nc" id="L71">        Validate.notNull(template, &quot;template&quot;);</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        for (final PreProcessor preProcessor : preProcessors) {</span>
+<span class="nc" id="L74">            template.apply(preProcessor);</span>
+<span class="nc" id="L75">        }</span>
+
+        // TODO Add Markdown generation here.
+<span class="nc" id="L78">        return template.render();</span>
+    }
+
+    /**
+     * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     */
+    public static Fragment newFragemnt(final String template) {
+<span class="fc" id="L88">        return newFragemnt(template, DEFAULT_ENCODING);</span>
+    }
+
+    /**
+     * Creates a new {@link Fragment}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     */
+    public static Fragment newFragemnt(final String template, final String encoding) {
+<span class="fc" id="L99">        return new FragmentImpl(template, encoding);</span>
+    }
+
+    /**
+     * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     */
+    public static Layout newLayout(final String template) {
+<span class="fc" id="L109">        return newLayout(template, DEFAULT_ENCODING);</span>
+    }
+
+    /**
+     * Creates a new {@link Layout}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     */
+    public static Layout newLayout(final String template, final String encoding) {
+<span class="fc" id="L120">        return new LayoutImpl(template, encoding);</span>
+    }
+
+    /**
+     * Factory method.
+     *
+     * @return never {@code null}, always new instance
+     */
+    public static FreeMarkerDown create() {
+<span class="fc" id="L129">        return new FreeMarkerDown();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

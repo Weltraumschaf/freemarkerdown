@@ -9,13 +9,13 @@
  *
  * Copyright (C) 2012 &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt;
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.DefaultObjectWrapperBuilder;
+import freemarker.template.Template;
 import freemarker.template.Version;
 import java.io.IOError;
 import java.io.IOException;
@@ -26,46 +26,46 @@ import java.io.IOException;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-final class FreeMarker {
+<span class="fc" id="L29">class FreeMarker {</span>
 
     /**
      * Provide some properties from fixed file.
      */
-<span class="fc" id="L34">    private static final FreemarkerProperties properties = new FreemarkerProperties();</span>
-<span class="fc" id="L35">    private static final Version version = new Version(properties.getVersion());</span>
-
-    /**
-     * Hidden for pure static class.
-     */
-    private FreeMarker() {
-<span class="nc" id="L41">        super();</span>
-<span class="nc" id="L42">    }</span>
+<span class="fc" id="L34">    private final FreemarkerProperties properties = new FreemarkerProperties();</span>
+<span class="fc" id="L35">    private final Version version = new Version(properties.getVersion());</span>
 
     /**
      * Creates an original FreeMarker template with empty name and null configuration.
      *
      * @param template must not be {@code null}
      * @return always new instance
+     * @throws Should never happen, because we do not read templates from file.
      */
-    static freemarker.template.Template createTemplate(final String template) {
-        try {
-<span class="fc" id="L52">            return new freemarker.template.Template(&quot;&quot;, Validate.notNull(template, &quot;template&quot;), createConfiguration());</span>
-<span class="nc" id="L53">        } catch (IOException ex) {</span>
-<span class="nc" id="L54">            throw new IOError(ex);</span>
-        }
+    Template createTemplate(final String template) throws IOException {
+<span class="fc" id="L45">        return new Template(&quot;&quot;, Validate.notNull(template, &quot;template&quot;), createConfiguration());</span>
     }
 
-    static DefaultObjectWrapper createDefaultObjectWrapper() {
-<span class="fc" id="L59">        return new DefaultObjectWrapperBuilder(version).build();</span>
+    /**
+     * Create configuration.
+     *
+     * @return never {@code null}, always new instance.
+     */
+    Configuration createConfiguration() {
+<span class="fc" id="L54">        final Configuration cfg = new Configuration(version);</span>
+
+<span class="fc" id="L56">        cfg.setObjectWrapper(createDefaultObjectWrapper());</span>
+<span class="fc" id="L57">        cfg.setDefaultEncoding(Defaults.ENCODING.getValue());</span>
+
+<span class="fc" id="L59">        return cfg;</span>
     }
 
-    static Configuration createConfiguration() {
-<span class="fc" id="L63">        final Configuration cfg = new Configuration(version);</span>
-
-<span class="fc" id="L65">        cfg.setObjectWrapper(FreeMarker.createDefaultObjectWrapper());</span>
-<span class="fc" id="L66">        cfg.setDefaultEncoding(Defaults.ENCODING.getValue());</span>
-
-<span class="fc" id="L68">        return cfg;</span>
+    /**
+     * Create default object wrapper.
+     *
+     * @return never {@code null}, always same instance.
+     */
+    DefaultObjectWrapper createDefaultObjectWrapper() {
+<span class="fc" id="L68">        return new DefaultObjectWrapperBuilder(version).build();</span>
     }
 
 }
