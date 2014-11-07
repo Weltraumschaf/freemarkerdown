@@ -53,14 +53,16 @@ final class FreeMarker {
         try {
             return new Template("", Validate.notNull(template, "template"), createConfiguration());
         } catch (final IOException ex) {
+            // Should never happen, because we do not read templates from file.
             throw new IOError(ex);
         }
     }
 
-    static DefaultObjectWrapper createDefaultObjectWrapper() {
-        return new DefaultObjectWrapperBuilder(version).build();
-    }
-
+    /**
+     * Create configuration.
+     *
+     * @return never {@code null}, always new instance.
+     */
     static Configuration createConfiguration() {
         final Configuration cfg = new Configuration(version);
 
@@ -69,5 +71,15 @@ final class FreeMarker {
 
         return cfg;
     }
+
+    /**
+     * Create default object wrapper.
+     *
+     * @return never {@code null}, always new instance.
+     */
+    static DefaultObjectWrapper createDefaultObjectWrapper() {
+        return new DefaultObjectWrapperBuilder(version).build();
+    }
+
 
 }
