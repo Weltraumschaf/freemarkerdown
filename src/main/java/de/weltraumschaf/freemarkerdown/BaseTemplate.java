@@ -47,10 +47,9 @@ abstract class BaseTemplate implements Renderable, Assignable {
     /**
      * Pre processed template.
      * <p>
-     * Not considered as "state" of the template and thus not included in
-     * {@link #hashCode()} and {@link #equals(java.lang.Object)}. This field
-     * is modified by each {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied}
-     * pre processor.
+     * Not considered as "state" of the template and thus not included in {@link #hashCode()} and
+     * {@link #equals(java.lang.Object)}. This field is modified by each
+     * {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied} pre processor.
      * </p>
      */
     private String preProcessedTemplate;
@@ -59,6 +58,11 @@ abstract class BaseTemplate implements Renderable, Assignable {
      * Injectable dependency.
      */
     private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
+
+    /**
+     * Provides FreeMarker objects.
+     */
+    private FreeMarker factory = new FreeMarker();
 
     /**
      * Dedicated constructor.
@@ -71,6 +75,10 @@ abstract class BaseTemplate implements Renderable, Assignable {
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
+    }
+
+    final void setFactory(final FreeMarker factory) {
+        this.factory = Validate.notNull(factory, "factory");
     }
 
     /**
@@ -102,7 +110,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            FreeMarker.createTemplate(preProcessedTemplate).process(
+            factory.createTemplate(preProcessedTemplate).process(
                     templateVariables.getVariables(),
                     new OutputStreamWriter(out, encoding));
 
@@ -114,7 +122,6 @@ abstract class BaseTemplate implements Renderable, Assignable {
             throw new TemplateError(ex.getMessage(), ex);
         }
     }
-
 
     @Override
     public final void apply(final PreProcessor processor) {

@@ -9,16 +9,17 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import org.junit.Test;
-import static org.hamcrest.Matchers.*;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
+import java.io.IOException;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.junit.Test;
 
 /**
  * Tests for {@link FreeMarker}.
@@ -27,21 +28,39 @@ import org.junit.rules.ExpectedException;
  */
 public class FreeMarkerTest {
 
-    @Rule
-    //CHECKSTYLE:OFF
-    public final ExpectedException thrown = ExpectedException.none();
-    //CHECKSTYLE:ON
+    private final FreeMarker sut = new FreeMarker();
 
     @Test
-    public void invokeConstructorByReflectionThrowsException() throws Exception {
-        assertThat(FreeMarker.class.getDeclaredConstructors().length, is(1));
+    public void createTemplate_alwaysNewInstance() throws IOException {
+        final Template one = sut.createTemplate("");
+        final Template two = sut.createTemplate("");
+        final Template three = sut.createTemplate("");
 
-        final Constructor<FreeMarker> ctor = FreeMarker.class.getDeclaredConstructor();
-        ctor.setAccessible(true);
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
 
-        thrown.expect(either(instanceOf(UnsupportedOperationException.class))
-                .or(instanceOf(InvocationTargetException.class)));
-        ctor.newInstance();
+    @Test
+    public void createConfiguration_alwaysNewInstance() {
+        final Configuration one = sut.createConfiguration();
+        final Configuration two = sut.createConfiguration();
+        final Configuration three = sut.createConfiguration();
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void createDefaultObjectWrapper_alwaysSameInstance() {
+        final DefaultObjectWrapper one = sut.createDefaultObjectWrapper();
+        final DefaultObjectWrapper two = sut.createDefaultObjectWrapper();
+        final DefaultObjectWrapper three = sut.createDefaultObjectWrapper();
+
+        assertThat(one, is(sameInstance(two)));
+        assertThat(one, is(sameInstance(three)));
+        assertThat(two, is(sameInstance(three)));
     }
 
 }

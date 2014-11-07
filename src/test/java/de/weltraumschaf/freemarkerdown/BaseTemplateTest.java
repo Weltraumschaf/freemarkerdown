@@ -9,11 +9,13 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import java.io.IOError;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -21,7 +23,13 @@ import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import org.mockito.Matchers;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,20 +66,20 @@ public class BaseTemplateTest {
         fruits.add("pears");
         final BaseTemplate sut = new BaseTemplateStub(
                 "<p>And BTW we have these fruits:\n"
-                        + "<ul>\n"
-                        + "<#list fruits as fruit>\n"
-                        + " <li>${fruit}</li>\n"
-                        + "</#list>\n"
-                        + "<ul>", Defaults.ENCODING.getValue());
+                + "<ul>\n"
+                + "<#list fruits as fruit>\n"
+                + " <li>${fruit}</li>\n"
+                + "</#list>\n"
+                + "<ul>", Defaults.ENCODING.getValue());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
-            is("<p>And BTW we have these fruits:\n"
-                + "<ul>\n"
-                + " <li>bananas</li>\n"
-                + " <li>apples</li>\n"
-                + " <li>pears</li>\n"
-                + "<ul>"));
+                is("<p>And BTW we have these fruits:\n"
+                        + "<ul>\n"
+                        + " <li>bananas</li>\n"
+                        + " <li>apples</li>\n"
+                        + " <li>pears</li>\n"
+                        + "<ul>"));
     }
 
     @Test
@@ -95,6 +103,44 @@ public class BaseTemplateTest {
 
         verify(applier, times(1)).apply("foobar", processor);
         assertThat(sut.getPreProcessedTemplate(), is("snafu"));
+    }
+
+    @Test
+    public void factory_wrappsIoExceptions() throws IOException {
+        final FreeMarker factory = spy(new FreeMarker());
+        final Throwable ex = new IOException("foobar");
+        when(factory.createTemplate(anyString())).thenThrow(ex);
+
+        final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
+        sut.setFactory(factory);
+
+        try {
+            sut.render();
+            fail("Expected error not thrown!");
+        } catch (final IOError err) {
+            assertThat(err.getCause(), is(sameInstance((Throwable)ex)));
+            assertThat(err.getMessage(), is("java.io.IOException: foobar"));
+        }
+    }
+
+    @Test
+    public void factory_wrappsTemplateException() throws IOException, TemplateException {
+        final Template template = spy(new FreeMarker().createTemplate(""));
+        final Throwable ex = new TemplateException("foobar", null);
+        doThrow(ex).when(template).process(anyObject(), (Writer)anyObject());
+        final FreeMarker factory = spy(new FreeMarker());
+        when(factory.createTemplate(anyString())).thenReturn(template);
+
+        final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
+        sut.setFactory(factory);
+
+        try {
+            sut.render();
+            fail("Expected error not thrown!");
+        } catch (final TemplateError err) {
+            assertThat(err.getCause(), is(sameInstance((Throwable)ex)));
+            assertThat(err.getMessage(), is("foobar"));
+        }
     }
 
     private static final class BaseTemplateStub extends BaseTemplate {
