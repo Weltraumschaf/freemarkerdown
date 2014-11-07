@@ -31,10 +31,6 @@ public final class FreeMarkerDown {
      * Holds the pre processors keyed by name.
      */
     private final List<PreProcessor> preProcessors = new ArrayList<>();
-    /**
-     * Holds the pre processors keyed by name.
-     */
-    private final List<PostProcessor> postProcessors = new ArrayList<>();
 
     /**
      * Registers a pre processor.
@@ -47,19 +43,6 @@ public final class FreeMarkerDown {
     public void register(final PreProcessor processor) {
         Validate.notNull(processor, "processor");
         preProcessors.add(processor);
-    }
-
-    /**
-     * Registers a post processor.
-     * <p>
-     * Preprocessors are called after any rendering.
-     * </p>
-     *
-     * @param processor must not be {@code null}
-     */
-    public void register(final PostProcessor processor) {
-        Validate.notNull(processor, "processor");
-        postProcessors.add(processor);
     }
 
     public String render(final Renderable template) {
