@@ -118,7 +118,7 @@ public class BaseTemplateTest {
             sut.render();
             fail("Expected error not thrown!");
         } catch (final IOError err) {
-            assertThat(err.getCause(), is(sameInstance((Throwable)ex)));
+            assertThat(err.getCause(), is(sameInstance((Throwable) ex)));
             assertThat(err.getMessage(), is("java.io.IOException: foobar"));
         }
     }
@@ -127,7 +127,7 @@ public class BaseTemplateTest {
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
         final Template template = spy(new FreeMarker().createTemplate(""));
         final Throwable ex = new TemplateException("foobar", null);
-        doThrow(ex).when(template).process(anyObject(), (Writer)anyObject());
+        doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
         final FreeMarker factory = spy(new FreeMarker());
         when(factory.createTemplate(anyString())).thenReturn(template);
 
@@ -138,9 +138,21 @@ public class BaseTemplateTest {
             sut.render();
             fail("Expected error not thrown!");
         } catch (final TemplateError err) {
-            assertThat(err.getCause(), is(sameInstance((Throwable)ex)));
+            assertThat(err.getCause(), is(sameInstance((Throwable) ex)));
             assertThat(err.getMessage(), is("foobar"));
         }
+    }
+
+    @Test
+    public void toStringContainsMembers() {
+        final BaseTemplate sut = new BaseTemplateStub("foobar", "utf-8");
+
+        assertThat(sut.toString(), is(
+                "BaseTemplate{"
+                + "templateVariables=Variables{templateVariables={}}, "
+                + "template=foobar, "
+                + "encoding=utf-8, "
+                + "preProcessedTemplate=foobar}"));
     }
 
     private static final class BaseTemplateStub extends BaseTemplate {
