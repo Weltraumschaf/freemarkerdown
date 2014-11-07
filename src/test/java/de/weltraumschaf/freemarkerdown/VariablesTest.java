@@ -67,4 +67,11 @@ public class VariablesTest {
                 .suppress(Warning.NULL_FIELDS)
                 .verify();
     }
+
+    @Test
+    public void toStringContainsVariables() {
+        assertThat(sut.toString(), is("Variables{templateVariables={}}"));
+        sut.assignVariable("foo", "bar");
+        assertThat(sut.toString(), is("Variables{templateVariables={foo=bar}}"));
+    }
 }
