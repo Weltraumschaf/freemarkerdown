@@ -30,9 +30,11 @@ import static org.mockito.Mockito.when;
 public class FreeMarkerDownTest {
 
     @Rule
+    //CHECKSTYLE:OFF
     public final ExpectedException thrown = ExpectedException.none();
+    //CHECKSTYLE:ON
 
-    private final FreeMarkerDown sut = new FreeMarkerDown();
+    private final FreeMarkerDown sut = FreeMarkerDown.create();
 
     @Test(expected = NullPointerException.class)
     public void register_preProcesorMustNotBeNull() {
@@ -219,4 +221,16 @@ public class FreeMarkerDownTest {
         assertThat(one, is(not(sameInstance(three))));
         assertThat(two, is(not(sameInstance(three))));
     }
+
+    @Test
+    public void create_alwaysNewInstance() {
+        final FreeMarkerDown one = FreeMarkerDown.create();
+        final FreeMarkerDown two = FreeMarkerDown.create();
+        final FreeMarkerDown three = FreeMarkerDown.create();
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
 }

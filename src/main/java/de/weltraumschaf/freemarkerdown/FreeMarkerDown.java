@@ -33,6 +33,13 @@ public final class FreeMarkerDown {
     private final List<PreProcessor> preProcessors = new ArrayList<>();
 
     /**
+     * Use {@link #create()} to create new instances.
+     */
+    private FreeMarkerDown() {
+        super();
+    }
+
+    /**
      * Registers a pre processor.
      * <p>
      * Preprocessors are called before any rendering.
@@ -67,7 +74,7 @@ public final class FreeMarkerDown {
     /**
      * Creates a new {@link Fragment}.
      *
-     * @param template  must not be {@code null}
+     * @param template must not be {@code null}
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
@@ -88,7 +95,7 @@ public final class FreeMarkerDown {
     /**
      * Creates a new {@link Layout}.
      *
-     * @param template  must not be {@code null}
+     * @param template must not be {@code null}
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
@@ -96,4 +103,12 @@ public final class FreeMarkerDown {
         return new LayoutImpl(template, encoding);
     }
 
+    /**
+     * Factory method.
+     *
+     * @return never {@code null}, always new instance
+     */
+    public static FreeMarkerDown create() {
+        return new FreeMarkerDown();
+    }
 }

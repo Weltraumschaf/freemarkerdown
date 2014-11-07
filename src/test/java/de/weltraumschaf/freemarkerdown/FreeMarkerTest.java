@@ -12,11 +12,9 @@
 
 package de.weltraumschaf.freemarkerdown;
 
-import de.weltraumschaf.commons.guava.Lists;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import org.junit.Test;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import org.junit.Rule;
