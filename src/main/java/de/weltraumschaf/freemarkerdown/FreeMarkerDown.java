@@ -50,6 +50,7 @@ public final class FreeMarkerDown {
             template.apply(preProcessor);
         }
 
+        // TODO Add Markdown generation here.
         return template.render();
     }
 
