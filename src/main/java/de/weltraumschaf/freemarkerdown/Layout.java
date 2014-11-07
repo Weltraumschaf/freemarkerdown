@@ -31,6 +31,6 @@ public interface Layout extends Renderable, Assignable {
      * @param name must not be {@code null} or empty
      * @param fragment must not be {@code null}
      */
-    public void assignFragment(String name, Renderable fragment);
+    void assignFragment(String name, Renderable fragment);
 
 }

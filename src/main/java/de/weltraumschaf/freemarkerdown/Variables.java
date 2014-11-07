@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
@@ -62,7 +61,7 @@ final class Variables {
             return false;
         }
 
-        final Variables other = (Variables)obj;
+        final Variables other = (Variables) obj;
         return templateVariables.equals(other.templateVariables);
     }
 

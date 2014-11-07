@@ -97,7 +97,7 @@ abstract class BaseTemplate implements Renderable, Assignable {
 
     /**
      * The preprocessed template contains the current template after
-     * @link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) pre processing} it.
+     * {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) pre processing} it.
      *
      * @return never {@code null}
      */

@@ -31,6 +31,9 @@ class FreeMarker {
      * Provide some properties from fixed file.
      */
     private final FreemarkerProperties properties = new FreemarkerProperties();
+    /**
+     * Used version.
+     */
     private final Version version = new Version(properties.getVersion());
 
     /**
