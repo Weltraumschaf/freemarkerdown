@@ -16,6 +16,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * Provides some FreeMarker related properties from file.
@@ -23,6 +24,7 @@ import java.util.Properties;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@NotThreadSafe
 final class FreemarkerProperties {
 
     /**
@@ -36,11 +38,6 @@ final class FreemarkerProperties {
     private final String propertyFileName;
 
     /**
-     * Indicates whether the properties are already loaded or not.
-     */
-    private boolean propertiesLoaded;
-
-    /**
      * Properties.
      */
     private final Properties properties = new Properties();
@@ -50,9 +47,7 @@ final class FreemarkerProperties {
      */
     FreemarkerProperties() {
         this(FILE);
-        load();
     }
-
 
     /**
      * Dedicated constructor.
@@ -62,6 +57,7 @@ final class FreemarkerProperties {
     FreemarkerProperties(final String propertyFileName) {
         super();
         this.propertyFileName = Validate.notEmpty(propertyFileName, "propertyFileName");
+        load();
     }
 
     /**
@@ -70,16 +66,6 @@ final class FreemarkerProperties {
      * Only loads th property file once.
      */
     private void load() {
-        if (!propertiesLoaded) {
-            loadImpl();
-            propertiesLoaded = true;
-        }
-    }
-
-    /**
-     * Encapsulates the file loading.
-     */
-    private void loadImpl() {
         InputStream in = null;
 
         try {
@@ -91,7 +77,7 @@ final class FreemarkerProperties {
         } finally {
             if (null != in) {
                 try {
-                in.close();
+                    in.close();
                 } catch (final IOException ex) {
                     throw new IOError(ex);
                 }

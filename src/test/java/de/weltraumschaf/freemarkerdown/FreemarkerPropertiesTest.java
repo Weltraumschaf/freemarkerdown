@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import org.junit.Test;
@@ -28,6 +27,11 @@ public class FreemarkerPropertiesTest {
     @Test
     public void getVersion() {
         assertThat(sut.getVersion(), is("2.3.21"));
+    }
+
+    @Test
+    public void toStringContainsVersion() {
+        assertThat(sut.toString(), is("2.3.21"));
     }
 
 }
