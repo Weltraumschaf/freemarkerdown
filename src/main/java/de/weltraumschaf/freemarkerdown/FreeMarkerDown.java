@@ -71,6 +71,7 @@ public final class FreeMarkerDown {
     }
 
     /**
+     * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
@@ -79,14 +80,34 @@ public final class FreeMarkerDown {
         return newFragemnt(template, DEFAULT_ENCODING);
     }
 
+    /**
+     * Creates a new {@link Fragment}.
+     *
+     * @param template  must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     */
     public static Fragment newFragemnt(final String template, final String encoding) {
         return new FragmentImpl(template, encoding);
     }
 
+    /**
+     * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     */
     public static Layout newLayout(final String template) {
         return newLayout(template, DEFAULT_ENCODING);
     }
 
+    /**
+     * Creates a new {@link Layout}.
+     *
+     * @param template  must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     */
     public static Layout newLayout(final String template, final String encoding) {
         return new LayoutImpl(template, encoding);
     }
