@@ -70,6 +70,11 @@ public final class FreeMarkerDown {
         return template.render();
     }
 
+    /**
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     */
     public static Fragment newFragemnt(final String template) {
         return newFragemnt(template, DEFAULT_ENCODING);
     }

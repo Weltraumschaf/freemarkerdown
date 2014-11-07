@@ -12,9 +12,13 @@
 package de.weltraumschaf.freemarkerdown;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,8 +27,10 @@ import static org.mockito.Mockito.when;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-@Ignore
 public class FreeMarkerDownTest {
+
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
 
     private final FreeMarkerDown sut = new FreeMarkerDown();
 
@@ -39,6 +45,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
+    @Ignore
     public void render_fragment() {
         final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
@@ -53,6 +60,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
+    @Ignore
     public void render_fragment_withPreProcessors() {
         final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
@@ -76,6 +84,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
+    @Ignore
     public void render_fragment_withPostProcessors() {
         final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
@@ -153,4 +162,111 @@ public class FreeMarkerDownTest {
         assertThat(sut.render(renderable), is(""));
     }
 
+    @Test
+    public void newFragemnt_throwsExceptionIfTemplateIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        FreeMarkerDown.newFragemnt(null);
+    }
+
+    @Test
+    public void newFragemnt_withEncoding_throwsExceptionIfTemplateIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        FreeMarkerDown.newFragemnt(null, "utf-8");
+    }
+
+    @Test
+    public void newFragemnt_withEncoding_throwsExceptionIfEncodingIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'encoding'");
+
+        FreeMarkerDown.newFragemnt("", null);
+    }
+
+    @Test
+    public void newFragemnt_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("'encoding'");
+
+        FreeMarkerDown.newFragemnt("", "");
+    }
+
+    @Test
+    public void newFragemnt_alwaysNewInstance() {
+        final Fragment one = FreeMarkerDown.newFragemnt("");
+        final Fragment two = FreeMarkerDown.newFragemnt("");
+        final Fragment three = FreeMarkerDown.newFragemnt("");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void newFragemnt_withEncoding_alwaysNewInstance() {
+        final Fragment one = FreeMarkerDown.newFragemnt("", "utf-8");
+        final Fragment two = FreeMarkerDown.newFragemnt("", "utf-8");
+        final Fragment three = FreeMarkerDown.newFragemnt("", "utf-8");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void newLayout_throwsExceptionIfTemplateIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        FreeMarkerDown.newLayout(null);
+    }
+
+    @Test
+    public void newLayout_withEncoding_throwsExceptionIfTemplateIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        FreeMarkerDown.newLayout(null, "utf-8");
+    }
+
+    @Test
+    public void newLayout_withEncoding_throwsExceptionIfEncodingIsNull() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'encoding'");
+
+        FreeMarkerDown.newLayout("", null);
+    }
+
+    @Test
+    public void newLayout_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("'encoding'");
+
+        FreeMarkerDown.newLayout("", "");
+    }
+
+    @Test
+    public void newLayout_alwaysNewInstance() {
+        final Layout one = FreeMarkerDown.newLayout("");
+        final Layout two = FreeMarkerDown.newLayout("");
+        final Layout three = FreeMarkerDown.newLayout("");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void newLayout_withEncoding_alwaysNewInstance() {
+        final Layout one = FreeMarkerDown.newLayout("", "utf-8");
+        final Layout two = FreeMarkerDown.newLayout("", "utf-8");
+        final Layout three = FreeMarkerDown.newLayout("", "utf-8");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
 }
