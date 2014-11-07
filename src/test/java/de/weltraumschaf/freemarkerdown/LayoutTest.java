@@ -28,18 +28,18 @@ public class LayoutTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new Layout(null);
+        new LayoutImpl(null);
 
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new Layout("").render(), is(""));
+        assertThat(new LayoutImpl("").render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new Layout("foo bar baz").render(), is("foo bar baz"));
+        assertThat(new LayoutImpl("foo bar baz").render(), is("foo bar baz"));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class LayoutTest {
         fruits.add("bananas");
         fruits.add("apples");
         fruits.add("pears");
-        final Layout sut = new Layout(
+        final Layout sut = new LayoutImpl(
                 "<p>And BTW we have these fruits:\n"
                 + "<ul>\n"
                 + "<#list fruits as fruit>\n"
@@ -68,22 +68,22 @@ public class LayoutTest {
 
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
-        final Layout sut = new Layout("<p>${fragmentOne}</p>\n");
-        sut.assignFragment("fragmentOne", new Fragment("foo"));
+        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n");
+        sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
 
     @Test
     public void render_withThreeFragement() throws IOException, TemplateException {
-        final Layout sut = new Layout(
+        final Layout sut = new LayoutImpl(
             "<p>${fragmentOne}</p>\n"
             + "<p>${fragmentTwo}</p>\n"
             + "<p>${fragmentThree}</p>\n"
         );
-        sut.assignFragment("fragmentOne", new Fragment("foo"));
-        sut.assignFragment("fragmentTwo", new Fragment("bar"));
-        sut.assignFragment("fragmentThree", new Fragment("baz"));
+        sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        sut.assignFragment("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
+        sut.assignFragment("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is(
             "<p>foo</p>\n"

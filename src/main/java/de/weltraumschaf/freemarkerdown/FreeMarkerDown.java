@@ -25,6 +25,8 @@ import net.jcip.annotations.NotThreadSafe;
 @NotThreadSafe
 public final class FreeMarkerDown {
 
+    public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();
+
     /**
      * Holds the pre processors keyed by name.
      */
@@ -67,4 +69,21 @@ public final class FreeMarkerDown {
 
         return template.render();
     }
+
+    public static Fragment newFragemnt(final String template) {
+        return newFragemnt(template, DEFAULT_ENCODING);
+    }
+
+    public static Fragment newFragemnt(final String template, final String encoding) {
+        return new FragmentImpl(template, encoding);
+    }
+
+    public static Layout newLayout(final String template) {
+        return newLayout(template, DEFAULT_ENCODING);
+    }
+
+    public static Layout newLayout(final String template, final String encoding) {
+        return new LayoutImpl(template, encoding);
+    }
+
 }

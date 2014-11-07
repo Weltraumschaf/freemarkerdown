@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
 
 /**

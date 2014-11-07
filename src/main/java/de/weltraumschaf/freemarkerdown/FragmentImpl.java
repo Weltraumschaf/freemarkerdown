@@ -9,6 +9,7 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
+
 package de.weltraumschaf.freemarkerdown;
 
 /**
@@ -16,6 +17,15 @@ package de.weltraumschaf.freemarkerdown;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public interface Fragment extends Renderable, Assignable {
-
+final class FragmentImpl extends BaseTemplate implements Fragment {
+    
+    /**
+     * Dedicated constructor.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     */
+    public FragmentImpl(final String template, final String encoding) {
+        super(template, encoding);
+    }
 }

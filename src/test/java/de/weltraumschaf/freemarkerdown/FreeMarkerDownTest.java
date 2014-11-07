@@ -40,12 +40,13 @@ public class FreeMarkerDownTest {
 
     @Test
     public void render_fragment() {
-        final Fragment renderable = new Fragment(
+        final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"
+                + "<?bar snafu ?>bla blub",
+                Defaults.ENCODING.getValue()
         );
 
         assertThat(sut.render(renderable), is("Lorem ipsum dolor.\nbla blub"));
@@ -53,12 +54,13 @@ public class FreeMarkerDownTest {
 
     @Test
     public void render_fragment_withPreProcessors() {
-        final Fragment renderable = new Fragment(
+        final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"
+                + "<?bar snafu ?>bla blub",
+                Defaults.ENCODING.getValue()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -75,12 +77,13 @@ public class FreeMarkerDownTest {
 
     @Test
     public void render_fragment_withPostProcessors() {
-        final Fragment renderable = new Fragment(
+        final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?>bla blub"
+                + "<?bar snafu ?>bla blub",
+                Defaults.ENCODING.getValue()
         );
         final PostProcessor one = mock(PostProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -99,7 +102,7 @@ public class FreeMarkerDownTest {
     @Test
     @Ignore
     public void render_layoutWithFragments() {
-        final Layout renderable = new Layout(
+        final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
@@ -113,7 +116,7 @@ public class FreeMarkerDownTest {
     @Test
     @Ignore
     public void render_layoutWithFragments_withPreProcessors() {
-        final Layout renderable = new Layout(
+        final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
@@ -133,7 +136,7 @@ public class FreeMarkerDownTest {
     @Test
     @Ignore
     public void render_layoutWithFragments_withPostProcessors() {
-        final Layout renderable = new Layout(
+        final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
