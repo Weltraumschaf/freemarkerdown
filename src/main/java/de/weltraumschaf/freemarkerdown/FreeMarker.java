@@ -16,6 +16,7 @@ import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.DefaultObjectWrapperBuilder;
+import freemarker.template.Template;
 import freemarker.template.Version;
 import java.io.IOError;
 import java.io.IOException;
@@ -39,6 +40,7 @@ final class FreeMarker {
      */
     private FreeMarker() {
         super();
+        throw new UnsupportedOperationException("Do not call via reflection!");
     }
 
     /**
@@ -47,10 +49,10 @@ final class FreeMarker {
      * @param template must not be {@code null}
      * @return always new instance
      */
-    static freemarker.template.Template createTemplate(final String template) {
+    static Template createTemplate(final String template) {
         try {
-            return new freemarker.template.Template("", Validate.notNull(template, "template"), createConfiguration());
-        } catch (IOException ex) {
+            return new Template("", Validate.notNull(template, "template"), createConfiguration());
+        } catch (final IOException ex) {
             throw new IOError(ex);
         }
     }
