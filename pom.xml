@@ -161,37 +161,11 @@
             <plugin>
                 <groupId>com.kryshchuk.maven.plugins</groupId>
                 <artifactId>umlet-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>convert-uml</id>
-                        <goals>
-                            <goal>convert</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce</id>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>${maven.version}</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>${project.build.version.source}</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
