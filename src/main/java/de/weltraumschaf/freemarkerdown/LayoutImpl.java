@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
@@ -18,6 +17,7 @@ import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
+ * Simple implementation of a two step layout.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>

@@ -15,6 +15,7 @@ package de.weltraumschaf.freemarkerdown;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
+ * Basic implementation of a fragment.
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
