@@ -110,7 +110,7 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    public static Fragment newFragemnt(final String template) {
+    public Fragment newFragemnt(final String template) {
         return newFragemnt(template, DEFAULT_ENCODING);
     }
 
@@ -121,7 +121,7 @@ public final class FreeMarkerDown {
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
-    public static Fragment newFragemnt(final String template, final String encoding) {
+    public Fragment newFragemnt(final String template, final String encoding) {
         return new FragmentImpl(template, encoding);
     }
 
@@ -131,7 +131,7 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    public static Layout newLayout(final String template) {
+    public Layout newLayout(final String template) {
         return newLayout(template, DEFAULT_ENCODING);
     }
 
@@ -142,7 +142,7 @@ public final class FreeMarkerDown {
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
-    public static Layout newLayout(final String template, final String encoding) {
+    public Layout newLayout(final String template, final String encoding) {
         return new LayoutImpl(template, encoding);
     }
 

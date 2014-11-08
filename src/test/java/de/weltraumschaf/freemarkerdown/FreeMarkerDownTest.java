@@ -61,7 +61,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        FreeMarkerDown.newFragemnt(null);
+        sut.newFragemnt(null);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        FreeMarkerDown.newFragemnt(null, "utf-8");
+        sut.newFragemnt(null, "utf-8");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        FreeMarkerDown.newFragemnt("", null);
+        sut.newFragemnt("", null);
     }
 
     @Test
@@ -85,14 +85,14 @@ public class FreeMarkerDownTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        FreeMarkerDown.newFragemnt("", "");
+        sut.newFragemnt("", "");
     }
 
     @Test
     public void newFragemnt_alwaysNewInstance() {
-        final Fragment one = FreeMarkerDown.newFragemnt("");
-        final Fragment two = FreeMarkerDown.newFragemnt("");
-        final Fragment three = FreeMarkerDown.newFragemnt("");
+        final Fragment one = sut.newFragemnt("");
+        final Fragment two = sut.newFragemnt("");
+        final Fragment three = sut.newFragemnt("");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -101,9 +101,9 @@ public class FreeMarkerDownTest {
 
     @Test
     public void newFragemnt_withEncoding_alwaysNewInstance() {
-        final Fragment one = FreeMarkerDown.newFragemnt("", "utf-8");
-        final Fragment two = FreeMarkerDown.newFragemnt("", "utf-8");
-        final Fragment three = FreeMarkerDown.newFragemnt("", "utf-8");
+        final Fragment one = sut.newFragemnt("", "utf-8");
+        final Fragment two = sut.newFragemnt("", "utf-8");
+        final Fragment three = sut.newFragemnt("", "utf-8");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -115,7 +115,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        FreeMarkerDown.newLayout(null);
+        sut.newLayout(null);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        FreeMarkerDown.newLayout(null, "utf-8");
+        sut.newLayout(null, "utf-8");
     }
 
     @Test
@@ -131,7 +131,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        FreeMarkerDown.newLayout("", null);
+        sut.newLayout("", null);
     }
 
     @Test
@@ -139,14 +139,14 @@ public class FreeMarkerDownTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        FreeMarkerDown.newLayout("", "");
+        sut.newLayout("", "");
     }
 
     @Test
     public void newLayout_alwaysNewInstance() {
-        final Layout one = FreeMarkerDown.newLayout("");
-        final Layout two = FreeMarkerDown.newLayout("");
-        final Layout three = FreeMarkerDown.newLayout("");
+        final Layout one = sut.newLayout("");
+        final Layout two = sut.newLayout("");
+        final Layout three = sut.newLayout("");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -155,9 +155,9 @@ public class FreeMarkerDownTest {
 
     @Test
     public void newLayout_withEncoding_alwaysNewInstance() {
-        final Layout one = FreeMarkerDown.newLayout("", "utf-8");
-        final Layout two = FreeMarkerDown.newLayout("", "utf-8");
-        final Layout three = FreeMarkerDown.newLayout("", "utf-8");
+        final Layout one = sut.newLayout("", "utf-8");
+        final Layout two = sut.newLayout("", "utf-8");
+        final Layout three = sut.newLayout("", "utf-8");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
