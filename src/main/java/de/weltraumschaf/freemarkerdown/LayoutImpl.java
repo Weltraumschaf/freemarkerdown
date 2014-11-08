@@ -31,21 +31,12 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     private final Map<String, Renderable> fragments = Maps.newHashMap();
 
     /**
-     * Convenience constructor which sets the encoding to {@link Defaults#ENCODING}.
-     *
-     * @param template must not be {@code null}
-     */
-    public LayoutImpl(String template) {
-        this(template, Defaults.ENCODING.getValue());
-    }
-
-    /**
      * Dedicated constructor.
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    public LayoutImpl(String template, String encoding) {
+    LayoutImpl(final String template, final String encoding) {
         super(template, encoding);
     }
 

@@ -6,7 +6,6 @@ See [project page][site] for more information.
 
 ## TODO
 
-- Write test for laouyt in louyt.
 - Implement Markdown generation after template rendering.
 - Paint sequence diagram.
 - Add some architecural text.

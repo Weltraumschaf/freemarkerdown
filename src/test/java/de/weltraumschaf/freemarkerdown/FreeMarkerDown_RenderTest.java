@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import static org.hamcrest.Matchers.is;
@@ -83,7 +82,7 @@ public class FreeMarkerDown_RenderTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub"
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
         );
 
         assertThat(sut.render(renderable), is(
@@ -101,7 +100,7 @@ public class FreeMarkerDown_RenderTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub"
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

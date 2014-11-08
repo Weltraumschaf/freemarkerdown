@@ -28,18 +28,17 @@ public class LayoutTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new LayoutImpl(null);
-
+        new LayoutImpl(null, Defaults.ENCODING.getValue());
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("").render(), is(""));
+        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("foo bar baz").render(), is("foo bar baz"));
+        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue()).render(), is("foo bar baz"));
     }
 
     @Test
@@ -54,7 +53,7 @@ public class LayoutTest {
                 + "<#list fruits as fruit>\n"
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
-                + "<ul>");
+                + "<ul>", Defaults.ENCODING.getValue());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
@@ -68,7 +67,7 @@ public class LayoutTest {
 
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
-        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n");
+        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n", Defaults.ENCODING.getValue());
         sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
@@ -77,19 +76,57 @@ public class LayoutTest {
     @Test
     public void render_withThreeFragement() throws IOException, TemplateException {
         final Layout sut = new LayoutImpl(
-            "<p>${fragmentOne}</p>\n"
-            + "<p>${fragmentTwo}</p>\n"
-            + "<p>${fragmentThree}</p>\n"
+                "<p>${fragmentOne}</p>\n"
+                + "<p>${fragmentTwo}</p>\n"
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
         );
         sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
         sut.assignFragment("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
         sut.assignFragment("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is(
-            "<p>foo</p>\n"
-            + "<p>bar</p>\n"
-            + "<p>baz</p>\n"
+                "<p>foo</p>\n"
+                + "<p>bar</p>\n"
+                + "<p>baz</p>\n"
         ));
     }
 
+    @Test
+    public void render_withLayoutInside() {
+        final Layout inside = new LayoutImpl(
+                "<p>foobar</p>\n", Defaults.ENCODING.getValue()
+        );
+        final Layout sut = new LayoutImpl(
+                "<h1>snafu</h1>\n"
+                + "${inside}", Defaults.ENCODING.getValue());
+        sut.assignFragment("inside", inside);
+
+        assertThat(sut.render(), is(
+                "<h1>snafu</h1>\n"
+                + "<p>foobar</p>\n"
+        ));
+    }
+
+    @Test
+    public void render_withLayoutInsideWhichHasFragments() {
+        final Layout inside = new LayoutImpl(
+                "<p>${fragmentOne}</p>\n"
+                + "<p>${fragmentTwo}</p>\n"
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
+        );
+        inside.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        inside.assignFragment("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
+        inside.assignFragment("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        final Layout sut = new LayoutImpl(
+                "<h1>snafu</h1>\n"
+                + "${inside}", Defaults.ENCODING.getValue());
+        sut.assignFragment("inside", inside);
+
+        assertThat(sut.render(), is(
+                "<h1>snafu</h1>\n"
+                + "<p>foo</p>\n"
+                + "<p>bar</p>\n"
+                + "<p>baz</p>\n"
+        ));
+    }
 }
