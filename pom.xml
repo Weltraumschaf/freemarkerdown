@@ -17,7 +17,7 @@
     <parent>
         <groupId>de.weltraumschaf.organization</groupId>
         <artifactId>organization-parent</artifactId>
-        <version>2.0.2</version>
+        <version>2.0.3</version>
     </parent>
 
     <groupId>de.weltraumschaf</groupId>
@@ -230,6 +230,15 @@
 
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+
+                <configuration>
+                    <configLocation>de/weltraumschaf/javabuildtools/checkstyle-ruleset.xml</configLocation>
+<!--                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>-->
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <linkXRef>false</linkXRef>
+                </configuration>
             </plugin>
 
             <plugin>
