@@ -54,27 +54,29 @@ import net.jcip.annotations.NotThreadSafe;
  * </p>
  * <pre>
  * {@code
- *  final Layout mainLayout = FreeMarkerDown.newLayout(
+ *  final FreeMarkerDown fmd = FreeMarkerDown.create();
+ *
+ *  final Layout mainLayout = fmd.newLayout(
  *        "...\n"
  *      + "${fragmentOne}\n"
  *      + "...\n"
  *      + "${subLayout}\n");
  *
- *      final Fragment fragmentOne = FreeMarkerDown.newFragemnt("foo");
+ *      final Fragment fragmentOne = fmd.newFragemnt("foo");
  *      mainLayout.assignFragment("fragmentOne", fragmentOne);
  *
- *      final Layout subLayout = FreeMarkerDown.newLayout(
+ *      final Layout subLayout = fmd.newLayout(
  *          + "${fragmentTwo}\n"
  *          + "...\n"
  *          + "${fragmentThree}\n");
- *      final Fragment fragmentTwo = FreeMarkerDown.newFragemnt("bar");
+ *      final Fragment fragmentTwo = fmd.newFragemnt("bar");
  *      subLayout.assignFragment("fragmentTwo", fragmentTwo);
- *      final Fragment fragmentThree = FreeMarkerDown.newFragemnt("baz");
+ *      final Fragment fragmentThree = fmd.newFragemnt("baz");
  *      subLayout.assignFragment("fragmentThree", fragmentThree);
  *
  *      mainLayout.assignFragment("subLayout", subLayout);
  *
- *      System.out.println(FreeMarkerDown.create().render(mainLayout));
+ *      System.out.println(fmd.create().render(mainLayout));
  * }</pre>
  * <p>
  * This will print something like:
