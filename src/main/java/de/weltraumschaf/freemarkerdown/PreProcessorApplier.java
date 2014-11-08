@@ -23,7 +23,7 @@ import net.jcip.annotations.NotThreadSafe;
 interface PreProcessorApplier {
 
     /**
-     * Applies the processor on the {@link #subject} and returns the processed subject.
+     * Applies the processor on the subject and returns the processed subject.
      *
      * @param subject must not be {@code null}
      * @param processor must not be {@code null}

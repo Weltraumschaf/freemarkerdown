@@ -19,20 +19,20 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * Implementation of an applier.
  * <p>
- * This implementation finds all parts starting with the processing token ({@code <?TARGET_NAME}) and
- * passes the enclosed srtring to the processor.
+ * This implementation finds all parts starting with the processing token ({@code &lt;?TARGET_NAME}) and
+ * passes the enclosed string to the processor.
  * </p>
  * <p>
  * For example the given string:
  * </p>
  * <pre>
  * Lorem ipsum dolor
- * <?foo instruction ?>
+ * &lt;?foo instruction ?&gt;
  * Lorem ipsum dolor
  * </pre>
  * <p>
  * Applied on a processor with the {@link PreProcessor#getTarget() target} {@code foo} will receive
- * the string {@code "instruction" as argument. If the processor reutns {@code "foobar"} the resulting
+ * the string {@code "instruction"} as argument. If the processor returns {@code "foobar"} the resulting
  * string from the applier will be:
  * </p>
  * <pre>
