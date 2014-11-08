@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt;
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
@@ -25,12 +24,12 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 @NotThreadSafe
-<span class="fc" id="L28">final class Variables {</span>
+<span class="fc" id="L27">final class Variables {</span>
 
     /**
      * Holds the assigned variables.
      */
-<span class="fc" id="L33">    private final Map&lt;String, Object&gt; templateVariables = Maps.newHashMap();</span>
+<span class="fc" id="L32">    private final Map&lt;String, Object&gt; templateVariables = Maps.newHashMap();</span>
 
     /**
      * Assign any object as template variable.
@@ -39,8 +38,8 @@ import net.jcip.annotations.NotThreadSafe;
      * @param value must not be {@code null}
      */
     public void assignVariable(final String name, final Object value) {
-<span class="fc" id="L42">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L41">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
+<span class="fc" id="L42">    }</span>
 
     /**
      * Get all assigned variables.
@@ -48,27 +47,27 @@ import net.jcip.annotations.NotThreadSafe;
      * @return never {@code null}, unmodifiable
      */
     Map&lt;String, Object&gt; getVariables() {
-<span class="fc" id="L51">        return Collections.unmodifiableMap(templateVariables);</span>
+<span class="fc" id="L50">        return Collections.unmodifiableMap(templateVariables);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L56">        return templateVariables.hashCode();</span>
+<span class="fc" id="L55">        return templateVariables.hashCode();</span>
     }
 
     @Override
     public boolean equals(final Object obj) {
-<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (!(obj instanceof Variables)) {</span>
-<span class="fc" id="L62">            return false;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (!(obj instanceof Variables)) {</span>
+<span class="fc" id="L61">            return false;</span>
         }
 
-<span class="fc" id="L65">        final Variables other = (Variables)obj;</span>
-<span class="fc" id="L66">        return templateVariables.equals(other.templateVariables);</span>
+<span class="fc" id="L64">        final Variables other = (Variables) obj;</span>
+<span class="fc" id="L65">        return templateVariables.equals(other.templateVariables);</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L71">        return &quot;Variables{&quot; + &quot;templateVariables=&quot; + templateVariables + '}';</span>
+<span class="fc" id="L70">        return &quot;Variables{&quot; + &quot;templateVariables=&quot; + templateVariables + '}';</span>
     }
 
 }

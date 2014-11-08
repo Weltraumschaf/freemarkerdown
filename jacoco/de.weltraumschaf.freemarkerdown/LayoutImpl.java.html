@@ -9,33 +9,26 @@
  *
  * Copyright (C) 2012 &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt;
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.Map;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
+ * Simple implementation of a two step layout.
  *
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
+@NotThreadSafe
 final class LayoutImpl extends BaseTemplate implements Layout {
 
     /**
      * Holds the layout fragments.
      */
-<span class="fc" id="L29">    private final Map&lt;String, Renderable&gt; fragments = Maps.newHashMap();</span>
-
-    /**
-     * Convenience constructor which sets the encoding to {@link Defaults#ENCODING}.
-     *
-     * @param template must not be {@code null}
-     */
-    public LayoutImpl(String template) {
-<span class="fc" id="L37">        this(template, Defaults.ENCODING.getValue());</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L31">    private final Map&lt;String, Renderable&gt; fragments = Maps.newHashMap();</span>
 
     /**
      * Dedicated constructor.
@@ -43,22 +36,22 @@ final class LayoutImpl extends BaseTemplate implements Layout {
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    public LayoutImpl(String template, String encoding) {
-<span class="fc" id="L47">        super(template, encoding);</span>
-<span class="fc" id="L48">    }</span>
+    LayoutImpl(final String template, final String encoding) {
+<span class="fc" id="L40">        super(template, encoding);</span>
+<span class="fc" id="L41">    }</span>
 
     @Override
     public void assignFragment(final String name, final Renderable fragment) {
-<span class="fc" id="L52">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(fragment, &quot;fragment&quot;));</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L45">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(fragment, &quot;fragment&quot;));</span>
+<span class="fc" id="L46">    }</span>
 
     @Override
     public String render() {
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Renderable&gt; fragment : fragments.entrySet()) {</span>
-<span class="fc" id="L58">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
-<span class="fc" id="L59">        }</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Renderable&gt; fragment : fragments.entrySet()) {</span>
+<span class="fc" id="L51">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
+<span class="fc" id="L52">        }</span>
 
-<span class="fc" id="L61">        return super.render();</span>
+<span class="fc" id="L54">        return super.render();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

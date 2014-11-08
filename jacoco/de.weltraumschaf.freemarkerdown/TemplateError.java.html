@@ -23,7 +23,7 @@ import de.weltraumschaf.commons.validate.Validate;
 public final class TemplateError extends Error {
 
     /**
-     * For serialization's sake
+     * For serialization's sake.
      */
     static final long serialVersionUID = 1L;
 

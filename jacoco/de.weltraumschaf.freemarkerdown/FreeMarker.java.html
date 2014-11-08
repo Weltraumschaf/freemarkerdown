@@ -17,7 +17,6 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.Template;
 import freemarker.template.Version;
-import java.io.IOError;
 import java.io.IOException;
 
 /**
@@ -26,23 +25,26 @@ import java.io.IOException;
  * @since 1.0.0
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
-<span class="fc" id="L29">class FreeMarker {</span>
+<span class="fc" id="L28">class FreeMarker {</span>
 
     /**
      * Provide some properties from fixed file.
      */
-<span class="fc" id="L34">    private final FreemarkerProperties properties = new FreemarkerProperties();</span>
-<span class="fc" id="L35">    private final Version version = new Version(properties.getVersion());</span>
+<span class="fc" id="L33">    private final FreemarkerProperties properties = new FreemarkerProperties();</span>
+    /**
+     * Used version.
+     */
+<span class="fc" id="L37">    private final Version version = new Version(properties.getVersion());</span>
 
     /**
      * Creates an original FreeMarker template with empty name and null configuration.
      *
      * @param template must not be {@code null}
      * @return always new instance
-     * @throws Should never happen, because we do not read templates from file.
+     * @throws IOException Should never happen, because we do not read templates from file.
      */
     Template createTemplate(final String template) throws IOException {
-<span class="fc" id="L45">        return new Template(&quot;&quot;, Validate.notNull(template, &quot;template&quot;), createConfiguration());</span>
+<span class="fc" id="L47">        return new Template(&quot;&quot;, Validate.notNull(template, &quot;template&quot;), createConfiguration());</span>
     }
 
     /**
@@ -51,12 +53,12 @@ import java.io.IOException;
      * @return never {@code null}, always new instance.
      */
     Configuration createConfiguration() {
-<span class="fc" id="L54">        final Configuration cfg = new Configuration(version);</span>
+<span class="fc" id="L56">        final Configuration cfg = new Configuration(version);</span>
 
-<span class="fc" id="L56">        cfg.setObjectWrapper(createDefaultObjectWrapper());</span>
-<span class="fc" id="L57">        cfg.setDefaultEncoding(Defaults.ENCODING.getValue());</span>
+<span class="fc" id="L58">        cfg.setObjectWrapper(createDefaultObjectWrapper());</span>
+<span class="fc" id="L59">        cfg.setDefaultEncoding(Defaults.ENCODING.getValue());</span>
 
-<span class="fc" id="L59">        return cfg;</span>
+<span class="fc" id="L61">        return cfg;</span>
     }
 
     /**
@@ -65,7 +67,7 @@ import java.io.IOException;
      * @return never {@code null}, always same instance.
      */
     DefaultObjectWrapper createDefaultObjectWrapper() {
-<span class="fc" id="L68">        return new DefaultObjectWrapperBuilder(version).build();</span>
+<span class="fc" id="L70">        return new DefaultObjectWrapperBuilder(version).build();</span>
     }
 
 }
