@@ -2,4 +2,6 @@
 
 ## Version 1.0.0
 
-- TODO
+- Factory/main object and public API.
+- Fragment and layout rendering.
+- Pre processing.
