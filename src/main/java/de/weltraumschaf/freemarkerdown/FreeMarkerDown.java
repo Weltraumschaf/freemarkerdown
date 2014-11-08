@@ -21,6 +21,9 @@ import net.jcip.annotations.NotThreadSafe;
 
 /**
  * This is the main API entry point to render stuff.
+ * <p>
+ * For examples see the <a href="http://weltraumschaf.github.io/freemarkerdown/examples.html">this site</a>
+ * </p>
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
