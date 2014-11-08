@@ -21,9 +21,9 @@ import net.jcip.annotations.NotThreadSafe;
  * </p>
  * <pre>
  * Lorem ipsum dolor sit amet
- * <?foo some instructions ?>
+ * &lt;?foo some instructions ?&gt;
  * consetetur sadipscing elitr
- * <?foo something else ?>
+ * &lt;?foo something else ?&gt;
  * sed diam nonumy eirmod tempor
  * </pre>
  * <p>

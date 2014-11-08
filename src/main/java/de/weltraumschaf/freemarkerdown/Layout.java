@@ -16,7 +16,7 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * A layout is a template which may have subtemplates.
  * <p>
- * Whit layouts you can cascade {@link Layouts layouts} and {@link Fragment fragments}:
+ * Whit layouts you can cascade {@link Renderable}:
  * </p>
  * <pre>
  * +-----------------------+

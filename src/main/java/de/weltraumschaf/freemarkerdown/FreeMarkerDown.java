@@ -29,7 +29,7 @@ import net.jcip.annotations.NotThreadSafe;
 public final class FreeMarkerDown {
 
     /**
-     * This is the default encoding ({@value}) used for all string operations.
+     * This is the default encoding used for all string operations.
      */
     public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();
 
