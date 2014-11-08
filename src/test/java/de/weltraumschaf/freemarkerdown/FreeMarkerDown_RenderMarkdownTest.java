@@ -9,6 +9,7 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
+
 package de.weltraumschaf.freemarkerdown;
 
 import static org.hamcrest.Matchers.is;
@@ -22,13 +23,13 @@ import static org.mockito.Mockito.when;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FreeMarkerDown_RenderTest {
+public class FreeMarkerDown_RenderMarkdownTest {
 
     private final FreeMarkerDown sut = FreeMarkerDown.create();
 
     @Test(expected = NullPointerException.class)
     public void render_nullPassedIn() {
-        sut.render(null, Options.WITHOUT_MARKDOWN);
+        sut.render(null);
     }
 
     @Test
@@ -42,12 +43,8 @@ public class FreeMarkerDown_RenderTest {
                 Defaults.ENCODING.getValue()
         );
 
-        assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
-                "<?foo\n"
-                + "foo bar baz\n"
-                + "?>\n"
-                + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub"));
+        assertThat(sut.render(renderable), is(
+                "<p>&lt;?foo foo bar baz ?&gt; Lorem ipsum dolor. &lt;?bar snafu ?&gt; bla blub</p>"));
     }
 
     @Test
@@ -69,10 +66,8 @@ public class FreeMarkerDown_RenderTest {
         when(two.process(" snafu ")).thenReturn("bar");
         sut.register(two);
 
-        assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
-                "foo\n"
-                + "Lorem ipsum dolor.\n"
-                + "bar bla blub"));
+        assertThat(sut.render(renderable), is(
+                "<p>foo Lorem ipsum dolor. bar bla blub</p>"));
     }
 
     @Test
@@ -85,12 +80,8 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
         );
 
-        assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
-                "<?foo\n"
-                + "foo bar baz\n"
-                + "?>\n"
-                + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub"));
+        assertThat(sut.render(renderable), is(
+                "<p>&lt;?foo foo bar baz ?&gt; Lorem ipsum dolor. &lt;?bar snafu ?&gt; bla blub</p>"));
     }
 
     @Test
@@ -111,9 +102,7 @@ public class FreeMarkerDown_RenderTest {
         when(two.process(" snafu ")).thenReturn("bar");
         sut.register(two);
 
-        assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
-                "foo\n"
-                + "Lorem ipsum dolor.\n"
-                + "bar bla blub"));
+        assertThat(sut.render(renderable), is(
+                "<p>foo Lorem ipsum dolor. bar bla blub</p>"));
     }
 }

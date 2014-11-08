@@ -13,14 +13,21 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
+import org.pegdown.PegDownProcessor;
 
 /**
  * This is the main API entry point to render stuff.
+ * <p>
+ * Use the {@link #create() factory method} to create an instance.
+ * </p>
  * <p>
  * For examples see the <a href="http://weltraumschaf.github.io/freemarkerdown/examples.html">this site</a>
  * </p>
@@ -42,10 +49,29 @@ public final class FreeMarkerDown {
     private final List<PreProcessor> preProcessors = new ArrayList<>();
 
     /**
+     * Used to convert Markdown to HTML.
+     * <p>
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)}
+     * because not a value, but service object.
+     * </p>
+     */
+    private final PegDownProcessor markdown;
+
+    /**
      * Use {@link #create()} to create new instances.
      */
     private FreeMarkerDown() {
+        this(new PegDownProcessor());
+    }
+
+    /**
+     * Dedicated constructor.
+     *
+     * @param markdown must not be {@code null}
+     */
+    private FreeMarkerDown(final PegDownProcessor markdown) {
         super();
+        this.markdown = Validate.notNull(markdown, "markdown");
     }
 
     /**
@@ -74,17 +100,26 @@ public final class FreeMarkerDown {
      * Render the given template.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}
      */
-    public String render(final Renderable template) {
+    public String render(final Renderable template, final Options ... options) {
         Validate.notNull(template, "template");
+        final Set<Options> opt = options == null
+                ? Collections.<Options>emptySet()
+                : new HashSet<>(Arrays.asList(options));
 
         for (final PreProcessor preProcessor : preProcessors) {
             template.apply(preProcessor);
         }
 
-        // TODO Add Markdown generation here.
-        return template.render();
+        final String rendered = template.render();
+
+        if (opt.contains(Options.WITHOUT_MARKDOWN)) {
+            return rendered;
+        }
+
+        return markdown.markdownToHtml(rendered);
     }
 
     @Override
@@ -157,4 +192,5 @@ public final class FreeMarkerDown {
     public static FreeMarkerDown create() {
         return new FreeMarkerDown();
     }
+
 }

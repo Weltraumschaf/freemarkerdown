@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.*;
+import org.pegdown.PegDownProcessor;
+import org.pegdown.plugins.PegDownPlugins;
 
 /**
  * Tests for {@link FreeMarkerDown}.
@@ -175,6 +177,7 @@ public class FreeMarkerDownTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.forClass(FreeMarkerDown.class)
+                .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
                 .verify();
     }
 

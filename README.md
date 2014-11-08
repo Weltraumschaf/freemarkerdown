@@ -6,7 +6,6 @@ See [project page][site] for more information.
 
 ## TODO
 
-- Implement Markdown generation after template rendering.
 - Paint sequence diagram.
 - Add some architecural text.
 
