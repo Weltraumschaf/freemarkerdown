@@ -9,7 +9,5 @@ See [project page][site] for more information.
 - Implement Markdown generation after template rendering.
 - Paint sequence diagram.
 - Add some architecural text.
-- Add apidoc (public API only) to site.
-- Add reports to site.
 
 [site]: http://weltraumschaf.github.io/freemarkerdown/
