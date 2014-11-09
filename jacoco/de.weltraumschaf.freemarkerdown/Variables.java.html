@@ -37,7 +37,7 @@ import net.jcip.annotations.NotThreadSafe;
      * @param name must not be {@code null}
      * @param value must not be {@code null}
      */
-    public void assignVariable(final String name, final Object value) {
+    void assignVariable(final String name, final Object value) {
 <span class="fc" id="L41">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
 <span class="fc" id="L42">    }</span>
 

@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -27,12 +28,12 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 @NotThreadSafe
-abstract class BaseTemplate implements Renderable, Assignable {
+abstract class BaseTemplate implements TemplateModel {
 
     /**
      * Holds the assigned variables.
      */
-<span class="fc" id="L35">    private final Variables templateVariables = new Variables();</span>
+<span class="fc" id="L36">    private final Variables templateVariables = new Variables();</span>
 
     /**
      * Rendered template as original.
@@ -57,12 +58,12 @@ abstract class BaseTemplate implements Renderable, Assignable {
     /**
      * Injectable dependency.
      */
-<span class="fc" id="L60">    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();</span>
+<span class="fc" id="L61">    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();</span>
 
     /**
      * Provides FreeMarker objects.
      */
-<span class="fc" id="L65">    private FreeMarker factory = new FreeMarker();</span>
+<span class="fc" id="L66">    private FreeMarker factory = new FreeMarker();</span>
 
     /**
      * Dedicated constructor.
@@ -71,11 +72,11 @@ abstract class BaseTemplate implements Renderable, Assignable {
      * @param encoding must not be {@code null} or empty
      */
     BaseTemplate(final String template, final String encoding) {
-<span class="fc" id="L74">        super();</span>
-<span class="fc" id="L75">        this.template = Validate.notNull(template, &quot;template&quot;);</span>
-<span class="fc" id="L76">        this.preProcessedTemplate = this.template;</span>
-<span class="fc" id="L77">        this.encoding = Validate.notEmpty(encoding, &quot;encoding&quot;);</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L75">        super();</span>
+<span class="fc" id="L76">        this.template = Validate.notNull(template, &quot;template&quot;);</span>
+<span class="fc" id="L77">        this.preProcessedTemplate = this.template;</span>
+<span class="fc" id="L78">        this.encoding = Validate.notEmpty(encoding, &quot;encoding&quot;);</span>
+<span class="fc" id="L79">    }</span>
 
     /**
      * Injection point for factory.
@@ -83,8 +84,8 @@ abstract class BaseTemplate implements Renderable, Assignable {
      * @param factory must not be {@code null}
      */
     final void setFactory(final FreeMarker factory) {
-<span class="fc" id="L86">        this.factory = Validate.notNull(factory, &quot;factory&quot;);</span>
-<span class="fc" id="L87">    }</span>
+<span class="fc" id="L87">        this.factory = Validate.notNull(factory, &quot;factory&quot;);</span>
+<span class="fc" id="L88">    }</span>
 
     /**
      * Injection point for applier.
@@ -92,8 +93,8 @@ abstract class BaseTemplate implements Renderable, Assignable {
      * @param preProcessorApplier must not be {@code null}
      */
     final void setPreProcessorApplier(final PreProcessorApplier preProcessorApplier) {
-<span class="fc" id="L95">        this.preProcessorApplier = Validate.notNull(preProcessorApplier, &quot;preProcessorApplier&quot;);</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L96">        this.preProcessorApplier = Validate.notNull(preProcessorApplier, &quot;preProcessorApplier&quot;);</span>
+<span class="fc" id="L97">    }</span>
 
     /**
      * The preprocessed template contains the current template after
@@ -102,57 +103,66 @@ abstract class BaseTemplate implements Renderable, Assignable {
      * @return never {@code null}
      */
     final String getPreProcessedTemplate() {
-<span class="fc" id="L105">        return preProcessedTemplate;</span>
+<span class="fc" id="L106">        return preProcessedTemplate;</span>
+    }
+
+    /**
+     * Get all assigned variables.
+     *
+     * @return never {@code null}, unmodifiable
+     */
+    final Map&lt;String, Object&gt; getTemplateVariables() {
+<span class="fc" id="L115">        return templateVariables.getVariables();</span>
     }
 
     @Override
-    public final void assignVariable(final String name, final Object value) {
-<span class="fc" id="L110">        templateVariables.assignVariable(name, value);</span>
-<span class="fc" id="L111">    }</span>
+    public void assignVariable(final String name, final Object value) {
+<span class="fc" id="L120">        templateVariables.assignVariable(name, value);</span>
+<span class="fc" id="L121">    }</span>
 
     @Override
     public String render() {
-<span class="fc" id="L115">        final ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="fc" id="L125">        final ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
 
         try {
-<span class="fc" id="L118">            factory.createTemplate(preProcessedTemplate).process(</span>
+<span class="fc" id="L128">            factory.createTemplate(preProcessedTemplate).process(</span>
                     templateVariables.getVariables(),
                     new OutputStreamWriter(out, encoding));
 
-<span class="fc" id="L122">            return out.toString(encoding);</span>
-<span class="fc" id="L123">        } catch (final IOException ex) {</span>
+<span class="fc" id="L132">            return out.toString(encoding);</span>
+<span class="fc" id="L133">        } catch (final IOException ex) {</span>
             // Should never happen because we only operate on strings, not on files.
-<span class="fc" id="L125">            throw new IOError(ex);</span>
-<span class="fc" id="L126">        } catch (final TemplateException ex) {</span>
-<span class="fc" id="L127">            throw new TemplateError(ex.getMessage(), ex);</span>
+<span class="fc" id="L135">            throw new IOError(ex);</span>
+<span class="fc" id="L136">        } catch (final TemplateException ex) {</span>
+<span class="fc" id="L137">            throw new TemplateError(ex.getMessage(), ex);</span>
         }
     }
 
     @Override
     public final void apply(final PreProcessor processor) {
-<span class="fc" id="L133">        preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);</span>
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L143">        preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);</span>
+<span class="fc" id="L144">    }</span>
 
     @Override
     public final int hashCode() {
-<span class="fc" id="L138">        return Objects.hashCode(templateVariables, encoding, template);</span>
+<span class="fc" id="L148">        return Objects.hashCode(templateVariables, encoding, template);</span>
     }
 
     @Override
     public final boolean equals(final Object obj) {
-<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (!(obj instanceof BaseTemplate)) {</span>
-<span class="fc" id="L144">            return false;</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">        if (!(obj instanceof BaseTemplate)) {</span>
+<span class="fc" id="L154">            return false;</span>
         }
 
-<span class="fc" id="L147">        final BaseTemplate other = (BaseTemplate) obj;</span>
-<span class="fc bfc" id="L148" title="All 6 branches covered.">        return Objects.equal(templateVariables, other.templateVariables)</span>
+<span class="fc" id="L157">        final BaseTemplate other = (BaseTemplate) obj;</span>
+<span class="fc bfc" id="L158" title="All 6 branches covered.">        return Objects.equal(templateVariables, other.templateVariables)</span>
                 &amp;&amp; Objects.equal(encoding, other.encoding)
                 &amp;&amp; Objects.equal(template, other.template);
     }
 
     @Override
     public final String toString() {
-<span class="fc" id="L155">        return &quot;BaseTemplate{&quot;</span>
+<span class="fc" id="L165">        return &quot;BaseTemplate{&quot;</span>
                 + &quot;templateVariables=&quot; + templateVariables + &quot;, &quot;
                 + &quot;template=&quot; + template + &quot;, &quot;
                 + &quot;encoding=&quot; + encoding + &quot;, &quot;

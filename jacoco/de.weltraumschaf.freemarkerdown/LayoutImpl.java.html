@@ -28,7 +28,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     /**
      * Holds the layout fragments.
      */
-<span class="fc" id="L31">    private final Map&lt;String, Renderable&gt; fragments = Maps.newHashMap();</span>
+<span class="fc" id="L31">    private final Map&lt;String, TemplateModel&gt; fragments = Maps.newHashMap();</span>
 
     /**
      * Dedicated constructor.
@@ -41,17 +41,30 @@ final class LayoutImpl extends BaseTemplate implements Layout {
 <span class="fc" id="L41">    }</span>
 
     @Override
-    public void assignFragment(final String name, final Renderable fragment) {
-<span class="fc" id="L45">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(fragment, &quot;fragment&quot;));</span>
-<span class="fc" id="L46">    }</span>
+    public void assignVariable(final String name, final Object value) {
+<span class="fc" id="L45">        super.assignVariable(name, value);</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        for (final TemplateModel subTemplate : fragments.values()) {</span>
+<span class="fc" id="L48">            subTemplate.assignVariable(name, value);</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">    }</span>
+
+    @Override
+    public void assignFragment(final String name, final TemplateModel template) {
+<span class="fc" id="L54">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(template, &quot;template&quot;));</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Object&gt; variable : getTemplateVariables().entrySet()) {</span>
+<span class="fc" id="L57">            template.assignVariable(variable.getKey(), variable.getValue());</span>
+<span class="fc" id="L58">        }</span>
+<span class="fc" id="L59">    }</span>
 
     @Override
     public String render() {
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Renderable&gt; fragment : fragments.entrySet()) {</span>
-<span class="fc" id="L51">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
-<span class="fc" id="L52">        }</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (final Map.Entry&lt;String, TemplateModel&gt; fragment : fragments.entrySet()) {</span>
+<span class="fc" id="L64">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
+<span class="fc" id="L65">        }</span>
 
-<span class="fc" id="L54">        return super.render();</span>
+<span class="fc" id="L67">        return super.render();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

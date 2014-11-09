@@ -103,7 +103,7 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}
      */
-    public String render(final Renderable template, final Options ... options) {
+    public String render(final TemplateModel template, final Options ... options) {
 <span class="fc" id="L107">        Validate.notNull(template, &quot;template&quot;);</span>
 <span class="pc bpc" id="L108" title="1 of 2 branches missed.">        final Set&lt;Options&gt; opt = options == null</span>
                 ? Collections.&lt;Options&gt;emptySet()

@@ -200,6 +200,29 @@
 <th>File</th>
 <th>Line</th></tr>
 <tr class="b">
+<td>de/weltraumschaf/freemarkerdown/Layout_PropagateVariablesTest.java</td>
+<td>61</td></tr>
+<tr class="a">
+<td>de/weltraumschaf/freemarkerdown/Layout_PropagateVariablesTest.java</td>
+<td>84</td></tr>
+<tr class="b"><td colspan='2'>
+<div>
+<pre>        sut.assignVariable(&quot;foo&quot;, &quot;bar&quot;);
+
+        assertThat(fragmentOne.getTemplateVariables().size(), is(1));
+        assertThat(fragmentOne.getTemplateVariables(), hasEntry(&quot;foo&quot;, (Object) &quot;bar&quot;));
+        assertThat(fragmentTwo.getTemplateVariables().size(), is(1));
+        assertThat(fragmentTwo.getTemplateVariables(), hasEntry(&quot;foo&quot;, (Object) &quot;bar&quot;));
+        assertThat(fragmentThree.getTemplateVariables().size(), is(1));
+        assertThat(fragmentThree.getTemplateVariables(), hasEntry(&quot;foo&quot;, (Object) &quot;bar&quot;));
+        assertThat(inner.getTemplateVariables().size(), is(1));
+        assertThat(inner.getTemplateVariables(), hasEntry(&quot;foo&quot;, (Object) &quot;bar&quot;));
+    }</pre></div></td></tr></table>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>File</th>
+<th>Line</th></tr>
+<tr class="b">
 <td>de/weltraumschaf/freemarkerdown/FreeMarkerDown_RenderMarkdownTest.java</td>
 <td>47</td></tr>
 <tr class="a">
@@ -388,7 +411,27 @@
         when(two.process(&quot; snafu &quot;)).thenReturn(&quot;bar&quot;);
         sut.register(two);
 
-        assertThat(sut.render(renderable), is(</pre></div></td></tr></table></div>
+        assertThat(sut.render(renderable), is(</pre></div></td></tr></table>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>File</th>
+<th>Line</th></tr>
+<tr class="b">
+<td>de/weltraumschaf/freemarkerdown/Layout_PropagateVariablesTest.java</td>
+<td>52</td></tr>
+<tr class="a">
+<td>de/weltraumschaf/freemarkerdown/Layout_PropagateVariablesTest.java</td>
+<td>77</td></tr>
+<tr class="b"><td colspan='2'>
+<div>
+<pre>        final FragmentImpl fragmentOne = new FragmentImpl(&quot;&quot;, Defaults.ENCODING.getValue());
+        sut.assignFragment(&quot;fragmentOne&quot;, fragmentOne);
+        final LayoutImpl inner = new LayoutImpl(&quot;&quot;, Defaults.ENCODING.getValue());
+        sut.assignFragment(&quot;inner&quot;, inner);
+        final FragmentImpl fragmentTwo = new FragmentImpl(&quot;&quot;, Defaults.ENCODING.getValue());
+        inner.assignFragment(&quot;fragmentTwo&quot;, fragmentTwo);
+        final FragmentImpl fragmentThree = new FragmentImpl(&quot;&quot;, Defaults.ENCODING.getValue());
+        inner.assignFragment(&quot;fragmentThree&quot;, fragmentThree);</pre></div></td></tr></table></div>
                   </div>
             </div>
           </div>

@@ -15,7 +15,6 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -63,7 +62,7 @@ final class KeyValueProcessor implements PreProcessor {
     /**
      * Collects warnings during processing.
      */
-<span class="fc" id="L66">    private final Collection&lt;String&gt; warnings = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L65">    private final Collection&lt;String&gt; warnings = new ArrayList&lt;&gt;();</span>
 
     /**
      * Dedicated constructor.
@@ -71,72 +70,76 @@ final class KeyValueProcessor implements PreProcessor {
      * @param result must not be {@code null}
      */
     KeyValueProcessor(final Map&lt;String, String&gt; result) {
-<span class="fc" id="L74">        super();</span>
-<span class="fc" id="L75">        this.result = Validate.notNull(result, &quot;result&quot;);</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L73">        super();</span>
+<span class="fc" id="L74">        this.result = Validate.notNull(result, &quot;result&quot;);</span>
+<span class="fc" id="L75">    }</span>
 
     @Override
     public boolean hasWarnings() {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        return !warnings.isEmpty();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        return !warnings.isEmpty();</span>
     }
 
     @Override
     public Collection&lt;String&gt; getWarnings() {
-<span class="nc" id="L85">        return Collections.unmodifiableCollection(warnings);</span>
+<span class="fc" id="L84">        return Collections.unmodifiableCollection(warnings);</span>
     }
 
     @Override
     public String getTarget() {
-<span class="fc" id="L90">        return TARGET;</span>
+<span class="fc" id="L89">        return TARGET;</span>
     }
 
     @Override
     public String process(final String input) {
-<span class="fc" id="L95">        Validate.notNull(input, &quot;input&quot;);</span>
-<span class="fc" id="L96">        warnings.clear();</span>
+<span class="fc" id="L94">        Validate.notNull(input, &quot;input&quot;);</span>
+<span class="fc" id="L95">        warnings.clear();</span>
 
-<span class="fc bfc" id="L98" title="All 2 branches covered.">        for (final String line : input.split(Defaults.DEFAULT_NEW_LINE.getValue())) {</span>
-<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (line.trim().startsWith(COMMENT_TOKEN)) {</span>
-<span class="fc" id="L100">                continue; // Ignore comments.</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        for (final String line : input.split(Defaults.DEFAULT_NEW_LINE.getValue())) {</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            if (line.trim().isEmpty()) {</span>
+<span class="fc" id="L99">                continue; // Ignore empty lines.</span>
             }
 
-<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (!line.contains(SPLIT_TOKEN)) {</span>
-<span class="fc" id="L104">                warnings.add(String.format(&quot;Malformed line '%s'! Missing split token '%s'. Use format 'key %s value'.&quot;,</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (line.trim().startsWith(COMMENT_TOKEN)) {</span>
+<span class="fc" id="L103">                continue; // Ignore comments.</span>
+            }
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (!line.contains(SPLIT_TOKEN)) {</span>
+<span class="fc" id="L107">                warnings.add(String.format(&quot;Malformed line '%s'! Missing split token '%s'. Use format 'key %s value'.&quot;,</span>
                         line, SPLIT_TOKEN, SPLIT_TOKEN));
-<span class="fc" id="L106">                continue;</span>
+<span class="fc" id="L109">                continue;</span>
             }
 
-<span class="fc" id="L109">            final String[] tokens = line.split(SPLIT_TOKEN);</span>
+<span class="fc" id="L112">            final String[] tokens = line.split(SPLIT_TOKEN);</span>
 
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">            if (tokens.length == 0) {</span>
-<span class="nc" id="L112">                warnings.add(String.format(&quot;No key given: '%s'! Skipping line.&quot;, line));</span>
-<span class="nc" id="L113">                continue;</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            if (tokens.length == 0) {</span>
+<span class="nc" id="L115">                warnings.add(String.format(&quot;No key given: '%s'! Skipping line.&quot;, line));</span>
+<span class="nc" id="L116">                continue;</span>
             }
 
-<span class="fc" id="L116">            final String name = tokens[0].trim();</span>
+<span class="fc" id="L119">            final String name = tokens[0].trim();</span>
 
-<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (name.isEmpty()) {</span>
-<span class="fc" id="L119">                warnings.add(String.format(&quot;Empty key given: '%s'! Skipping line.&quot;, line));</span>
-<span class="fc" id="L120">                continue;</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            if (name.isEmpty()) {</span>
+<span class="fc" id="L122">                warnings.add(String.format(&quot;Empty key given: '%s'! Skipping line.&quot;, line));</span>
+<span class="fc" id="L123">                continue;</span>
             }
 
             final String value;
 
-<span class="pc bpc" id="L125" title="1 of 2 branches missed.">            if (tokens.length == 1) {</span>
-<span class="nc" id="L126">                warnings.add(String.format(&quot;No value given: '%s'! Set vlaue empty.&quot;, name));</span>
-<span class="nc" id="L127">                value = &quot;&quot;;</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">            if (tokens.length == 1) {</span>
+<span class="nc" id="L129">                warnings.add(String.format(&quot;No value given: '%s'! Set vlaue empty.&quot;, name));</span>
+<span class="nc" id="L130">                value = &quot;&quot;;</span>
             } else {
-<span class="fc" id="L129">                value = tokens[1].trim();</span>
+<span class="fc" id="L132">                value = tokens[1].trim();</span>
 
-<span class="fc bfc" id="L131" title="All 2 branches covered.">                if (value.isEmpty()) {</span>
-<span class="fc" id="L132">                    warnings.add(String.format(&quot;Empty value given: '%s'! Set vlaue empty.&quot;, name));</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                if (value.isEmpty()) {</span>
+<span class="fc" id="L135">                    warnings.add(String.format(&quot;Empty value given: '%s'! Set vlaue empty.&quot;, name));</span>
                 }
             }
 
-<span class="fc" id="L136">            result.put(name, value);</span>
+<span class="fc" id="L139">            result.put(name, value);</span>
         }
 
-<span class="fc" id="L139">        return &quot;&quot;;</span>
+<span class="fc" id="L142">        return &quot;&quot;;</span>
     }
 
 
