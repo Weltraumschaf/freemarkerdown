@@ -11,15 +11,17 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
 import static org.mockito.Mockito.*;
 import org.pegdown.PegDownProcessor;
-import org.pegdown.plugins.PegDownPlugins;
 
 /**
  * Tests for {@link FreeMarkerDown}.
@@ -31,6 +33,10 @@ public class FreeMarkerDownTest {
     @Rule
     //CHECKSTYLE:OFF
     public final ExpectedException thrown = ExpectedException.none();
+    //CHECKSTYLE:ON
+    @Rule
+    //CHECKSTYLE:OFF
+    public final TemporaryFolder tmp = new TemporaryFolder();
     //CHECKSTYLE:ON
 
     private final FreeMarkerDown sut = FreeMarkerDown.create();
@@ -56,7 +62,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_throwsExceptionIfTemplateIsNull() {
+    public void createFragemnt_fromString_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
@@ -64,7 +70,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createFragemnt_fromString_withEncoding_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
@@ -72,7 +78,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_withEncoding_throwsExceptionIfEncodingIsNull() {
+    public void createFragemnt_fromString_withEncoding_throwsExceptionIfEncodingIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
@@ -80,7 +86,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+    public void createFragemnt_fromString_withEncoding_throwsExceptionIfEncodingIsEmpty() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
@@ -88,7 +94,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_alwaysNewInstance() {
+    public void createFragemnt_fromString_alwaysNewInstance() {
         final Fragment one = sut.createFragemnt("");
         final Fragment two = sut.createFragemnt("");
         final Fragment three = sut.createFragemnt("");
@@ -99,7 +105,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createFragemnt_withEncoding_alwaysNewInstance() {
+    public void createFragemnt_fromString_withEncoding_alwaysNewInstance() {
         final Fragment one = sut.createFragemnt("", "utf-8");
         final Fragment two = sut.createFragemnt("", "utf-8");
         final Fragment three = sut.createFragemnt("", "utf-8");
@@ -110,7 +116,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_throwsExceptionIfTemplateIsNull() {
+    public void createLayout_fromString_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
@@ -118,7 +124,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createLayout_fromString_withEncoding_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
@@ -126,7 +132,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_withEncoding_throwsExceptionIfEncodingIsNull() {
+    public void createLayout_fromString_withEncoding_throwsExceptionIfEncodingIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
@@ -134,7 +140,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+    public void createLayout_fromString_withEncoding_throwsExceptionIfEncodingIsEmpty() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
@@ -142,7 +148,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_alwaysNewInstance() {
+    public void createLayout_fromString_alwaysNewInstance() {
         final Layout one = sut.createLayout("");
         final Layout two = sut.createLayout("");
         final Layout three = sut.createLayout("");
@@ -153,10 +159,118 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void createLayout_withEncoding_alwaysNewInstance() {
+    public void createLayout_fromString_withEncoding_alwaysNewInstance() {
         final Layout one = sut.createLayout("", "utf-8");
         final Layout two = sut.createLayout("", "utf-8");
         final Layout three = sut.createLayout("", "utf-8");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void createFragemnt_fromPath_throwsExceptionIfTemplateIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        sut.createFragemnt((Path) null);
+    }
+
+    @Test
+    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfTemplateIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        sut.createFragemnt((Path) null, "utf-8");
+    }
+
+    @Test
+    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfEncodingIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'encoding'");
+
+        sut.createFragemnt(mock(Path.class), null);
+    }
+
+    @Test
+    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfEncodingIsEmpty() throws IOException {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("'encoding'");
+
+        sut.createFragemnt(mock(Path.class), "");
+    }
+
+    @Test
+    public void createFragemnt_fromPath_alwaysNewInstance() throws IOException {
+        final Fragment one = sut.createFragemnt(tmp.newFile().toPath());
+        final Fragment two = sut.createFragemnt(tmp.newFile().toPath());
+        final Fragment three = sut.createFragemnt(tmp.newFile().toPath());
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void createFragemnt_fromPath_withEncoding_alwaysNewInstance() throws IOException {
+        final Fragment one = sut.createFragemnt(tmp.newFile().toPath(), "utf-8");
+        final Fragment two = sut.createFragemnt(tmp.newFile().toPath(), "utf-8");
+        final Fragment three = sut.createFragemnt(tmp.newFile().toPath(), "utf-8");
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void createLayout_fromPath_throwsExceptionIfTemplateIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        sut.createLayout((Path) null);
+    }
+
+    @Test
+    public void createLayout_fromPath_withEncoding_throwsExceptionIfTemplateIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'template'");
+
+        sut.createLayout((Path) null, "utf-8");
+    }
+
+    @Test
+    public void createLayout_fromPath_withEncoding_throwsExceptionIfEncodingIsNull() throws IOException {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("'encoding'");
+
+        sut.createLayout(mock(Path.class), null);
+    }
+
+    @Test
+    public void createLayout_fromPath_withEncoding_throwsExceptionIfEncodingIsEmpty() throws IOException {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("'encoding'");
+
+        sut.createLayout(mock(Path.class), "");
+    }
+
+    @Test
+    public void createLayout_fromPath_alwaysNewInstance() throws IOException {
+        final Layout one = sut.createLayout(tmp.newFile().toPath());
+        final Layout two = sut.createLayout(tmp.newFile().toPath());
+        final Layout three = sut.createLayout(tmp.newFile().toPath());
+
+        assertThat(one, is(not(sameInstance(two))));
+        assertThat(one, is(not(sameInstance(three))));
+        assertThat(two, is(not(sameInstance(three))));
+    }
+
+    @Test
+    public void createLayout_fromPath_withEncoding_alwaysNewInstance() throws IOException {
+        final Layout one = sut.createLayout(tmp.newFile().toPath(), "utf-8");
+        final Layout two = sut.createLayout(tmp.newFile().toPath(), "utf-8");
+        final Layout three = sut.createLayout(tmp.newFile().toPath(), "utf-8");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
