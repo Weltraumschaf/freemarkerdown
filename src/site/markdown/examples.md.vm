@@ -1,0 +1,9 @@
+#macro( snippet $file $name )
+#set( $snippetFile = $file)
+#set( $snippetName = $name)
+#parse( "snippet" )
+#end
+
+# Examples
+
+TODO
