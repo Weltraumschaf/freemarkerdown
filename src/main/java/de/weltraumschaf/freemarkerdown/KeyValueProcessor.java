@@ -69,7 +69,7 @@ final class KeyValueProcessor implements PreProcessor {
 
     @Override
     public String process(final String input) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "";
     }
 
 }

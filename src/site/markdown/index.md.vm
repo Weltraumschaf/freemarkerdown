@@ -1,3 +1,10 @@
+#set( $hash = "#" )
+${hash}macro( snippet $file $name )
+${hash}set( $snippetFile = $file)
+${hash}set( $snippetName = $name)
+${hash}parse( "snippet" )
+${hash}end
+
 # FreeMarkerDown
 
 This   library  is   simply  a   combination  of   [Freemarker][freemarker]  and
@@ -6,6 +13,46 @@ but you  also want to  have the  features from a  template engine. Yes,  you can
 combine such two  libraries to do that.  Or you can save time  because I've done
 that for you: Here is FreeMarkerDown.
 
+With  FreeMarkerDown you  can  render an  string  as a  [FrreMarker][freemarker]
+template  and  after   that  it  will  be   converted  to  [Markdown][markdowm].
+Additionaly you can  process the template string before the  rendering with [pre
+processors][proc-instr].
+
+## Example
+
+${hash}snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "exampleOne" )
+
+For  more   details  how   it  works   see  [the   examples](examples.html)  and
+[architecture](architecture.html) site. ## Installation
+
+Add this <code>&lt;dependency&gt;</code> to your [Maven][mvn] pom.xml:
+
+    <dependencies>
+
+        <!-- ... -->
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${project.artifactId}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- ... -->
+
+    <dependencies>
+
+For manual instalation clone this repository and run Maven. You need at least
+[Maven][mvn] 3.0.3 or above installed:
+
+    $> git clone https://github.com/Weltraumschaf/freemarkerdown.git
+    $> cd freemarkerdown
+    $> mvn clean install
+
+Or you can download the jar-file directly from the [Maven Central Repository][mvn-repo].
+
 [freemarker]:   http://freemarker.org/
 [pegdown]:      https://github.com/sirthias/pegdown
 [markdowm]:     http://daringfireball.net/projects/markdown/
+[proc-instr]:   http://en.wikipedia.org/wiki/Processing_Instruction
+[mvn]:          http://maven.apache.org/
+[mvn-repo]:     http://search.maven.org/#search|gav|1|g:%22de.weltraumschaf%22%20AND%20a:%22freemarkerdown%22
