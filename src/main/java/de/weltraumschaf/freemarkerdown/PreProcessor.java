@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import java.util.Collection;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -57,6 +58,9 @@ public interface PreProcessor {
 
     /**
      * Processes the given input string.
+     * <p>
+     * Each invocation of this method clears previous {@link #getWarnings() warnings.
+     * </p>
      *
      * @param input must not be {@code null}
      * @return never {@code null}
@@ -73,5 +77,27 @@ public interface PreProcessor {
      * @return never {@code null}, never empty
      */
     String getTarget();
+
+    /**
+     * Whether there were some strange things encountered during processing.
+     *
+     * @return {@code true} if there were errors, else {@code false}
+     */
+    boolean hasWarnings();
+
+    /**
+     * Returns the warning messages collected during strange things occurred while processing the input.
+     * <p>
+     * If there were {@link #hasWarnings() no warnings} from the last {@link #process(java.lang.String) processing}
+     * this method returns an empty collection.
+     * </p>
+     * <p>
+     * This method only returns the warnings from the last call to {@link #process(java.lang.String)}. If you want
+     * to collect warnings from various invocations you must save them away.
+     * </p>
+     *
+     * @return never {@code null}, unmodifiable
+     */
+    Collection<String> getWarnings();
 
 }

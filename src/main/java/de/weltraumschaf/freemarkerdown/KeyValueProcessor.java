@@ -13,6 +13,8 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
@@ -58,7 +60,10 @@ final class KeyValueProcessor implements PreProcessor {
      * Collects the found key value pairs.
      */
     private final Map<String, String> result;
-    private final List<String> warnings = new ArrayList<>();
+    /**
+     * Collects warnings during processing.
+     */
+    private final Collection<String> warnings = new ArrayList<>();
 
     /**
      * Dedicated constructor.
@@ -71,6 +76,16 @@ final class KeyValueProcessor implements PreProcessor {
     }
 
     @Override
+    public boolean hasWarnings() {
+        return !warnings.isEmpty();
+    }
+
+    @Override
+    public Collection<String> getWarnings() {
+        return Collections.unmodifiableCollection(warnings);
+    }
+
+    @Override
     public String getTarget() {
         return TARGET;
     }
@@ -78,6 +93,7 @@ final class KeyValueProcessor implements PreProcessor {
     @Override
     public String process(final String input) {
         Validate.notNull(input, "input");
+        warnings.clear();
 
         for (final String line : input.split(Defaults.DEFAULT_NEW_LINE.getValue())) {
             if (line.trim().startsWith(COMMENT_TOKEN)) {
