@@ -18,7 +18,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -29,7 +28,6 @@ import org.junit.Test;
 public class ExampleTest {
 
     @Test
-    @Ignore
     public void exampleOne() {
         // START SNIPPET: exampleOne
         final FreeMarkerDown fmd = FreeMarkerDown.create();
