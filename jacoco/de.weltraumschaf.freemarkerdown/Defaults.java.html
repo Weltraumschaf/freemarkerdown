@@ -24,7 +24,11 @@ import de.weltraumschaf.commons.validate.Validate;
     /**
      * Used default encoding.
      */
-<span class="fc" id="L27">    ENCODING(&quot;utf-8&quot;);</span>
+<span class="fc" id="L27">    ENCODING(&quot;utf-8&quot;),</span>
+    /**
+     * Used default new line separator.
+     */
+<span class="fc" id="L31">    DEFAULT_NEW_LINE(String.format(&quot;%n&quot;));</span>
 
     /**
      * Value of the default.
@@ -36,9 +40,9 @@ import de.weltraumschaf.commons.validate.Validate;
      *
      * @param value must not be {@code null} or empty
      */
-<span class="fc" id="L39">    private Defaults(final String value) {</span>
-<span class="fc" id="L40">        this.value = Validate.notEmpty(value, &quot;value&quot;);</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L43">    private Defaults(final String value) {</span>
+<span class="fc" id="L44">        this.value = Validate.notEmpty(value, &quot;value&quot;);</span>
+<span class="fc" id="L45">    }</span>
 
     /**
      * Get default value.
@@ -46,7 +50,7 @@ import de.weltraumschaf.commons.validate.Validate;
      * @return never {@code null} or empty
      */
     public String getValue() {
-<span class="fc" id="L49">        return value;</span>
+<span class="fc" id="L53">        return value;</span>
     }
 
 }

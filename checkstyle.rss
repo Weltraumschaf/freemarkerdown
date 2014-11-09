@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2014 Weltraumschaf</copyright>
     <item>
-      <title>File: 34,
-             Errors: 87,
-             Warnings: 19,
+      <title>File: 35,
+             Errors: 105,
+             Warnings: 21,
              Infos: 0
       </title>
             <link>http://weltraumschaf.github.io/freemarkerdown//checkstyle.html</link>
@@ -55,7 +55,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  11
                 </td>
               </tr>
                           <tr>
@@ -237,7 +237,7 @@ under the License.
                   18
                 </td>
                 <td>
-                  5
+                  6
                 </td>
               </tr>
                           <tr>
@@ -248,7 +248,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   0
@@ -276,7 +276,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   1
@@ -378,6 +378,20 @@ under the License.
                 </td>
                 <td>
                   0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.PreProcessorApplier_KeyValueProcessorTest.java">de/weltraumschaf/freemarkerdown/PreProcessorApplier_KeyValueProcessorTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
                 </td>
               </tr>
                           <tr>
