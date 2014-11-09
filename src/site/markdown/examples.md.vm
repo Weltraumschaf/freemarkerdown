@@ -6,4 +6,30 @@
 
 # Examples
 
-TODO
+## Render Single Fragment with Markdown
+
+### From String Template
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromStringTemplate")
+
+### From File Template
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromFileTemplate")
+
+## Render Layout with Fragments and Markdown
+
+### From String Template
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromStringTemplate")
+
+### From File Template
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromFileTemplate")
+
+## Render Without Markdown
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithoutMarkdown")
+
+## Render With Preprocessor
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithPreprocessor")

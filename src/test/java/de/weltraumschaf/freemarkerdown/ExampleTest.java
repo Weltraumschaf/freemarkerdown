@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -65,5 +66,53 @@ public class ExampleTest {
         assertThat(keyValues.size(), is(2));
         assertThat(keyValues, allOf(hasEntry("key1", "value one"), hasEntry("key2", "42")));
         // END SNIPPET: exampleOne
+    }
+
+    @Test
+    @Ignore
+    public void renderSingleFragmentwithMarkdownFromStringTemplate() {
+        // START SNIPPET: renderSingleFragmentwithMarkdownFromStringTemplate
+        /* TODO */
+        // END SNIPPET: renderSingleFragmentwithMarkdownFromStringTemplate
+    }
+
+    @Test
+    @Ignore
+    public void renderSingleFragmentwithMarkdownFromFileTemplate() {
+        // START SNIPPET: renderSingleFragmentwithMarkdownFromFileTemplate
+        /* TODO */
+        // END SNIPPET: renderSingleFragmentwithMarkdownFromFileTemplate
+    }
+
+    @Test
+    @Ignore
+    public void renderLayoutwithFragmentsandMarkdownFromStringTemplate() {
+        // START SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
+        /* TODO */
+        // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
+    }
+
+    @Test
+    @Ignore
+    public void renderLayoutwithFragmentsandMarkdownFromFileTemplate() {
+        // START SNIPPET: renderLayoutwithFragmentsandMarkdownFromFileTemplate
+        /* TODO */
+        // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromFileTemplate
+    }
+
+    @Test
+    @Ignore
+    public void renderWithoutMarkdown() {
+        // START SNIPPET: renderWithoutMarkdown
+        /* TODO */
+        // END SNIPPET: renderWithoutMarkdown
+    }
+
+    @Test
+    @Ignore
+    public void renderWithPreprocessor() {
+        // START SNIPPET: renderWithPreprocessor
+        /* TODO */
+        // END SNIPPET: renderWithPreprocessor
     }
 }
