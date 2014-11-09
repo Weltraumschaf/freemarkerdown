@@ -141,6 +141,69 @@
                                   
             <h1>FreeMarkerDown</h1>
 <p>This library is simply a combination of <a class="externalLink" href="http://freemarker.org/">Freemarker</a> and <a class="externalLink" href="https://github.com/sirthias/pegdown">PegDown</a>. The use case is: You want to render <a class="externalLink" href="http://daringfireball.net/projects/markdown/">Markdown</a> but you also want to have the features from a template engine. Yes, you can combine such two libraries to do that. Or you can save time because I&#x2019;ve done that for you: Here is FreeMarkerDown.</p>
+<p>With FreeMarkerDown you can render an string as a <a class="externalLink" href="http://freemarker.org/">FrreMarker</a> template and after that it will be converted to <a class="externalLink" href="http://daringfireball.net/projects/markdown/">Markdown</a>. Additionaly you can process the template string before the rendering with <a class="externalLink" href="http://en.wikipedia.org/wiki/Processing_Instruction">pre processors</a>.</p>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Fragment template = fmd.createFragemnt(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;?fdm-keyvalue\n&quot;
+                + &quot;    key1: value one\n&quot;
+                + &quot;    key2: 42\n&quot;
+                + &quot;?&gt;\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;#list sequence as item&gt;\n&quot;
+                + &quot;- ${item}\n&quot;
+                + &quot;&lt;/#list&gt;&quot;);
+        template.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        final Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();
+        final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
+        fmd.register(processor);
+        assertThat(fmd.render(template), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;));
+        assertThat(keyValues.size(), is(2));
+        assertThat(keyValues, allOf(hasEntry(&quot;key1&quot;, &quot;value one&quot;), hasEntry(&quot;key2&quot;, &quot;42&quot;)));
+</pre></div></div>
+<p>For more details how it works see <a href="examples.html">the examples</a> and <a href="architecture.html">architecture</a> site. Add this <tt>&lt;dependency&gt;</tt> to your <a class="externalLink" href="http://maven.apache.org/">Maven</a> pom.xml:</p>
+
+<div class="source">
+<div class="source">
+<pre>&lt;dependencies&gt;
+
+    &lt;!-- ... --&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;de.weltraumschaf&lt;/groupId&gt;
+        &lt;artifactId&gt;freemarkerdown&lt;/artifactId&gt;
+        &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- ... --&gt;
+
+&lt;dependencies&gt;
+</pre></div></div>
+<p>For manual instalation clone this repository and run Maven. You need at least <a class="externalLink" href="http://maven.apache.org/">Maven</a> 3.0.3 or above installed:</p>
+
+<div class="source">
+<div class="source">
+<pre>$&gt; git clone https://github.com/Weltraumschaf/freemarkerdown.git
+$&gt; cd freemarkerdown
+$&gt; mvn clean install
+</pre></div></div>
+<p>Or you can download the jar-file directly from the <a class="externalLink" href="http://search.maven.org/#search|gav|1|g:%22de.weltraumschaf%22%20AND%20a:%22freemarkerdown%22">Maven Central Repository</a>.</p>
                   </div>
             </div>
           </div>

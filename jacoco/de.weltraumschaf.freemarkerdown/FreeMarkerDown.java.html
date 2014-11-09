@@ -148,8 +148,8 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    public Fragment newFragemnt(final String template) {
-<span class="fc" id="L152">        return newFragemnt(template, DEFAULT_ENCODING);</span>
+    public Fragment createFragemnt(final String template) {
+<span class="fc" id="L152">        return FreeMarkerDown.this.createFragemnt(template, DEFAULT_ENCODING);</span>
     }
 
     /**
@@ -159,7 +159,7 @@ public final class FreeMarkerDown {
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
-    public Fragment newFragemnt(final String template, final String encoding) {
+    public Fragment createFragemnt(final String template, final String encoding) {
 <span class="fc" id="L163">        return new FragmentImpl(template, encoding);</span>
     }
 
@@ -169,8 +169,8 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    public Layout newLayout(final String template) {
-<span class="fc" id="L173">        return newLayout(template, DEFAULT_ENCODING);</span>
+    public Layout createLayout(final String template) {
+<span class="fc" id="L173">        return FreeMarkerDown.this.createLayout(template, DEFAULT_ENCODING);</span>
     }
 
     /**
@@ -180,7 +180,7 @@ public final class FreeMarkerDown {
      * @param encoding or empty
      * @return never {@code null}, always new instance
      */
-    public Layout newLayout(final String template, final String encoding) {
+    public Layout createLayout(final String template, final String encoding) {
 <span class="fc" id="L184">        return new LayoutImpl(template, encoding);</span>
     }
 
