@@ -59,7 +59,7 @@ public interface PreProcessor {
     /**
      * Processes the given input string.
      * <p>
-     * Each invocation of this method clears previous {@link #getWarnings() warnings.
+     * Each invocation of this method clears previous {@link #getWarnings() warnings}.
      * </p>
      *
      * @param input must not be {@code null}
