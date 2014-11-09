@@ -44,7 +44,19 @@ class FreeMarker {
      * @throws IOException Should never happen, because we do not read templates from file.
      */
     Template createTemplate(final String template) throws IOException {
-        return new Template("", Validate.notNull(template, "template"), createConfiguration());
+        return createTemplate(template, createConfiguration());
+    }
+
+    /**
+     * Creates an original FreeMarker template with empty name and null configuration.
+     *
+     * @param template must not be {@code null}
+     * @param config must not be {@code null}
+     * @return always new instance
+     * @throws IOException Should never happen, because we do not read templates from file.
+     */
+    Template createTemplate(final String template, final Configuration config) throws IOException {
+        return new Template("", Validate.notNull(template, "template"), Validate.notNull(config, "config"));
     }
 
     /**
