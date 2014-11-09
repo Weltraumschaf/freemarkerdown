@@ -96,6 +96,10 @@ final class KeyValueProcessor implements PreProcessor {
         warnings.clear();
 
         for (final String line : input.split(Defaults.DEFAULT_NEW_LINE.getValue())) {
+            if (line.trim().isEmpty()) {
+                continue; // Ignore empty lines.
+            }
+
             if (line.trim().startsWith(COMMENT_TOKEN)) {
                 continue; // Ignore comments.
             }
