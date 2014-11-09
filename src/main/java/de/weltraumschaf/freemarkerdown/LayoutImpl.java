@@ -28,7 +28,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     /**
      * Holds the layout fragments.
      */
-    private final Map<String, Renderable> fragments = Maps.newHashMap();
+    private final Map<String, TemplateModel> fragments = Maps.newHashMap();
 
     /**
      * Dedicated constructor.
@@ -41,13 +41,26 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
-    public void assignFragment(final String name, final Renderable fragment) {
-        fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(fragment, "fragment"));
+    public void assignVariable(final String name, final Object value) {
+        super.assignVariable(name, value);
+
+        for (final TemplateModel subTemplate : fragments.values()) {
+            subTemplate.assignVariable(name, value);
+        }
+    }
+
+    @Override
+    public void assignFragment(final String name, final TemplateModel template) {
+        fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(template, "template"));
+
+        for (final Map.Entry<String, Object> variable : getTemplateVariables().entrySet()) {
+            template.assignVariable(variable.getKey(), variable.getValue());
+        }
     }
 
     @Override
     public String render() {
-        for (final Map.Entry<String, Renderable> fragment : fragments.entrySet()) {
+        for (final Map.Entry<String, TemplateModel> fragment : fragments.entrySet()) {
             assignVariable(fragment.getKey(), fragment.getValue().render());
         }
 

@@ -103,7 +103,7 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}
      */
-    public String render(final Renderable template, final Options ... options) {
+    public String render(final TemplateModel template, final Options ... options) {
         Validate.notNull(template, "template");
         final Set<Options> opt = options == null
                 ? Collections.<Options>emptySet()

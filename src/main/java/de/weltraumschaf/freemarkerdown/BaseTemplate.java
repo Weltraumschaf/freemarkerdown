@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -27,7 +28,7 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @NotThreadSafe
-abstract class BaseTemplate implements Renderable, Assignable {
+abstract class BaseTemplate implements TemplateModel {
 
     /**
      * Holds the assigned variables.
@@ -105,8 +106,17 @@ abstract class BaseTemplate implements Renderable, Assignable {
         return preProcessedTemplate;
     }
 
+    /**
+     * Get all assigned variables.
+     *
+     * @return never {@code null}, unmodifiable
+     */
+    final Map<String, Object> getTemplateVariables() {
+        return templateVariables.getVariables();
+    }
+
     @Override
-    public final void assignVariable(final String name, final Object value) {
+    public void assignVariable(final String name, final Object value) {
         templateVariables.assignVariable(name, value);
     }
 

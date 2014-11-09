@@ -37,7 +37,7 @@ final class Variables {
      * @param name must not be {@code null}
      * @param value must not be {@code null}
      */
-    public void assignVariable(final String name, final Object value) {
+    void assignVariable(final String name, final Object value) {
         templateVariables.put(Validate.notEmpty(name, "name"), Validate.notNull(value, "value"));
     }
 

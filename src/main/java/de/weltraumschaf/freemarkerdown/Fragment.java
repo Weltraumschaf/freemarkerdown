@@ -20,6 +20,6 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @NotThreadSafe
-public interface Fragment extends Renderable, Assignable {
+public interface Fragment extends TemplateModel {
 
 }

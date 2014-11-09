@@ -94,7 +94,7 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @NotThreadSafe
-public interface Layout extends Renderable, Assignable {
+public interface Layout extends TemplateModel {
 
 
     /**
@@ -106,6 +106,6 @@ public interface Layout extends Renderable, Assignable {
      * @param name must not be {@code null} or empty
      * @param fragment must not be {@code null}
      */
-    void assignFragment(String name, Renderable fragment);
+    void assignFragment(String name, TemplateModel fragment);
 
 }

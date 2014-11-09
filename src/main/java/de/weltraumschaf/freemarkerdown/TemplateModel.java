@@ -13,12 +13,20 @@
 package de.weltraumschaf.freemarkerdown;
 
 /**
- * Implementors can render them self to a string.
+ * A template model is the base to render templates.
+ * <p>
+ * A model can {@link #render() render} itself and apply {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) pre
+ * processors}. Also you can {@link #assignVariable(java.lang.String, java.lang.Object) assign variables}.
+ * </p>
+ * <p>
+ * Maybe you ask: "Why didn't call this thin simply Template?" Yes I considered that, but I didn't a name conflicting
+ * with the name of the FreeMarker template class. This was the best idea came up with.
+ * </p>
  *
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public interface Renderable {
+public interface TemplateModel {
 
     /**
      * Renders the template in a string.
@@ -36,5 +44,13 @@ public interface Renderable {
      * @param processor must not be {@code null}
      */
     void apply(PreProcessor processor);
+
+    /**
+     * Assign any object as template variable.
+     *
+     * @param name must not be {@code null} or empty
+     * @param value must not be {@code null}
+     */
+    void assignVariable(final String name, final Object value);
 
 }
