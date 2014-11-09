@@ -56,42 +56,42 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void newFragemnt_throwsExceptionIfTemplateIsNull() {
+    public void createFragemnt_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.newFragemnt(null);
+        sut.createFragemnt(null);
     }
 
     @Test
-    public void newFragemnt_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createFragemnt_withEncoding_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.newFragemnt(null, "utf-8");
+        sut.createFragemnt(null, "utf-8");
     }
 
     @Test
-    public void newFragemnt_withEncoding_throwsExceptionIfEncodingIsNull() {
+    public void createFragemnt_withEncoding_throwsExceptionIfEncodingIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.newFragemnt("", null);
+        sut.createFragemnt("", null);
     }
 
     @Test
-    public void newFragemnt_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+    public void createFragemnt_withEncoding_throwsExceptionIfEncodingIsEmpty() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.newFragemnt("", "");
+        sut.createFragemnt("", "");
     }
 
     @Test
-    public void newFragemnt_alwaysNewInstance() {
-        final Fragment one = sut.newFragemnt("");
-        final Fragment two = sut.newFragemnt("");
-        final Fragment three = sut.newFragemnt("");
+    public void createFragemnt_alwaysNewInstance() {
+        final Fragment one = sut.createFragemnt("");
+        final Fragment two = sut.createFragemnt("");
+        final Fragment three = sut.createFragemnt("");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -99,10 +99,10 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void newFragemnt_withEncoding_alwaysNewInstance() {
-        final Fragment one = sut.newFragemnt("", "utf-8");
-        final Fragment two = sut.newFragemnt("", "utf-8");
-        final Fragment three = sut.newFragemnt("", "utf-8");
+    public void createFragemnt_withEncoding_alwaysNewInstance() {
+        final Fragment one = sut.createFragemnt("", "utf-8");
+        final Fragment two = sut.createFragemnt("", "utf-8");
+        final Fragment three = sut.createFragemnt("", "utf-8");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -110,42 +110,42 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void newLayout_throwsExceptionIfTemplateIsNull() {
+    public void createLayout_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.newLayout(null);
+        sut.createLayout(null);
     }
 
     @Test
-    public void newLayout_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createLayout_withEncoding_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.newLayout(null, "utf-8");
+        sut.createLayout(null, "utf-8");
     }
 
     @Test
-    public void newLayout_withEncoding_throwsExceptionIfEncodingIsNull() {
+    public void createLayout_withEncoding_throwsExceptionIfEncodingIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.newLayout("", null);
+        sut.createLayout("", null);
     }
 
     @Test
-    public void newLayout_withEncoding_throwsExceptionIfEncodingIsEmpty() {
+    public void createLayout_withEncoding_throwsExceptionIfEncodingIsEmpty() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.newLayout("", "");
+        sut.createLayout("", "");
     }
 
     @Test
-    public void newLayout_alwaysNewInstance() {
-        final Layout one = sut.newLayout("");
-        final Layout two = sut.newLayout("");
-        final Layout three = sut.newLayout("");
+    public void createLayout_alwaysNewInstance() {
+        final Layout one = sut.createLayout("");
+        final Layout two = sut.createLayout("");
+        final Layout three = sut.createLayout("");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -153,10 +153,10 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void newLayout_withEncoding_alwaysNewInstance() {
-        final Layout one = sut.newLayout("", "utf-8");
-        final Layout two = sut.newLayout("", "utf-8");
-        final Layout three = sut.newLayout("", "utf-8");
+    public void createLayout_withEncoding_alwaysNewInstance() {
+        final Layout one = sut.createLayout("", "utf-8");
+        final Layout two = sut.createLayout("", "utf-8");
+        final Layout three = sut.createLayout("", "utf-8");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
