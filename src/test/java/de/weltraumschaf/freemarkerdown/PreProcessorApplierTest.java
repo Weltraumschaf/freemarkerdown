@@ -25,14 +25,16 @@ import static org.mockito.Mockito.when;
  */
 public class PreProcessorApplierTest {
 
+    final PreProcessorApplier sut = new PreProcessorApplierImpl();
+
     @Test(expected = NullPointerException.class)
     public void apply_throwsExceptionIfNullPassedInAsSubject() {
-        new PreProcessorApplierImpl().apply(null, mock(PreProcessor.class));
+        sut.apply(null, mock(PreProcessor.class));
     }
 
     @Test(expected = NullPointerException.class)
     public void apply_throwsExceptionIfNullPassedInAsProcessor() {
-        new PreProcessorApplierImpl().apply("", null);
+        sut.apply("", null);
     }
 
     @Test
@@ -42,7 +44,7 @@ public class PreProcessorApplierTest {
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
         when(processor.process(" bar bar bar ")).thenReturn("BAR");
 
-        assertThat(new PreProcessorApplierImpl().apply(
+        assertThat(sut.apply(
             "Lorem ipsum dolor sit amet,\n"
             + "<?foo foo foo foo ?>\n"
             + "consetetur sadipscing elitr,\n"
@@ -66,7 +68,7 @@ public class PreProcessorApplierTest {
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
         when(processor.process(" bar bar bar ")).thenReturn("BAR");
 
-        assertThat(new PreProcessorApplierImpl().apply(
+        assertThat(sut.apply(
             "Lorem ipsum dolor sit amet "
             + "<?foo foo foo foo ?> "
             + "consetetur sadipscing elitr, "
@@ -89,7 +91,7 @@ public class PreProcessorApplierTest {
         when(processor.getTarget()).thenReturn("foo");
         when(processor.process(" foo foo foo ")).thenReturn("FOO");
 
-        assertThat(new PreProcessorApplierImpl().apply(
+        assertThat(sut.apply(
             "Lorem ipsum dolor sit amet "
             + "<?foo foo foo foo ?> "
             + "consetetur sadipscing elitr, "

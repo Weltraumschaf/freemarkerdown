@@ -24,7 +24,11 @@ enum Defaults {
     /**
      * Used default encoding.
      */
-    ENCODING("utf-8");
+    ENCODING("utf-8"),
+    /**
+     * Used default new line separator.
+     */
+    DEFAULT_NEW_LINE(String.format("%n"));
 
     /**
      * Value of the default.

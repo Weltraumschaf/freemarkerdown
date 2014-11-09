@@ -12,6 +12,8 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -25,6 +27,7 @@ import net.jcip.annotations.NotThreadSafe;
  * &gt;?fdm-keyvalue
  *   key1: value1
  *   key2: value2
+ *   // Comments are skipped.
  *   // ...
  *   keyN: valueN
  * ?&lt;
@@ -48,9 +51,14 @@ final class KeyValueProcessor implements PreProcessor {
      */
     private static final String SPLIT_TOKEN = ":";
     /**
+     * Start of single line comment.
+     */
+    private static final String COMMENT_TOKEN = "//";
+    /**
      * Collects the found key value pairs.
      */
     private final Map<String, String> result;
+    private final List<String> warnings = new ArrayList<>();
 
     /**
      * Dedicated constructor.
@@ -69,7 +77,51 @@ final class KeyValueProcessor implements PreProcessor {
 
     @Override
     public String process(final String input) {
+        Validate.notNull(input, "input");
+
+        for (final String line : input.split(Defaults.DEFAULT_NEW_LINE.getValue())) {
+            if (line.trim().startsWith(COMMENT_TOKEN)) {
+                continue; // Ignore comments.
+            }
+
+            if (!line.contains(SPLIT_TOKEN)) {
+                warnings.add(String.format("Malformed line '%s'! Missing split token '%s'. Use format 'key %s value'.",
+                        line, SPLIT_TOKEN, SPLIT_TOKEN));
+                continue;
+            }
+
+            final String[] tokens = line.split(SPLIT_TOKEN);
+
+            if (tokens.length == 0) {
+                warnings.add(String.format("No key given: '%s'! Skipping line.", line));
+                continue;
+            }
+
+            final String name = tokens[0].trim();
+
+            if (name.isEmpty()) {
+                warnings.add(String.format("Empty key given: '%s'! Skipping line.", line));
+                continue;
+            }
+
+            final String value;
+
+            if (tokens.length == 1) {
+                warnings.add(String.format("No value given: '%s'! Set vlaue empty.", name));
+                value = "";
+            } else {
+                value = tokens[1].trim();
+
+                if (value.isEmpty()) {
+                    warnings.add(String.format("Empty value given: '%s'! Set vlaue empty.", name));
+                }
+            }
+
+            result.put(name, value);
+        }
+
         return "";
     }
+
 
 }
