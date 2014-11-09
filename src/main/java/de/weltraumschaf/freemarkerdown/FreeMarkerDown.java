@@ -12,6 +12,10 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -149,7 +153,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template) {
-        return FreeMarkerDown.this.createFragemnt(template, DEFAULT_ENCODING);
+        return createFragemnt(template, DEFAULT_ENCODING);
     }
 
     /**
@@ -164,13 +168,38 @@ public final class FreeMarkerDown {
     }
 
     /**
+     * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Fragment createFragemnt(final Path template) throws IOException {
+        return FreeMarkerDown.this.createFragemnt(template, DEFAULT_ENCODING);
+    }
+
+    /**
+     * Creates a new {@link Fragment}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Fragment createFragemnt(final Path template, final String encoding) throws IOException {
+        Validate.notNull(template, "template");
+        Validate.notEmpty(encoding, "encoding");
+        return new FragmentImpl(new String(Files.readAllBytes(template), encoding), encoding);
+    }
+
+    /**
      * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
     public Layout createLayout(final String template) {
-        return FreeMarkerDown.this.createLayout(template, DEFAULT_ENCODING);
+        return createLayout(template, DEFAULT_ENCODING);
     }
 
     /**
@@ -182,6 +211,31 @@ public final class FreeMarkerDown {
      */
     public Layout createLayout(final String template, final String encoding) {
         return new LayoutImpl(template, encoding);
+    }
+
+    /**
+     * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Layout createLayout(final Path template) throws IOException {
+        return createLayout(template, DEFAULT_ENCODING);
+    }
+
+    /**
+     * Creates a new {@link Layout}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding or empty
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Layout createLayout(final Path template, final String encoding) throws IOException {
+        Validate.notNull(template, "template");
+        Validate.notEmpty(encoding, "encoding");
+        return new LayoutImpl(new String(Files.readAllBytes(template), encoding), encoding);
     }
 
     /**

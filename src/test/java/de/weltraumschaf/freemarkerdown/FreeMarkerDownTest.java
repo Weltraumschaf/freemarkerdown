@@ -60,7 +60,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createFragemnt(null);
+        sut.createFragemnt((String) null);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createFragemnt(null, "utf-8");
+        sut.createFragemnt((String) null, "utf-8");
     }
 
     @Test
@@ -114,7 +114,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createLayout(null);
+        sut.createLayout((String) null);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createLayout(null, "utf-8");
+        sut.createLayout((String) null, "utf-8");
     }
 
     @Test
