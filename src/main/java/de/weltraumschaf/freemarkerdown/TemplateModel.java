@@ -19,8 +19,8 @@ package de.weltraumschaf.freemarkerdown;
  * processors}. Also you can {@link #assignVariable(java.lang.String, java.lang.Object) assign variables}.
  * </p>
  * <p>
- * Maybe you ask: "Why didn't call this thin simply Template?" Yes I considered that, but I didn't a name conflicting
- * with the name of the FreeMarker template class. This was the best idea came up with.
+ * Maybe you ask: "Why didn't call this thing simply Template?" Yes I considered that, but I didn't want a name
+ * conflicting with the name of the FreeMarker template class. This was the best idea I came up with.
  * </p>
  *
  * @since 1.0.0
