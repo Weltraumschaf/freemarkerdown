@@ -13,14 +13,21 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.validate.Validate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
+import org.pegdown.PegDownProcessor;
 
 /**
  * This is the main API entry point to render stuff.
+ * &lt;p&gt;
+ * Use the {@link #create() factory method} to create an instance.
+ * &lt;/p&gt;
  * &lt;p&gt;
  * For examples see the &lt;a href=&quot;http://weltraumschaf.github.io/freemarkerdown/examples.html&quot;&gt;this site&lt;/a&gt;
  * &lt;/p&gt;
@@ -34,19 +41,38 @@ public final class FreeMarkerDown {
     /**
      * This is the default encoding used for all string operations.
      */
-<span class="fc" id="L37">    public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();</span>
+<span class="fc" id="L44">    public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();</span>
 
     /**
      * Holds the pre processors keyed by name.
      */
-<span class="fc" id="L42">    private final List&lt;PreProcessor&gt; preProcessors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L49">    private final List&lt;PreProcessor&gt; preProcessors = new ArrayList&lt;&gt;();</span>
+
+    /**
+     * Used to convert Markdown to HTML.
+     * &lt;p&gt;
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)}
+     * because not a value, but service object.
+     * &lt;/p&gt;
+     */
+    private final PegDownProcessor markdown;
 
     /**
      * Use {@link #create()} to create new instances.
      */
     private FreeMarkerDown() {
-<span class="fc" id="L48">        super();</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L64">        this(new PegDownProcessor());</span>
+<span class="fc" id="L65">    }</span>
+
+    /**
+     * Dedicated constructor.
+     *
+     * @param markdown must not be {@code null}
+     */
+    private FreeMarkerDown(final PegDownProcessor markdown) {
+<span class="fc" id="L73">        super();</span>
+<span class="fc" id="L74">        this.markdown = Validate.notNull(markdown, &quot;markdown&quot;);</span>
+<span class="fc" id="L75">    }</span>
 
     /**
      * Registers a pre processor.
@@ -57,9 +83,9 @@ public final class FreeMarkerDown {
      * @param processor must not be {@code null}
      */
     public void register(final PreProcessor processor) {
-<span class="fc" id="L60">        Validate.notNull(processor, &quot;processor&quot;);</span>
-<span class="fc" id="L61">        preProcessors.add(processor);</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L86">        Validate.notNull(processor, &quot;processor&quot;);</span>
+<span class="fc" id="L87">        preProcessors.add(processor);</span>
+<span class="fc" id="L88">    }</span>
 
     /**
      * Get a copy of the registered pre processors.
@@ -67,44 +93,53 @@ public final class FreeMarkerDown {
      * @return never {@code null}, immutable
      */
     Collection&lt;PreProcessor&gt; getPreProcessors() {
-<span class="fc" id="L70">        return Collections.unmodifiableList(preProcessors);</span>
+<span class="fc" id="L96">        return Collections.unmodifiableList(preProcessors);</span>
     }
 
     /**
      * Render the given template.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}
      */
-    public String render(final Renderable template) {
-<span class="fc" id="L80">        Validate.notNull(template, &quot;template&quot;);</span>
+    public String render(final Renderable template, final Options ... options) {
+<span class="fc" id="L107">        Validate.notNull(template, &quot;template&quot;);</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        final Set&lt;Options&gt; opt = options == null</span>
+                ? Collections.&lt;Options&gt;emptySet()
+                : new HashSet&lt;&gt;(Arrays.asList(options));
 
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (final PreProcessor preProcessor : preProcessors) {</span>
-<span class="fc" id="L83">            template.apply(preProcessor);</span>
-<span class="fc" id="L84">        }</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        for (final PreProcessor preProcessor : preProcessors) {</span>
+<span class="fc" id="L113">            template.apply(preProcessor);</span>
+<span class="fc" id="L114">        }</span>
 
-        // TODO Add Markdown generation here.
-<span class="fc" id="L87">        return template.render();</span>
+<span class="fc" id="L116">        final String rendered = template.render();</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (opt.contains(Options.WITHOUT_MARKDOWN)) {</span>
+<span class="fc" id="L119">            return rendered;</span>
+        }
+
+<span class="fc" id="L122">        return markdown.markdownToHtml(rendered);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L92">        return Objects.hashCode(this.preProcessors);</span>
+<span class="fc" id="L127">        return Objects.hashCode(this.preProcessors);</span>
     }
 
     @Override
     public boolean equals(final Object obj) {
-<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (!(obj instanceof FreeMarkerDown)) {</span>
-<span class="fc" id="L98">            return false;</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (!(obj instanceof FreeMarkerDown)) {</span>
+<span class="fc" id="L133">            return false;</span>
         }
 
-<span class="fc" id="L101">        final FreeMarkerDown other = (FreeMarkerDown) obj;</span>
-<span class="fc" id="L102">        return Objects.equals(preProcessors, other.preProcessors);</span>
+<span class="fc" id="L136">        final FreeMarkerDown other = (FreeMarkerDown) obj;</span>
+<span class="fc" id="L137">        return Objects.equals(preProcessors, other.preProcessors);</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L107">        return &quot;FreeMarkerDown{&quot; + &quot;preProcessors=&quot; + preProcessors + '}';</span>
+<span class="fc" id="L142">        return &quot;FreeMarkerDown{&quot; + &quot;preProcessors=&quot; + preProcessors + '}';</span>
     }
 
     /**
@@ -114,7 +149,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Fragment newFragemnt(final String template) {
-<span class="fc" id="L117">        return newFragemnt(template, DEFAULT_ENCODING);</span>
+<span class="fc" id="L152">        return newFragemnt(template, DEFAULT_ENCODING);</span>
     }
 
     /**
@@ -125,7 +160,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Fragment newFragemnt(final String template, final String encoding) {
-<span class="fc" id="L128">        return new FragmentImpl(template, encoding);</span>
+<span class="fc" id="L163">        return new FragmentImpl(template, encoding);</span>
     }
 
     /**
@@ -135,7 +170,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Layout newLayout(final String template) {
-<span class="fc" id="L138">        return newLayout(template, DEFAULT_ENCODING);</span>
+<span class="fc" id="L173">        return newLayout(template, DEFAULT_ENCODING);</span>
     }
 
     /**
@@ -146,7 +181,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Layout newLayout(final String template, final String encoding) {
-<span class="fc" id="L149">        return new LayoutImpl(template, encoding);</span>
+<span class="fc" id="L184">        return new LayoutImpl(template, encoding);</span>
     }
 
     /**
@@ -155,7 +190,8 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public static FreeMarkerDown create() {
-<span class="fc" id="L158">        return new FreeMarkerDown();</span>
+<span class="fc" id="L193">        return new FreeMarkerDown();</span>
     }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

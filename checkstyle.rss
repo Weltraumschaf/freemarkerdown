@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2014 Weltraumschaf</copyright>
     <item>
-      <title>File: 18,
-             Errors: 40,
-             Warnings: 0,
+      <title>File: 30,
+             Errors: 83,
+             Warnings: 19,
              Infos: 0
       </title>
             <link>http://weltraumschaf.github.io/freemarkerdown//checkstyle.html</link>
@@ -55,7 +55,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
               </tr>
                           <tr>
@@ -69,7 +69,189 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FragmentTest.java">de/weltraumschaf/freemarkerdown/FragmentTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerDown_RenderMarkdownTest.java">de/weltraumschaf/freemarkerdown/FreeMarkerDown_RenderMarkdownTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.Assignable.java">de/weltraumschaf/freemarkerdown/Assignable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarker.java">de/weltraumschaf/freemarkerdown/FreeMarker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.LayoutTest.java">de/weltraumschaf/freemarkerdown/LayoutTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FragmentImpl.java">de/weltraumschaf/freemarkerdown/FragmentImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.BaseTemplateTest.java">de/weltraumschaf/freemarkerdown/BaseTemplateTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.PreProcessorApplierImpl.java">de/weltraumschaf/freemarkerdown/PreProcessorApplierImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.TemplateError.java">de/weltraumschaf/freemarkerdown/TemplateError.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerDown_RenderTest.java">de/weltraumschaf/freemarkerdown/FreeMarkerDown_RenderTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.PreProcessorApplierTest.java">de/weltraumschaf/freemarkerdown/PreProcessorApplierTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerDown.java">de/weltraumschaf/freemarkerdown/FreeMarkerDown.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.VariablesTest.java">de/weltraumschaf/freemarkerdown/VariablesTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
                 </td>
               </tr>
                           <tr>
@@ -88,7 +270,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.freemarker.properties">de/weltraumschaf/freemarkerdown/freemarker.properties</a>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.TemplateErrorTest.java">de/weltraumschaf/freemarkerdown/TemplateErrorTest.java</a>
                 </td>
                 <td>
                   0
@@ -97,12 +279,12 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  3
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.Assignable.java">de/weltraumschaf/freemarkerdown/Assignable.java</a>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.freemarker.properties">de/weltraumschaf/freemarkerdown/freemarker.properties</a>
                 </td>
                 <td>
                   0
@@ -125,12 +307,12 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarker.java">de/weltraumschaf/freemarkerdown/FreeMarker.java</a>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.Options.java">de/weltraumschaf/freemarkerdown/Options.java</a>
                 </td>
                 <td>
                   0
@@ -139,12 +321,12 @@ under the License.
                   0
                 </td>
                 <td>
-                  3
+                  0
                 </td>
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FragmentImpl.java">de/weltraumschaf/freemarkerdown/FragmentImpl.java</a>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerTest.java">de/weltraumschaf/freemarkerdown/FreeMarkerTest.java</a>
                 </td>
                 <td>
                   0
@@ -153,7 +335,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  4
                 </td>
               </tr>
                           <tr>
@@ -172,21 +354,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.TemplateError.java">de/weltraumschaf/freemarkerdown/TemplateError.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.PreProcessorApplierImpl.java">de/weltraumschaf/freemarkerdown/PreProcessorApplierImpl.java</a>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreemarkerPropertiesTest.java">de/weltraumschaf/freemarkerdown/FreemarkerPropertiesTest.java</a>
                 </td>
                 <td>
                   0
@@ -209,7 +377,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  2
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerDownTest.java">de/weltraumschaf/freemarkerdown/FreeMarkerDownTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  20
                 </td>
               </tr>
                           <tr>
@@ -237,7 +419,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  0
                 </td>
               </tr>
                           <tr>
@@ -251,7 +433,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  0
                 </td>
               </tr>
                           <tr>
@@ -270,20 +452,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.FreeMarkerDown.java">de/weltraumschaf/freemarkerdown/FreeMarkerDown.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://weltraumschaf.github.io/freemarkerdown//checkstyle.html#de.weltraumschaf.freemarkerdown.PreProcessor.java">de/weltraumschaf/freemarkerdown/PreProcessor.java</a>
                 </td>
                 <td>
@@ -293,7 +461,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  0
                 </td>
               </tr>
                       </tbody>
