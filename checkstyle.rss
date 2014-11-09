@@ -26,8 +26,8 @@ under the License.
     <copyright>&#169;2014 Weltraumschaf</copyright>
     <item>
       <title>File: 36,
-             Errors: 118,
-             Warnings: 21,
+             Errors: 137,
+             Warnings: 20,
              Infos: 0
       </title>
             <link>http://weltraumschaf.github.io/freemarkerdown//checkstyle.html</link>
@@ -293,7 +293,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  7
                 </td>
               </tr>
                           <tr>
@@ -486,10 +486,10 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  0
                 </td>
                 <td>
-                  20
+                  33
                 </td>
               </tr>
                           <tr>
