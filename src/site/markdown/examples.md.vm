@@ -39,7 +39,7 @@ Render With Preprocessor
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithPreprocessor")
 
-Layouts Propagates Varaibales
------------------------------
+Layout Propagates Variables
+---------------------------
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "layoutsPropagatesVaraibales")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "layoutPropagatesVariables")

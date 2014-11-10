@@ -256,8 +256,8 @@ public class ExampleTest {
     }
 
     @Test
-    public void layoutsPropagatesVaraibales() {
-        // START SNIPPET: renderWithPreprocessor
+    public void layoutPropagatesVariables() {
+        // START SNIPPET: layoutPropagatesVariables
         final FreeMarkerDown fmd = FreeMarkerDown.create();
 
         final Layout layout = fmd.createLayout(
@@ -286,6 +286,6 @@ public class ExampleTest {
                 + "  <li>bar</li>\n"
                 + "  <li>baz</li>\n"
                 + "</ul>"));
-        // END SNIPPET: renderWithPreprocessor
+        // END SNIPPET: layoutPropagatesVariables
     }
 }
