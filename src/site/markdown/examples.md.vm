@@ -32,10 +32,15 @@ This is an example to render a templates from files:
 Render Without Markdown
 -----------------------
 
+This example shows how to suppress the Markdown processing.
+
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithoutMarkdown")
 
 Render With Preprocessor
 ------------------------
+
+This example shows how to use preprocessors. The used key value preprocessor
+is part of FreeMarkerDown by default.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithPreprocessor")
 
