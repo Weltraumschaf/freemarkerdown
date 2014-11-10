@@ -112,7 +112,7 @@
           <i class="icon-chevron-right"></i>
         Project Information</a>
                   </li>
-                                                                                                                                                                                
+                                                                                      
       <li>
     
                           <a href="project-reports.html" title="Project Reports">
@@ -142,6 +142,8 @@
             <h1>FreeMarkerDown</h1>
 <p>This library is simply a combination of <a class="externalLink" href="http://freemarker.org/">Freemarker</a> and <a class="externalLink" href="https://github.com/sirthias/pegdown">PegDown</a>. The use case is: You want to render <a class="externalLink" href="http://daringfireball.net/projects/markdown/">Markdown</a> but you also want to have the features from a template engine. Yes, you can combine such two libraries to do that. Or you can save time because I&#x2019;ve done that for you: Here is FreeMarkerDown.</p>
 <p>With FreeMarkerDown you can render an string as a <a class="externalLink" href="http://freemarker.org/">FrreMarker</a> template and after that it will be converted to <a class="externalLink" href="http://daringfireball.net/projects/markdown/">Markdown</a>. Additionaly you can process the template string before the rendering with <a class="externalLink" href="http://en.wikipedia.org/wiki/Processing_Instruction">pre processors</a>.</p>
+<div class="section">
+<h2><a name="Example"></a>Example</h2>
 
 <div class="source">
 <div class="source">
@@ -177,7 +179,10 @@
         assertThat(keyValues.size(), is(2));
         assertThat(keyValues, allOf(hasEntry(&quot;key1&quot;, &quot;value one&quot;), hasEntry(&quot;key2&quot;, &quot;42&quot;)));
 </pre></div></div>
-<p>For more details how it works see <a href="examples.html">the examples</a> and <a href="architecture.html">architecture</a> site. Add this <tt>&lt;dependency&gt;</tt> to your <a class="externalLink" href="http://maven.apache.org/">Maven</a> pom.xml:</p>
+<p>For more details how it works see <a href="examples.html">the examples</a> and <a href="architecture.html">architecture</a> site. </p></div>
+<div class="section">
+<h2><a name="Installation"></a>Installation</h2>
+<p>Add this <tt>&lt;dependency&gt;</tt> to your <a class="externalLink" href="http://maven.apache.org/">Maven</a> pom.xml:</p>
 
 <div class="source">
 <div class="source">
@@ -203,8 +208,10 @@
 $&gt; cd freemarkerdown
 $&gt; mvn clean install
 </pre></div></div>
-<p>Or you can download the jar-file directly from the <a class="externalLink" href="http://search.maven.org/#search|gav|1|g:%22de.weltraumschaf%22%20AND%20a:%22freemarkerdown%22">Maven Central Repository</a>.</p>
-<p>The examples in this project site is included with [some Velocity macros][macor].</p>
+<p>Or you can download the jar-file directly from the <a class="externalLink" href="http://search.maven.org/#search|gav|1|g:%22de.weltraumschaf%22%20AND%20a:%22freemarkerdown%22">Maven Central Repository</a>.</p></div>
+<div class="section">
+<h2><a name="Links"></a>Links</h2>
+<p>The examples in this project site is included with [some Velocity macros][macor].</p></div>
                   </div>
             </div>
           </div>

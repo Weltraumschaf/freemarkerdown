@@ -112,7 +112,7 @@
           <i class="icon-chevron-right"></i>
         Project Information</a>
                   </li>
-                                                                                                                                                                                
+                                                                                      
       <li>
     
                           <a href="project-reports.html" title="Project Reports">
@@ -140,27 +140,80 @@
         <div id="bodyColumn"  class="span9" >
                                   
             <h1>Examples</h1>
+<div class="section">
+<h2><a name="Render_Single_Fragment_with_Markdown"></a>Render Single Fragment with Markdown</h2>
+<p>This is an example to render a template from string:</p>
 
 <div class="source">
 <div class="source">
-<pre>        /* TODO */
-
-
-        /* TODO */
-
-
-
-        /* TODO */
-
-
-        /* TODO */
-
-
-        /* TODO */
-
-
-        /* TODO */
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Fragment template = fmd.createFragemnt(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;#list sequence as item&gt;\n&quot;
+                + &quot;- ${item}\n&quot;
+                + &quot;&lt;/#list&gt;&quot;);
+        template.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        assertThat(fmd.render(template), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;));
 </pre></div></div>
+<p>This is an example to render a template from file:</p>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final URI file = getClass().getResource(&quot;renderSingleFragmentwithMarkdownFromFileTemplate.md.ftl&quot;).toURI();
+        final Fragment template = fmd.createFragemnt(Paths.get(file));
+        template.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        assertThat(fmd.render(template), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;));
+</pre></div></div></div>
+<div class="section">
+<h2><a name="Render_Layout_with_Fragments_and_Markdown"></a>Render Layout with Fragments and Markdown</h2>
+<p>This is an example to render a templates from strings:</p>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+</pre></div></div>
+<p>This is an example to render a templates from files:</p>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+</pre></div></div></div>
+<div class="section">
+<h2><a name="Render_Without_Markdown"></a>Render Without Markdown</h2>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+</pre></div></div></div>
+<div class="section">
+<h2><a name="Render_With_Preprocessor"></a>Render With Preprocessor</h2>
+
+<div class="source">
+<div class="source">
+<pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+</pre></div></div></div>
                   </div>
             </div>
           </div>
