@@ -55,29 +55,29 @@ import net.jcip.annotations.NotThreadSafe;
  * <pre>
  * {@code
  *  final FreeMarkerDown fmd = FreeMarkerDown.create();
- *
- *  final Layout mainLayout = fmd.newLayout(
- *        "...\n"
- *      + "${fragmentOne}\n"
- *      + "...\n"
- *      + "${subLayout}\n");
- *
- *      final Fragment fragmentOne = fmd.newFragemnt("foo");
- *      mainLayout.assignFragment("fragmentOne", fragmentOne);
- *
- *      final Layout subLayout = fmd.newLayout(
- *          + "${fragmentTwo}\n"
- *          + "...\n"
- *          + "${fragmentThree}\n");
- *      final Fragment fragmentTwo = fmd.newFragemnt("bar");
- *      subLayout.assignFragment("fragmentTwo", fragmentTwo);
- *      final Fragment fragmentThree = fmd.newFragemnt("baz");
- *      subLayout.assignFragment("fragmentThree", fragmentThree);
- *
- *      mainLayout.assignFragment("subLayout", subLayout);
- *
- *      System.out.println(fmd.create().render(mainLayout));
- * }</pre>
+
+  final Layout mainLayout = fmd.newLayout(
+        "...\n"
+      + "${fragmentOne}\n"
+      + "...\n"
+      + "${subLayout}\n");
+
+      final Fragment fragmentOne = fmd.newFragemnt("foo");
+      mainLayout.assignTemplateModel("fragmentOne", fragmentOne);
+
+      final Layout subLayout = fmd.newLayout(
+          + "${fragmentTwo}\n"
+          + "...\n"
+          + "${fragmentThree}\n");
+      final Fragment fragmentTwo = fmd.newFragemnt("bar");
+      subLayout.assignTemplateModel("fragmentTwo", fragmentTwo);
+      final Fragment fragmentThree = fmd.newFragemnt("baz");
+      subLayout.assignTemplateModel("fragmentThree", fragmentThree);
+
+      mainLayout.assignTemplateModel("subLayout", subLayout);
+
+      System.out.println(fmd.create().render(mainLayout));
+ }</pre>
  * <p>
  * This will print something like:
  * </p>
@@ -106,6 +106,6 @@ public interface Layout extends TemplateModel {
      * @param name must not be {@code null} or empty
      * @param fragment must not be {@code null}
      */
-    void assignFragment(String name, TemplateModel fragment);
+    void assignTemplateModel(String name, TemplateModel fragment);
 
 }

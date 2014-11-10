@@ -68,7 +68,7 @@ public class LayoutTest {
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
         final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n", Defaults.ENCODING.getValue());
-        sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
@@ -80,9 +80,9 @@ public class LayoutTest {
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
         );
-        sut.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        sut.assignFragment("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        sut.assignFragment("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is(
                 "<p>foo</p>\n"
@@ -99,7 +99,7 @@ public class LayoutTest {
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}", Defaults.ENCODING.getValue());
-        sut.assignFragment("inside", inside);
+        sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(
                 "<h1>snafu</h1>\n"
@@ -114,13 +114,13 @@ public class LayoutTest {
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
         );
-        inside.assignFragment("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        inside.assignFragment("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        inside.assignFragment("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}", Defaults.ENCODING.getValue());
-        sut.assignFragment("inside", inside);
+        sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(
                 "<h1>snafu</h1>\n"

@@ -29,7 +29,7 @@ public class Layout_PropagateVariablesTest {
     @Test
     public void propagateAssigendVariableToFragment() {
         final FragmentImpl fragment = new FragmentImpl("", Defaults.ENCODING.getValue());
-        sut.assignFragment("fragment", fragment);
+        sut.assignTemplateModel("fragment", fragment);
 
         sut.assignVariable("foo", "bar");
 
@@ -42,7 +42,7 @@ public class Layout_PropagateVariablesTest {
         sut.assignVariable("foo", "bar");
         final FragmentImpl fragment = new FragmentImpl("", Defaults.ENCODING.getValue());
 
-        sut.assignFragment("fragment", fragment);
+        sut.assignTemplateModel("fragment", fragment);
         assertThat(fragment.getTemplateVariables().size(), is(1));
         assertThat(fragment.getTemplateVariables(), hasEntry("foo", (Object) "bar"));
     }
@@ -50,13 +50,13 @@ public class Layout_PropagateVariablesTest {
     @Test
     public void propagateAssigendVariableToLayoutwithFragments() {
         final FragmentImpl fragmentOne = new FragmentImpl("", Defaults.ENCODING.getValue());
-        sut.assignFragment("fragmentOne", fragmentOne);
+        sut.assignTemplateModel("fragmentOne", fragmentOne);
         final LayoutImpl inner = new LayoutImpl("", Defaults.ENCODING.getValue());
-        sut.assignFragment("inner", inner);
+        sut.assignTemplateModel("inner", inner);
         final FragmentImpl fragmentTwo = new FragmentImpl("", Defaults.ENCODING.getValue());
-        inner.assignFragment("fragmentTwo", fragmentTwo);
+        inner.assignTemplateModel("fragmentTwo", fragmentTwo);
         final FragmentImpl fragmentThree = new FragmentImpl("", Defaults.ENCODING.getValue());
-        inner.assignFragment("fragmentThree", fragmentThree);
+        inner.assignTemplateModel("fragmentThree", fragmentThree);
 
         sut.assignVariable("foo", "bar");
 
@@ -75,13 +75,13 @@ public class Layout_PropagateVariablesTest {
         sut.assignVariable("foo", "bar");
 
         final FragmentImpl fragmentOne = new FragmentImpl("", Defaults.ENCODING.getValue());
-        sut.assignFragment("fragmentOne", fragmentOne);
+        sut.assignTemplateModel("fragmentOne", fragmentOne);
         final LayoutImpl inner = new LayoutImpl("", Defaults.ENCODING.getValue());
-        sut.assignFragment("inner", inner);
+        sut.assignTemplateModel("inner", inner);
         final FragmentImpl fragmentTwo = new FragmentImpl("", Defaults.ENCODING.getValue());
-        inner.assignFragment("fragmentTwo", fragmentTwo);
+        inner.assignTemplateModel("fragmentTwo", fragmentTwo);
         final FragmentImpl fragmentThree = new FragmentImpl("", Defaults.ENCODING.getValue());
-        inner.assignFragment("fragmentThree", fragmentThree);
+        inner.assignTemplateModel("fragmentThree", fragmentThree);
 
         assertThat(fragmentOne.getTemplateVariables().size(), is(1));
         assertThat(fragmentOne.getTemplateVariables(), hasEntry("foo", (Object) "bar"));

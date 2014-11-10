@@ -50,7 +50,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
-    public void assignFragment(final String name, final TemplateModel template) {
+    public void assignTemplateModel(final String name, final TemplateModel template) {
         fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(template, "template"));
 
         for (final Map.Entry<String, Object> variable : getTemplateVariables().entrySet()) {

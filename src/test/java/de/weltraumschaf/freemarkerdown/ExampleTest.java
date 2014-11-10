@@ -145,7 +145,7 @@ public class ExampleTest {
 
         final Fragment fragment = fmd.createFragemnt("This is ${foo}.");
         fragment.assignVariable("foo", "bar");
-        layout.assignFragment("fragment", fragment);
+        layout.assignTemplateModel("fragment", fragment);
 
         assertThat(fmd.render(layout), is(
                 "<h1>A Title</h1>"
@@ -176,7 +176,7 @@ public class ExampleTest {
                 .toURI();
         final Fragment fragment = fmd.createFragemnt(Paths.get(fileFragment));
         fragment.assignVariable("foo", "bar");
-        layout.assignFragment("fragment", fragment);
+        layout.assignTemplateModel("fragment", fragment);
 
         assertThat(fmd.render(layout), is(
                 "<h1>A Title</h1>"
@@ -275,7 +275,7 @@ public class ExampleTest {
                 + "- ${item}\n"
                 + "</#list>\n"
                 + "\n");
-        layout.assignFragment("fragment", fragment);
+        layout.assignTemplateModel("fragment", fragment);
 
         assertThat(fmd.render(layout), is(
                 "<h1>A Title</h1>"

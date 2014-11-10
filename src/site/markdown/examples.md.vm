@@ -42,4 +42,9 @@ Render With Preprocessor
 Layout Propagates Variables
 ---------------------------
 
+Template variables assigned to a layout are propagated to all
+subsequent assigned template models. It does not matter if you assign
+the model before or after assigning variables. They will be propagated
+anyway.
+
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "layoutPropagatesVariables")
