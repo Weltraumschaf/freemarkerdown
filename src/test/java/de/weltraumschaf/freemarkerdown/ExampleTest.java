@@ -11,6 +11,10 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +33,8 @@ import org.junit.Test;
 public class ExampleTest {
 
     @Test
-    public void exampleOne() {
-        // START SNIPPET: exampleOne
+    public void exampleWithAllFeatures() {
+        // START SNIPPET: exampleWithAllFeatures
         final FreeMarkerDown fmd = FreeMarkerDown.create();
 
         final Fragment template = fmd.createFragemnt(
@@ -65,22 +69,56 @@ public class ExampleTest {
                 + "</ul>"));
         assertThat(keyValues.size(), is(2));
         assertThat(keyValues, allOf(hasEntry("key1", "value one"), hasEntry("key2", "42")));
-        // END SNIPPET: exampleOne
+        // END SNIPPET: exampleWithAllFeatures
     }
 
     @Test
-    @Ignore
     public void renderSingleFragmentwithMarkdownFromStringTemplate() {
         // START SNIPPET: renderSingleFragmentwithMarkdownFromStringTemplate
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
+        final Fragment template = fmd.createFragemnt(
+                "# A Title\n"
+                + "\n"
+                + "Lorem ipsum dolor sit amet.\n"
+                + "\n"
+                + "## A List\n"
+                + "\n"
+                + "<#list sequence as item>\n"
+                + "- ${item}\n"
+                + "</#list>");
+        template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
+
+        assertThat(fmd.render(template), is(
+                "<h1>A Title</h1>"
+                + "<p>Lorem ipsum dolor sit amet.</p>"
+                + "<h2>A List</h2>\n"
+                + "<ul>\n"
+                + "  <li>foo</li>\n"
+                + "  <li>bar</li>\n"
+                + "  <li>baz</li>\n"
+                + "</ul>"));
         // END SNIPPET: renderSingleFragmentwithMarkdownFromStringTemplate
     }
 
     @Test
-    @Ignore
-    public void renderSingleFragmentwithMarkdownFromFileTemplate() {
+    public void renderSingleFragmentwithMarkdownFromFileTemplate() throws IOException, URISyntaxException {
         // START SNIPPET: renderSingleFragmentwithMarkdownFromFileTemplate
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
+        final URI file = getClass().getResource("renderSingleFragmentwithMarkdownFromFileTemplate.md.ftl").toURI();
+        final Fragment template = fmd.createFragemnt(Paths.get(file));
+        template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
+
+        assertThat(fmd.render(template), is(
+                "<h1>A Title</h1>"
+                + "<p>Lorem ipsum dolor sit amet.</p>"
+                + "<h2>A List</h2>\n"
+                + "<ul>\n"
+                + "  <li>foo</li>\n"
+                + "  <li>bar</li>\n"
+                + "  <li>baz</li>\n"
+                + "</ul>"));
         // END SNIPPET: renderSingleFragmentwithMarkdownFromFileTemplate
     }
 
@@ -88,7 +126,8 @@ public class ExampleTest {
     @Ignore
     public void renderLayoutwithFragmentsandMarkdownFromStringTemplate() {
         // START SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
         // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
     }
 
@@ -96,7 +135,8 @@ public class ExampleTest {
     @Ignore
     public void renderLayoutwithFragmentsandMarkdownFromFileTemplate() {
         // START SNIPPET: renderLayoutwithFragmentsandMarkdownFromFileTemplate
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
         // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromFileTemplate
     }
 
@@ -104,7 +144,8 @@ public class ExampleTest {
     @Ignore
     public void renderWithoutMarkdown() {
         // START SNIPPET: renderWithoutMarkdown
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
         // END SNIPPET: renderWithoutMarkdown
     }
 
@@ -112,7 +153,8 @@ public class ExampleTest {
     @Ignore
     public void renderWithPreprocessor() {
         // START SNIPPET: renderWithPreprocessor
-        /* TODO */
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
         // END SNIPPET: renderWithPreprocessor
     }
 }

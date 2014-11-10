@@ -228,20 +228,20 @@
                 <artifactId>taglist-maven-plugin</artifactId>
             </plugin>
 
-            <plugin>
+<!--            <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
 
                 <configuration>
                     <configLocation>de/weltraumschaf/javabuildtools/checkstyle-ruleset.xml</configLocation>
-<!--                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>-->
+                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <linkXRef>false</linkXRef>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
-            <plugin>
+<!--            <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
 
@@ -253,7 +253,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
-            </plugin>
+            </plugin>-->
         </plugins>
     </reporting>
 </project>

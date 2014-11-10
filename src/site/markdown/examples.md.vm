@@ -4,32 +4,37 @@
 #parse( "snippet" )
 #end
 
-# Examples
+Examples
+========
 
-## Render Single Fragment with Markdown
+Render Single Fragment with Markdown
+------------------------------------
 
-### From String Template
+This is an example to render a template from string:
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromStringTemplate")
 
-### From File Template
+This is an example to render a template from file:
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromFileTemplate")
 
-## Render Layout with Fragments and Markdown
+Render Layout with Fragments and Markdown
+-----------------------------------------
 
-### From String Template
+This is an example to render a templates from strings:
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromStringTemplate")
 
-### From File Template
+This is an example to render a templates from files:
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromFileTemplate")
 
-## Render Without Markdown
+Render Without Markdown
+-----------------------
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithoutMarkdown")
 
-## Render With Preprocessor
+Render With Preprocessor
+------------------------
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithPreprocessor")

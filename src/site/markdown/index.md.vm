@@ -4,7 +4,8 @@
 #parse( "snippet" )
 #end
 
-# FreeMarkerDown
+FreeMarkerDown
+==============
 
 This   library  is   simply  a   combination  of   [Freemarker][freemarker]  and
 [PegDown][pegdown]. The  use case  is: You  want to  render [Markdown][markdowm]
@@ -17,12 +18,16 @@ template  and  after   that  it  will  be   converted  to  [Markdown][markdowm].
 Additionaly you can  process the template string before the  rendering with [pre
 processors][proc-instr].
 
-## Example
+Example
+-------
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "exampleOne")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "exampleWithAllFeatures")
 
 For  more   details  how   it  works   see  [the   examples](examples.html)  and
 [architecture](architecture.html) site. ## Installation
+
+Installation
+------------
 
 Add this <code>&lt;dependency&gt;</code> to your [Maven][mvn] pom.xml:
 
@@ -49,7 +54,8 @@ For manual instalation clone this repository and run Maven. You need at least
 
 Or you can download the jar-file directly from the [Maven Central Repository][mvn-repo].
 
-## Links
+Links
+-----
 
 The examples in this project site is included with [some Velocity macros][macor].
 
