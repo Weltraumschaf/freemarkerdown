@@ -21,7 +21,7 @@ processors][proc-instr].
 Example
 -------
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "exampleWithAllFeatures")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "exampleWithAllFeatures")
 
 For  more   details  how   it  works   see  [the   examples](examples.html)  and
 [architecture](architecture.html) site. ## Installation

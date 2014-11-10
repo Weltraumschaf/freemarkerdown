@@ -12,29 +12,29 @@ Render Single Fragment with Markdown
 
 This is an example to render a template from string:
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromStringTemplate")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderSingleFragmentwithMarkdownFromStringTemplate")
 
 This is an example to render a template from file:
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderSingleFragmentwithMarkdownFromFileTemplate")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderSingleFragmentwithMarkdownFromFileTemplate")
 
 Render Layout with Fragments and Markdown
 -----------------------------------------
 
 This is an example to render a templates from strings:
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromStringTemplate")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderLayoutwithFragmentsandMarkdownFromStringTemplate")
 
 This is an example to render a templates from files:
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderLayoutwithFragmentsandMarkdownFromFileTemplate")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderLayoutwithFragmentsandMarkdownFromFileTemplate")
 
 Render Without Markdown
 -----------------------
 
 This example shows how to suppress the Markdown processing.
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithoutMarkdown")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderWithoutMarkdown")
 
 Render With Preprocessor
 ------------------------
@@ -42,7 +42,7 @@ Render With Preprocessor
 This example shows how to use preprocessors. The used key value preprocessor
 is part of FreeMarkerDown by default.
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "renderWithPreprocessor")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderWithPreprocessor")
 
 Layout Propagates Variables
 ---------------------------
@@ -52,7 +52,7 @@ subsequent assigned template models. It does not matter if you assign
 the model before or after assigning variables. They will be propagated
 anyway.
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "layoutPropagatesVariables")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "layoutPropagatesVariables")
 
 Handling Template Errors
 ------------------------
@@ -63,4 +63,4 @@ into an unchecked template error. This does not clutter the code with "throws",
 but gives you the responsibility to ensure that templates will render in all circumstances
 or catch them at appropriate position.
 
-#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "handlingTemplateErrors")
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "handlingTemplateErrors")
