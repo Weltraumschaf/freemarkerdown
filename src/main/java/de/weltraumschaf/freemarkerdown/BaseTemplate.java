@@ -36,6 +36,11 @@ abstract class BaseTemplate implements TemplateModel {
     private final Variables templateVariables = new Variables();
 
     /**
+     * Name of template used by FreeMarker for error messages.
+     */
+    private final String name;
+
+    /**
      * Rendered template as original.
      */
     private final String template;
@@ -68,11 +73,13 @@ abstract class BaseTemplate implements TemplateModel {
     /**
      * Dedicated constructor.
      *
+     * @param name must not be {@code null}
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    BaseTemplate(final String template, final String encoding) {
+    BaseTemplate(final String name, final String template, final String encoding) {
         super();
+        this.name = Validate.notNull(name, "name");
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
@@ -125,7 +132,7 @@ abstract class BaseTemplate implements TemplateModel {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            factory.createTemplate(preProcessedTemplate).process(
+            factory.createTemplate(name, preProcessedTemplate).process(
                     templateVariables.getVariables(),
                     new OutputStreamWriter(out, encoding));
 

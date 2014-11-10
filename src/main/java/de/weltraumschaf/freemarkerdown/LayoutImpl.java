@@ -33,11 +33,12 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     /**
      * Dedicated constructor.
      *
+     * @param name must not be {@code null}
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      */
-    LayoutImpl(final String template, final String encoding) {
-        super(template, encoding);
+    LayoutImpl(final String name, final String template, final String encoding) {
+        super(name, template, encoding);
     }
 
     @Override

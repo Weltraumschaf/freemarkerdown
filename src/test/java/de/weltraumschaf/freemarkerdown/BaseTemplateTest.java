@@ -101,7 +101,7 @@ public class BaseTemplateTest {
     public void factory_wrappsIoExceptions() throws IOException {
         final FreeMarker factory = spy(new FreeMarker());
         final Throwable ex = new IOException("foobar");
-        when(factory.createTemplate(anyString())).thenThrow(ex);
+        when(factory.createTemplate(anyString(), anyString())).thenThrow(ex);
 
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
@@ -117,11 +117,11 @@ public class BaseTemplateTest {
 
     @Test
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
-        final Template template = spy(new FreeMarker().createTemplate(""));
+        final Template template = spy(new FreeMarker().createTemplate("", ""));
         final Throwable ex = new TemplateException("foobar", null);
         doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
         final FreeMarker factory = spy(new FreeMarker());
-        when(factory.createTemplate(anyString())).thenReturn(template);
+        when(factory.createTemplate(anyString(), anyString())).thenReturn(template);
 
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
@@ -150,7 +150,7 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
-            super(template, encoding);
+            super("", template, encoding);
         }
 
     }

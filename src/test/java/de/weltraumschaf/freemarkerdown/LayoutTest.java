@@ -28,17 +28,17 @@ public class LayoutTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new LayoutImpl(null, Defaults.ENCODING.getValue());
+        new LayoutImpl("", null, Defaults.ENCODING.getValue());
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue()).render(), is(""));
+        assertThat(new LayoutImpl("", "", Defaults.ENCODING.getValue()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue()).render(), is("foo bar baz"));
+        assertThat(new LayoutImpl("", "foo bar baz", Defaults.ENCODING.getValue()).render(), is("foo bar baz"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class LayoutTest {
         fruits.add("bananas");
         fruits.add("apples");
         fruits.add("pears");
-        final Layout sut = new LayoutImpl(
+        final Layout sut = new LayoutImpl("",
                 "<p>And BTW we have these fruits:\n"
                 + "<ul>\n"
                 + "<#list fruits as fruit>\n"
@@ -67,22 +67,22 @@ public class LayoutTest {
 
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
-        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n", Defaults.ENCODING.getValue());
-        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        final Layout sut = new LayoutImpl("", "<p>${fragmentOne}</p>\n", Defaults.ENCODING.getValue());
+        sut.assignTemplateModel("fragmentOne", new FragmentImpl("", "foo", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
 
     @Test
     public void render_withThreeFragement() throws IOException, TemplateException {
-        final Layout sut = new LayoutImpl(
+        final Layout sut = new LayoutImpl("",
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
         );
-        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        sut.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        sut.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentOne", new FragmentImpl("", "foo", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentTwo", new FragmentImpl("", "bar", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentThree", new FragmentImpl("", "baz", Defaults.ENCODING.getValue()));
 
         assertThat(sut.render(), is(
                 "<p>foo</p>\n"
@@ -93,10 +93,10 @@ public class LayoutTest {
 
     @Test
     public void render_withLayoutInside() {
-        final Layout inside = new LayoutImpl(
+        final Layout inside = new LayoutImpl("",
                 "<p>foobar</p>\n", Defaults.ENCODING.getValue()
         );
-        final Layout sut = new LayoutImpl(
+        final Layout sut = new LayoutImpl("",
                 "<h1>snafu</h1>\n"
                 + "${inside}", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("inside", inside);
@@ -109,15 +109,15 @@ public class LayoutTest {
 
     @Test
     public void render_withLayoutInsideWhichHasFragments() {
-        final Layout inside = new LayoutImpl(
+        final Layout inside = new LayoutImpl("",
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
         );
-        inside.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        inside.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        inside.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
-        final Layout sut = new LayoutImpl(
+        inside.assignTemplateModel("fragmentOne", new FragmentImpl("", "foo", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentTwo", new FragmentImpl("", "bar", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentThree", new FragmentImpl("", "baz", Defaults.ENCODING.getValue()));
+        final Layout sut = new LayoutImpl("", 
                 "<h1>snafu</h1>\n"
                 + "${inside}", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("inside", inside);
