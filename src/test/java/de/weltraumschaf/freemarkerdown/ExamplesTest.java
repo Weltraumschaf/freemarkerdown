@@ -22,7 +22,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -30,7 +29,7 @@ import org.junit.Test;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class ExampleTest {
+public class ExamplesTest {
 
     @Test
     public void exampleWithAllFeatures() {
@@ -287,5 +286,34 @@ public class ExampleTest {
                 + "  <li>baz</li>\n"
                 + "</ul>"));
         // END SNIPPET: layoutPropagatesVariables
+    }
+
+    @Test
+    public void handlingTemplateErrors() {
+        // START SNIPPET: handlingTemplateErrors
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
+        final Fragment fragment = fmd.createFragemnt("Lorem ipsum dolor: ${foo}");
+
+        try {
+            fmd.render(fragment);
+        } catch (final TemplateError err) {
+            assertThat(err.getMessage(), is(
+                    "The following has evaluated to null or missing:\n"
+                    + "==> foo  [in template \"\" at line 1, column 22]\n"
+                    + "\n"
+                    + "----\n"
+                    + "Tip: If the failing expression is known to be legally refer to something that's null or missing, "
+                    + "either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>"
+                    + "when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to "
+                    + "cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??\n"
+                    + "----\n"
+                    + "\n"
+                    + "----\n"
+                    + "FTL stack trace (\"~\" means nesting-related):\n\t- Failed at: ${foo}  [in template \"\" at "
+                    + "line 1, column 20]\n"
+                    + "----"));
+        }
+        // END SNIPPET: handlingTemplateErrors
     }
 }

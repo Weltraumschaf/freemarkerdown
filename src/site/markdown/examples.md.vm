@@ -53,3 +53,14 @@ the model before or after assigning variables. They will be propagated
 anyway.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "layoutPropagatesVariables")
+
+Handling Template Errors
+------------------------
+
+Except the standard Java exceptions (IOExceptio etc.) no checked exceptions
+will be thrown. The Checked template exception from FreeMarker is wrapped
+into an unchecked template error. This does not clutter the code with "throws",
+but gives you the responsibility to ensure that templates will render in all circumstances
+or catch them at appropriate position.
+
+#snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExampleTest.java" , "handlingTemplateErrors")
