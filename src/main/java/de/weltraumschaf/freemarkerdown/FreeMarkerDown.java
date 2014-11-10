@@ -11,15 +11,14 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -110,7 +109,7 @@ public final class FreeMarkerDown {
         Validate.notNull(template, "template");
         final Set<Options> opt = options == null
                 ? Collections.<Options>emptySet()
-                : new HashSet<>(Arrays.asList(options));
+                : Sets.newHashSet(options);
 
         for (final PreProcessor preProcessor : preProcessors) {
             template.apply(preProcessor);
