@@ -173,7 +173,9 @@
 <div class="source">
 <div class="source">
 <pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
-        final URI file = getClass().getResource(&quot;renderSingleFragmentwithMarkdownFromFileTemplate.md.ftl&quot;).toURI();
+        final URI file = getClass()
+                .getResource(&quot;renderSingleFragmentwithMarkdownFromFileTemplate.md.ftl&quot;)
+                .toURI();
         final Fragment template = fmd.createFragemnt(Paths.get(file));
         template.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
         assertThat(fmd.render(template), is(
@@ -193,12 +195,59 @@
 <div class="source">
 <div class="source">
 <pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Layout layout = fmd.createLayout(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;#list sequence as item&gt;\n&quot;
+                + &quot;- ${item}\n&quot;
+                + &quot;&lt;/#list&gt;\n&quot;
+                + &quot;\n&quot;
+                + &quot;${fragment}&quot;);
+        layout.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        final Fragment fragment = fmd.createFragemnt(&quot;This is ${foo}.&quot;);
+        fragment.assignVariable(&quot;foo&quot;, &quot;bar&quot;);
+        layout.assignFragment(&quot;fragment&quot;, fragment);
+        assertThat(fmd.render(layout), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;
+                + &quot;&lt;p&gt;This is bar.&lt;/p&gt;&quot;));
 </pre></div></div>
 <p>This is an example to render a templates from files:</p>
 
 <div class="source">
 <div class="source">
 <pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final URI fileLayout = getClass()
+                .getResource(&quot;renderLayoutwithFragmentsandMarkdownFromStringTemplate_layout.md.ftl&quot;)
+                .toURI();
+        final Layout layout = fmd.createLayout(Paths.get(fileLayout));
+        layout.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        final URI fileFragment = getClass()
+                .getResource(&quot;renderLayoutwithFragmentsandMarkdownFromStringTemplate_fragment.md.ftl&quot;)
+                .toURI();
+        final Fragment fragment = fmd.createFragemnt(Paths.get(fileFragment));
+        fragment.assignVariable(&quot;foo&quot;, &quot;bar&quot;);
+        layout.assignFragment(&quot;fragment&quot;, fragment);
+        assertThat(fmd.render(layout), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;
+                + &quot;&lt;p&gt;This is bar.&lt;/p&gt;&quot;));
 </pre></div></div></div>
 <div class="section">
 <h2><a name="Render_Without_Markdown"></a>Render Without Markdown</h2>
@@ -206,6 +255,27 @@
 <div class="source">
 <div class="source">
 <pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Fragment template = fmd.createFragemnt(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;#list sequence as item&gt;\n&quot;
+                + &quot;- ${item}\n&quot;
+                + &quot;&lt;/#list&gt;&quot;);
+        template.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        assertThat(fmd.render(template, Options.WITHOUT_MARKDOWN), is(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;- foo\n&quot;
+                + &quot;- bar\n&quot;
+                + &quot;- baz\n&quot;));
 </pre></div></div></div>
 <div class="section">
 <h2><a name="Render_With_Preprocessor"></a>Render With Preprocessor</h2>
@@ -213,7 +283,56 @@
 <div class="source">
 <div class="source">
 <pre>        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Fragment template = fmd.createFragemnt(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;?fdm-keyvalue\n&quot;
+                + &quot;    key1: value one\n&quot;
+                + &quot;    key2: 42\n&quot;
+                + &quot;?&gt;\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;);
+        final Map&lt;String, String&gt; keyValues = new HashMap&lt;&gt;();
+        final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
+        fmd.register(processor);
+        assertThat(fmd.render(template), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;));
+        assertThat(keyValues.size(), is(2));
+        assertThat(keyValues, allOf(hasEntry(&quot;key1&quot;, &quot;value one&quot;), hasEntry(&quot;key2&quot;, &quot;42&quot;)));
+        if (processor.hasWarnings()) {
+            for (final String warning : processor.getWarnings()) {
+                // Handle warning ...
+            }
+        }
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+        final Layout layout = fmd.createLayout(
+                &quot;# A Title\n&quot;
+                + &quot;\n&quot;
+                + &quot;Lorem ipsum dolor sit amet.\n&quot;
+                + &quot;\n&quot;
+                + &quot;${fragment}&quot;);
+        layout.assignVariable(&quot;sequence&quot;, Arrays.asList(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;));
+        final Fragment fragment = fmd.createFragemnt(
+                &quot;## A List\n&quot;
+                + &quot;\n&quot;
+                + &quot;&lt;#list sequence as item&gt;\n&quot;
+                + &quot;- ${item}\n&quot;
+                + &quot;&lt;/#list&gt;\n&quot;
+                + &quot;\n&quot;);
+        layout.assignFragment(&quot;fragment&quot;, fragment);
+        assertThat(fmd.render(layout), is(
+                &quot;&lt;h1&gt;A Title&lt;/h1&gt;&quot;
+                + &quot;&lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;&quot;
+                + &quot;&lt;h2&gt;A List&lt;/h2&gt;\n&quot;
+                + &quot;&lt;ul&gt;\n&quot;
+                + &quot;  &lt;li&gt;foo&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;bar&lt;/li&gt;\n&quot;
+                + &quot;  &lt;li&gt;baz&lt;/li&gt;\n&quot;
+                + &quot;&lt;/ul&gt;&quot;));
 </pre></div></div></div>
+<div class="section">
+<h2><a name="Layouts_Propagates_Varaibales"></a>Layouts Propagates Varaibales</h2></div>
                   </div>
             </div>
           </div>
