@@ -24,11 +24,11 @@ import org.junit.Test;
  */
 public class Layout_PropagateVariablesTest {
 
-    private final Layout sut = new LayoutImpl("", "", Defaults.ENCODING.getValue());
+    private final Layout sut = new LayoutImpl("", Defaults.ENCODING.getValue());
 
     @Test
     public void propagateAssigendVariableToFragment() {
-        final FragmentImpl fragment = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragment = new FragmentImpl("", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("fragment", fragment);
 
         sut.assignVariable("foo", "bar");
@@ -40,7 +40,7 @@ public class Layout_PropagateVariablesTest {
     @Test
     public void propagateAssigendVariableToLateAssignedFragment() {
         sut.assignVariable("foo", "bar");
-        final FragmentImpl fragment = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragment = new FragmentImpl("", Defaults.ENCODING.getValue());
 
         sut.assignTemplateModel("fragment", fragment);
         assertThat(fragment.getTemplateVariables().size(), is(1));
@@ -49,13 +49,13 @@ public class Layout_PropagateVariablesTest {
 
     @Test
     public void propagateAssigendVariableToLayoutwithFragments() {
-        final FragmentImpl fragmentOne = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentOne = new FragmentImpl("", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("fragmentOne", fragmentOne);
-        final LayoutImpl inner = new LayoutImpl("", "", Defaults.ENCODING.getValue());
+        final LayoutImpl inner = new LayoutImpl("", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("inner", inner);
-        final FragmentImpl fragmentTwo = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentTwo = new FragmentImpl("", Defaults.ENCODING.getValue());
         inner.assignTemplateModel("fragmentTwo", fragmentTwo);
-        final FragmentImpl fragmentThree = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentThree = new FragmentImpl("", Defaults.ENCODING.getValue());
         inner.assignTemplateModel("fragmentThree", fragmentThree);
 
         sut.assignVariable("foo", "bar");
@@ -74,13 +74,13 @@ public class Layout_PropagateVariablesTest {
     public void propagateAssigendVariableToLateAssignedLayoutWithFragments() {
         sut.assignVariable("foo", "bar");
 
-        final FragmentImpl fragmentOne = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentOne = new FragmentImpl("", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("fragmentOne", fragmentOne);
-        final LayoutImpl inner = new LayoutImpl("", "", Defaults.ENCODING.getValue());
+        final LayoutImpl inner = new LayoutImpl("", Defaults.ENCODING.getValue());
         sut.assignTemplateModel("inner", inner);
-        final FragmentImpl fragmentTwo = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentTwo = new FragmentImpl("", Defaults.ENCODING.getValue());
         inner.assignTemplateModel("fragmentTwo", fragmentTwo);
-        final FragmentImpl fragmentThree = new FragmentImpl("", "", Defaults.ENCODING.getValue());
+        final FragmentImpl fragmentThree = new FragmentImpl("", Defaults.ENCODING.getValue());
         inner.assignTemplateModel("fragmentThree", fragmentThree);
 
         assertThat(fragmentOne.getTemplateVariables().size(), is(1));

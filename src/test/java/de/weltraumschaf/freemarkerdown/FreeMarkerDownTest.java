@@ -190,7 +190,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.createFragemnt(tmp.newFile().toPath(), null);
+        sut.createFragemnt(mock(Path.class), null);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class FreeMarkerDownTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.createFragemnt(tmp.newFile().toPath(), "");
+        sut.createFragemnt(mock(Path.class), "");
     }
 
     @Test
@@ -244,7 +244,7 @@ public class FreeMarkerDownTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.createLayout(tmp.newFile().toPath(), null);
+        sut.createLayout(mock(Path.class), null);
     }
 
     @Test
@@ -252,7 +252,7 @@ public class FreeMarkerDownTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("'encoding'");
 
-        sut.createLayout(tmp.newFile().toPath(), "");
+        sut.createLayout(mock(Path.class), "");
     }
 
     @Test

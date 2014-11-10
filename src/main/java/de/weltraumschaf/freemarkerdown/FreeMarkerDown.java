@@ -53,8 +53,8 @@ public final class FreeMarkerDown {
     /**
      * Used to convert Markdown to HTML.
      * <p>
-     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)} because not a value, but service
-     * object.
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)}
+     * because not a value, but service object.
      * </p>
      */
     private final PegDownProcessor markdown;
@@ -105,7 +105,7 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}
      */
-    public String render(final TemplateModel template, final Options... options) {
+    public String render(final TemplateModel template, final Options ... options) {
         Validate.notNull(template, "template");
         final Set<Options> opt = options == null
                 ? Collections.<Options>emptySet()
@@ -147,7 +147,7 @@ public final class FreeMarkerDown {
     /**
      * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
      *
-     * @param template template as string, must not be {@code null}
+     * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template) {
@@ -157,60 +157,37 @@ public final class FreeMarkerDown {
     /**
      * Creates a new {@link Fragment}.
      *
-     * @param template template as string, must not be {@code null}
-     * @param encoding used encoding, must not be {@code null} or empty
+     * @param template must not be {@code null}
+     * @param encoding or empty
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template, final String encoding) {
-        return createFragemnt("", template, encoding);
-    }
-
-    /**
-     * Creates a new {@link Fragment}.
-     *
-     * @param name used in error messages, must not be {@code null}
-     * @param template template as string, must not be {@code null}
-     * @param encoding used encoding, must not be {@code null} or empty
-     * @return never {@code null}, always new instance
-     */
-    public Fragment createFragemnt(final String name, final String template, final String encoding) {
-        return new FragmentImpl(name, template, encoding);
+        return new FragmentImpl(template, encoding);
     }
 
     /**
      * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
      *
-     * @param template template as file, must not be {@code null}
+     * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
     public Fragment createFragemnt(final Path template) throws IOException {
-        return createFragemnt(template, DEFAULT_ENCODING);
+        return FreeMarkerDown.this.createFragemnt(template, DEFAULT_ENCODING);
     }
 
     /**
      * Creates a new {@link Fragment}.
      *
-     * @param template template as file, must not be {@code null}
+     * @param template must not be {@code null}
      * @param encoding or empty
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
     public Fragment createFragemnt(final Path template, final String encoding) throws IOException {
-        return createFragemnt("", template, encoding);
-    }
-
-    /**
-     * Creates a new {@link Fragment}.
-     *
-     * @param name used in error messages, must not be {@code null}
-     * @param template template as file, must not be {@code null}
-     * @param encoding or empty
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Fragment createFragemnt(final String name, final Path template, final String encoding) throws IOException {
-        return createFragemnt(name, read(template, encoding), encoding);
+        Validate.notNull(template, "template");
+        Validate.notEmpty(encoding, "encoding");
+        return new FragmentImpl(new String(Files.readAllBytes(template), encoding), encoding);
     }
 
     /**
@@ -231,19 +208,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Layout createLayout(final String template, final String encoding) {
-        return createLayout("", template, encoding);
-    }
-
-    /**
-     * Creates a new {@link Layout}.
-     *
-     * @param name used in error messages, must not be {@code null}
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @return never {@code null}, always new instance
-     */
-    public Layout createLayout(final String name, final String template, final String encoding) {
-        return new LayoutImpl(name, template, encoding);
+        return new LayoutImpl(template, encoding);
     }
 
     /**
@@ -266,20 +231,9 @@ public final class FreeMarkerDown {
      * @throws IOException if file can't be read
      */
     public Layout createLayout(final Path template, final String encoding) throws IOException {
-        return createLayout("", template, encoding);
-    }
-
-    /**
-     * Creates a new {@link Layout}.
-     *
-     * @param name used in error messages, must not be {@code null}
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Layout createLayout(final String name, final Path template, final String encoding) throws IOException {
-        return createLayout(name, read(template, encoding), encoding);
+        Validate.notNull(template, "template");
+        Validate.notEmpty(encoding, "encoding");
+        return new LayoutImpl(new String(Files.readAllBytes(template), encoding), encoding);
     }
 
     /**
@@ -291,18 +245,4 @@ public final class FreeMarkerDown {
         return new FreeMarkerDown();
     }
 
-    /**
-     * Reads a template file as string.
-     *
-     * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
-     * @return never {@code null}
-     * @throws IOException if file can't be read
-     */
-    private static String read(final Path template, final String encoding) throws IOException {
-        return new String(
-                Files.readAllBytes(
-                        Validate.notNull(template, "template")),
-                Validate.notEmpty(encoding, "encoding"));
-    }
 }

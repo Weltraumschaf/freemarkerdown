@@ -34,7 +34,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
 
     @Test
     public void render_fragment() {
-        final Fragment renderable = new FragmentImpl("",
+        final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
@@ -49,7 +49,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
 
     @Test
     public void render_fragment_withPreProcessors() {
-        final Fragment renderable = new FragmentImpl("",
+        final Fragment renderable = new FragmentImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
@@ -72,7 +72,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
 
     @Test
     public void render_layoutWithFragments() {
-        final Layout renderable = new LayoutImpl("",
+        final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
@@ -86,7 +86,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
 
     @Test
     public void render_layoutWithFragments_withPreProcessors() {
-        final Layout renderable = new LayoutImpl("", 
+        final Layout renderable = new LayoutImpl(
                 "<?foo\n"
                 + "foo bar baz\n"
                 + "?>\n"
