@@ -123,11 +123,38 @@ public class ExampleTest {
     }
 
     @Test
-    @Ignore
     public void renderLayoutwithFragmentsandMarkdownFromStringTemplate() {
         // START SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
         final FreeMarkerDown fmd = FreeMarkerDown.create();
 
+        final Layout layout = fmd.createLayout(
+                "# A Title\n"
+                + "\n"
+                + "Lorem ipsum dolor sit amet.\n"
+                + "\n"
+                + "## A List\n"
+                + "\n"
+                + "<#list sequence as item>\n"
+                + "- ${item}\n"
+                + "</#list>\n"
+                + "\n"
+                + "${fragment}");
+        layout.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
+
+        final Fragment fragment = fmd.createFragemnt("This is ${foo}.");
+        fragment.assignVariable("foo", "bar");
+        layout.assignFragment("fragment", fragment);
+
+        assertThat(fmd.render(layout), is(
+                "<h1>A Title</h1>"
+                + "<p>Lorem ipsum dolor sit amet.</p>"
+                + "<h2>A List</h2>\n"
+                + "<ul>\n"
+                + "  <li>foo</li>\n"
+                + "  <li>bar</li>\n"
+                + "  <li>baz</li>\n"
+                + "</ul>"
+                + "<p>This is bar.</p>"));
         // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
     }
 
@@ -152,6 +179,15 @@ public class ExampleTest {
     @Test
     @Ignore
     public void renderWithPreprocessor() {
+        // START SNIPPET: renderWithPreprocessor
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
+        // END SNIPPET: renderWithPreprocessor
+    }
+
+    @Test
+    @Ignore
+    public void layoutsPropagatesVaraibales() {
         // START SNIPPET: renderWithPreprocessor
         final FreeMarkerDown fmd = FreeMarkerDown.create();
 
