@@ -39,7 +39,7 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue()
+                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
 
         assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
@@ -58,7 +58,7 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue()
+                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -82,7 +82,7 @@ public class FreeMarkerDown_RenderTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
 
         assertThat(sut.render(renderable, Options.WITHOUT_MARKDOWN), is(
@@ -100,7 +100,7 @@ public class FreeMarkerDown_RenderTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

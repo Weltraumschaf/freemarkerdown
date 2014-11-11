@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOError;
@@ -76,7 +77,9 @@ public class BaseTemplateTest {
 
     @Test
     public void equalsContract() {
+        final FreeMarker fmd = new FreeMarker();
         EqualsVerifier.forClass(BaseTemplateStub.class)
+                .withPrefabValues(Configuration.class, fmd.createConfiguration(), fmd.createConfiguration())
                 .suppress(Warning.NULL_FIELDS)
                 .verify();
     }
@@ -101,7 +104,7 @@ public class BaseTemplateTest {
     public void factory_wrappsIoExceptions() throws IOException {
         final FreeMarker factory = spy(new FreeMarker());
         final Throwable ex = new IOException("foobar");
-        when(factory.createTemplate(anyString())).thenThrow(ex);
+        doThrow(ex).when(factory).createTemplate(anyString(), (Configuration)anyObject());
 
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
@@ -117,12 +120,12 @@ public class BaseTemplateTest {
 
     @Test
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
-        final Template template = spy(new FreeMarker().createTemplate(""));
+        final Template template = spy(new FreeMarker().createTemplate("", new FreeMarker().createConfiguration()));
         final Throwable ex = new TemplateException("foobar", null);
         doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
         final FreeMarker factory = spy(new FreeMarker());
-        when(factory.createTemplate(anyString())).thenReturn(template);
-
+        doReturn(template).when(factory).createTemplate(anyString(), (Configuration)anyObject());
+        
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
 
@@ -150,7 +153,7 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
-            super(template, encoding);
+            super(template, encoding, new FreeMarker().createConfiguration());
         }
 
     }

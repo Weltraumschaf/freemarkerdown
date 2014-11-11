@@ -13,6 +13,7 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
+import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOError;
@@ -46,6 +47,11 @@ abstract class BaseTemplate implements TemplateModel {
     private final String encoding;
 
     /**
+     * Configures FreeMarker.
+     */
+    private final Configuration freeMarkerConfig;
+
+    /**
      * Pre processed template.
      * <p>
      * Not considered as "state" of the template and thus not included in {@link #hashCode()} and
@@ -70,12 +76,14 @@ abstract class BaseTemplate implements TemplateModel {
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
+     * @param freeMarkerConfig must not be {@code null} or empty
      */
-    BaseTemplate(final String template, final String encoding) {
+    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig) {
         super();
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
+        this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
     }
 
     /**
@@ -125,9 +133,10 @@ abstract class BaseTemplate implements TemplateModel {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            factory.createTemplate(preProcessedTemplate).process(
-                    templateVariables.getVariables(),
-                    new OutputStreamWriter(out, encoding));
+            factory.createTemplate(preProcessedTemplate, freeMarkerConfig)
+                    .process(
+                            templateVariables.getVariables(),
+                            new OutputStreamWriter(out, encoding));
 
             return out.toString(encoding);
         } catch (final IOException ex) {

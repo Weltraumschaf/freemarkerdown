@@ -28,18 +28,18 @@ public class FragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new FragmentImpl(null, Defaults.ENCODING.getValue());
+        new FragmentImpl(null, Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
 
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("", Defaults.ENCODING.getValue()).render(), is(""));
+        assertThat(new FragmentImpl("", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("foo bar baz", Defaults.ENCODING.getValue()).render(), is("foo bar baz"));
+        assertThat(new FragmentImpl("foo bar baz", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is("foo bar baz"));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class FragmentTest {
                         + "<#list fruits as fruit>\n"
                         + " <li>${fruit}</li>\n"
                         + "</#list>\n"
-                        + "<ul>", Defaults.ENCODING.getValue());
+                        + "<ul>", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),

@@ -28,17 +28,17 @@ public class LayoutTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new LayoutImpl(null, Defaults.ENCODING.getValue());
+        new LayoutImpl(null, Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue()).render(), is(""));
+        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue()).render(), is("foo bar baz"));
+        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is("foo bar baz"));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class LayoutTest {
                 + "<#list fruits as fruit>\n"
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
-                + "<ul>", Defaults.ENCODING.getValue());
+                + "<ul>", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
@@ -67,8 +67,13 @@ public class LayoutTest {
 
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
-        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n", Defaults.ENCODING.getValue());
-        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
+        final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration());
+        sut.assignTemplateModel("fragmentOne",
+                new FragmentImpl("foo",
+                        Defaults.ENCODING.getValue(),
+                        new FreeMarker().createConfiguration()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
@@ -78,11 +83,20 @@ public class LayoutTest {
         final Layout sut = new LayoutImpl(
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
-                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
-        sut.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        sut.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        sut.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        sut.assignTemplateModel("fragmentOne", new FragmentImpl(
+                "foo",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
+        sut.assignTemplateModel("fragmentTwo", new FragmentImpl(
+                "bar",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
+        sut.assignTemplateModel("fragmentThree", new FragmentImpl(
+                "baz",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
 
         assertThat(sut.render(), is(
                 "<p>foo</p>\n"
@@ -94,11 +108,11 @@ public class LayoutTest {
     @Test
     public void render_withLayoutInside() {
         final Layout inside = new LayoutImpl(
-                "<p>foobar</p>\n", Defaults.ENCODING.getValue()
+                "<p>foobar</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
-                + "${inside}", Defaults.ENCODING.getValue());
+                + "${inside}", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(
@@ -112,14 +126,23 @@ public class LayoutTest {
         final Layout inside = new LayoutImpl(
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
-                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue()
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
-        inside.assignTemplateModel("fragmentOne", new FragmentImpl("foo", Defaults.ENCODING.getValue()));
-        inside.assignTemplateModel("fragmentTwo", new FragmentImpl("bar", Defaults.ENCODING.getValue()));
-        inside.assignTemplateModel("fragmentThree", new FragmentImpl("baz", Defaults.ENCODING.getValue()));
+        inside.assignTemplateModel("fragmentOne", new FragmentImpl(
+                "foo",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
+        inside.assignTemplateModel("fragmentTwo", new FragmentImpl(
+                "bar",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
+        inside.assignTemplateModel("fragmentThree", new FragmentImpl(
+                "baz",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration()));
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
-                + "${inside}", Defaults.ENCODING.getValue());
+                + "${inside}", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(

@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.file.Path;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -290,7 +291,9 @@ public class FreeMarkerDownTest {
 
     @Test
     public void equalsContract() {
+        final FreeMarker fm = new FreeMarker();
         EqualsVerifier.forClass(FreeMarkerDown.class)
+                .withPrefabValues(Configuration.class, fm.createConfiguration(), fm.createConfiguration())
                 .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
                 .verify();
     }

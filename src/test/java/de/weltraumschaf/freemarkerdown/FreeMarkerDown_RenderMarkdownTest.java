@@ -9,7 +9,6 @@
  *
  * Copyright (C) 2012 "Sven Strittmatter" <weltraumschaf@googlemail.com>
  */
-
 package de.weltraumschaf.freemarkerdown;
 
 import static org.hamcrest.Matchers.is;
@@ -40,7 +39,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue()
+                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
 
         assertThat(sut.render(renderable), is(
@@ -55,7 +54,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue()
+                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -77,7 +76,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
 
         assertThat(sut.render(renderable), is(
@@ -91,7 +90,7 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue()
+                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

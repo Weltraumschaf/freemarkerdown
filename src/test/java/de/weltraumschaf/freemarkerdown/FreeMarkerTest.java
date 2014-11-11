@@ -32,9 +32,10 @@ public class FreeMarkerTest {
 
     @Test
     public void createTemplate_alwaysNewInstance() throws IOException {
-        final Template one = sut.createTemplate("");
-        final Template two = sut.createTemplate("");
-        final Template three = sut.createTemplate("");
+        final FreeMarker fm = new FreeMarker();
+        final Template one = sut.createTemplate("", fm.createConfiguration());
+        final Template two = sut.createTemplate("", fm.createConfiguration());
+        final Template three = sut.createTemplate("", fm.createConfiguration());
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
