@@ -242,6 +242,20 @@ public final class FreeMarkerDown {
     }
 
     /**
+     * Read file into string with encoding.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     * @return never {@code null}
+     * @throws IOException if file can't be read
+     */
+    private String read(final Path template, final String encoding) throws IOException {
+        Validate.notNull(template, "template");
+        Validate.notEmpty(encoding, "encoding");
+        return new String(Files.readAllBytes(template), encoding);
+    }
+
+    /**
      * Factory method.
      *
      * @return never {@code null}, always new instance
@@ -261,16 +275,11 @@ public final class FreeMarkerDown {
     }
 
     /**
-     * Read file into string with encoding.
+     * Factory method to create FreeMarker template configuration.
      *
-     * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
-     * @return never {@code null}
-     * @throws IOException if file can't be read
+     * @return never {@code null}, may return same instance
      */
-    private String read(final Path template, final String encoding) throws IOException {
-        Validate.notNull(template, "template");
-        Validate.notEmpty(encoding, "encoding");
-        return new String(Files.readAllBytes(template), encoding);
+    public static Configuration createConfiguration() {
+        return new FreeMarker().createConfiguration();
     }
 }
