@@ -11,9 +11,9 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import freemarker.template.TemplateException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -28,23 +28,24 @@ public class FragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new FragmentImpl(null, Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+        new FragmentImpl(null, Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
 
     }
+    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is(""));
+        assertThat(new FragmentImpl("", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("foo bar baz", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is("foo bar baz"));
+        assertThat(new FragmentImpl("foo bar baz", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is("foo bar baz"));
     }
 
     @Test
     public void render_notEmptyTemplateWithVariables() throws IOException, TemplateException {
-        final List<String> fruits = new ArrayList<>();
+        final List<String> fruits = Lists.newArrayList();
         fruits.add("bananas");
         fruits.add("apples");
         fruits.add("pears");
@@ -54,7 +55,7 @@ public class FragmentTest {
                         + "<#list fruits as fruit>\n"
                         + " <li>${fruit}</li>\n"
                         + "</#list>\n"
-                        + "<ul>", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+                        + "<ul>", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),

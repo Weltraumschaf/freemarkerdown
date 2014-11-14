@@ -11,13 +11,13 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.List;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -53,7 +53,7 @@ public class BaseTemplateTest {
 
     @Test
     public void render_notEmptyTemplateWithVariables() throws IOException, TemplateException {
-        final List<String> fruits = new ArrayList<>();
+        final List<String> fruits = Lists.newArrayList();
         fruits.add("bananas");
         fruits.add("apples");
         fruits.add("pears");
@@ -77,7 +77,7 @@ public class BaseTemplateTest {
 
     @Test
     public void equalsContract() {
-        final FreeMarker fmd = new FreeMarker();
+        final FreeMarker fmd = FREE_MARKER;
         EqualsVerifier.forClass(BaseTemplateStub.class)
                 .withPrefabValues(Configuration.class, fmd.createConfiguration(), fmd.createConfiguration())
                 .suppress(Warning.NULL_FIELDS)
@@ -102,7 +102,7 @@ public class BaseTemplateTest {
 
     @Test
     public void factory_wrappsIoExceptions() throws IOException {
-        final FreeMarker factory = spy(new FreeMarker());
+        final FreeMarker factory = spy(FREE_MARKER);
         final Throwable ex = new IOException("foobar");
         doThrow(ex).when(factory).createTemplate(anyString(), (Configuration)anyObject());
 
@@ -117,15 +117,16 @@ public class BaseTemplateTest {
             assertThat(err.getMessage(), is("java.io.IOException: foobar"));
         }
     }
+    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
-        final Template template = spy(new FreeMarker().createTemplate("", new FreeMarker().createConfiguration()));
+        final Template template = spy(FREE_MARKER.createTemplate("", FREE_MARKER.createConfiguration()));
         final Throwable ex = new TemplateException("foobar", null);
         doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
-        final FreeMarker factory = spy(new FreeMarker());
+        final FreeMarker factory = spy(FREE_MARKER);
         doReturn(template).when(factory).createTemplate(anyString(), (Configuration)anyObject());
-        
+
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
 
@@ -153,7 +154,7 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
-            super(template, encoding, new FreeMarker().createConfiguration());
+            super(template, encoding, FREE_MARKER.createConfiguration());
         }
 
     }

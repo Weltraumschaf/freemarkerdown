@@ -11,12 +11,12 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Maps;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;
@@ -53,7 +53,7 @@ public class ExamplesTest {
                 + "</#list>");
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
-        final Map<String, String> keyValues = new HashMap<>();
+        final Map<String, String> keyValues = Maps.newHashMap();
         final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
         fmd.register(processor);
 
@@ -235,7 +235,7 @@ public class ExamplesTest {
                 + "\n"
                 + "Lorem ipsum dolor sit amet.\n");
 
-        final Map<String, String> keyValues = new HashMap<>();
+        final Map<String, String> keyValues = Maps.newHashMap();
         final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
         fmd.register(processor);
 

@@ -11,13 +11,13 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +49,7 @@ public final class FreeMarkerDown {
     /**
      * Holds the pre processors keyed by name.
      */
-    private final List<PreProcessor> preProcessors = new ArrayList<>();
+    private final List<PreProcessor> preProcessors = Lists.newArrayList();
 
     /**
      * Used to convert Markdown to HTML.

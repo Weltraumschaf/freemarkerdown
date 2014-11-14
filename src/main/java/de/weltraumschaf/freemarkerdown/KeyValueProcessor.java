@@ -11,8 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.validate.Validate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -62,7 +62,7 @@ final class KeyValueProcessor implements PreProcessor {
     /**
      * Collects warnings during processing.
      */
-    private final Collection<String> warnings = new ArrayList<>();
+    private final Collection<String> warnings = Lists.newArrayList();
 
     /**
      * Dedicated constructor.

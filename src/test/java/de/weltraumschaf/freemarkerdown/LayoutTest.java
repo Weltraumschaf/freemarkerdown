@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,22 +29,23 @@ public class LayoutTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new LayoutImpl(null, Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+        new LayoutImpl(null, Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
     }
+    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is(""));
+        assertThat(new LayoutImpl("", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()).render(), is("foo bar baz"));
+        assertThat(new LayoutImpl("foo bar baz", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is("foo bar baz"));
     }
 
     @Test
     public void render_notEmptyTemplateWithVariables() throws IOException, TemplateException {
-        final List<String> fruits = new ArrayList<>();
+        final List<String> fruits = Lists.newArrayList();
         fruits.add("bananas");
         fruits.add("apples");
         fruits.add("pears");
@@ -53,7 +55,7 @@ public class LayoutTest {
                 + "<#list fruits as fruit>\n"
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
-                + "<ul>", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+                + "<ul>", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
@@ -69,11 +71,11 @@ public class LayoutTest {
     public void render_withOneFragement() throws IOException, TemplateException {
         final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration());
+                FREE_MARKER.createConfiguration());
         sut.assignTemplateModel("fragmentOne",
                 new FragmentImpl("foo",
                         Defaults.ENCODING.getValue(),
-                        new FreeMarker().createConfiguration()));
+                        FREE_MARKER.createConfiguration()));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
@@ -83,20 +85,20 @@ public class LayoutTest {
         final Layout sut = new LayoutImpl(
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
-                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()
         );
         sut.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
         sut.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
         sut.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
 
         assertThat(sut.render(), is(
                 "<p>foo</p>\n"
@@ -108,11 +110,11 @@ public class LayoutTest {
     @Test
     public void render_withLayoutInside() {
         final Layout inside = new LayoutImpl(
-                "<p>foobar</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                "<p>foobar</p>\n", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()
         );
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
-                + "${inside}", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+                + "${inside}", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(
@@ -126,23 +128,23 @@ public class LayoutTest {
         final Layout inside = new LayoutImpl(
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
-                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                + "<p>${fragmentThree}</p>\n", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()
         );
         inside.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
         inside.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
         inside.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
                 Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration()));
+                FREE_MARKER.createConfiguration()));
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
-                + "${inside}", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration());
+                + "${inside}", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(

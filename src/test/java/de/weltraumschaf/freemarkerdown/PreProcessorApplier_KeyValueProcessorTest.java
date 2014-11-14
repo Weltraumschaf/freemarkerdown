@@ -11,7 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
-import java.util.HashMap;
+import de.weltraumschaf.commons.guava.Maps;
 import java.util.Map;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;
@@ -27,7 +27,7 @@ import org.junit.Test;
 public class PreProcessorApplier_KeyValueProcessorTest {
 
     private final PreProcessorApplier sut = new PreProcessorApplierImpl();
-    private final Map<String, String> result = new HashMap<>();
+    private final Map<String, String> result = Maps.newHashMap();
     private final PreProcessor processor = new KeyValueProcessor(result);
 
     @Test

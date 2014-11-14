@@ -12,16 +12,14 @@
 
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Maps;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link PreProcessors}.
@@ -49,9 +47,9 @@ public class PreProcessorsTest {
 
     @Test
     public void createKeyValueProcessor_alwaysNewInstance() {
-        final PreProcessor one = PreProcessors.createKeyValueProcessor(new HashMap<String, String>());
-        final PreProcessor two = PreProcessors.createKeyValueProcessor(new HashMap<String, String>());
-        final PreProcessor three = PreProcessors.createKeyValueProcessor(new HashMap<String, String>());
+        final PreProcessor one = PreProcessors.createKeyValueProcessor(Maps.<String, String>newHashMap());
+        final PreProcessor two = PreProcessors.createKeyValueProcessor(Maps.<String, String>newHashMap());
+        final PreProcessor three = PreProcessors.createKeyValueProcessor(Maps.<String, String>newHashMap());
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
