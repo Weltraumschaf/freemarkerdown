@@ -13,6 +13,7 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
+import freemarker.template.Configuration;
 import java.util.Map;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -28,43 +29,44 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     /**
      * Holds the layout fragments.
      */
-<span class="fc" id="L31">    private final Map&lt;String, TemplateModel&gt; fragments = Maps.newHashMap();</span>
+<span class="fc" id="L32">    private final Map&lt;String, TemplateModel&gt; fragments = Maps.newHashMap();</span>
 
     /**
      * Dedicated constructor.
      *
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
+     * @param freeMarkerConfig must not be {@code null}
      */
-    LayoutImpl(final String template, final String encoding) {
-<span class="fc" id="L40">        super(template, encoding);</span>
-<span class="fc" id="L41">    }</span>
+    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig) {
+<span class="fc" id="L42">        super(template, encoding, freeMarkerConfig);</span>
+<span class="fc" id="L43">    }</span>
 
     @Override
     public void assignVariable(final String name, final Object value) {
-<span class="fc" id="L45">        super.assignVariable(name, value);</span>
+<span class="fc" id="L47">        super.assignVariable(name, value);</span>
 
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        for (final TemplateModel subTemplate : fragments.values()) {</span>
-<span class="fc" id="L48">            subTemplate.assignVariable(name, value);</span>
-<span class="fc" id="L49">        }</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        for (final TemplateModel subTemplate : fragments.values()) {</span>
+<span class="fc" id="L50">            subTemplate.assignVariable(name, value);</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
 
     @Override
-    public void assignFragment(final String name, final TemplateModel template) {
-<span class="fc" id="L54">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(template, &quot;template&quot;));</span>
+    public void assignTemplateModel(final String name, final TemplateModel template) {
+<span class="fc" id="L56">        fragments.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(template, &quot;template&quot;));</span>
 
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Object&gt; variable : getTemplateVariables().entrySet()) {</span>
-<span class="fc" id="L57">            template.assignVariable(variable.getKey(), variable.getValue());</span>
-<span class="fc" id="L58">        }</span>
-<span class="fc" id="L59">    }</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Object&gt; variable : getTemplateVariables().entrySet()) {</span>
+<span class="fc" id="L59">            template.assignVariable(variable.getKey(), variable.getValue());</span>
+<span class="fc" id="L60">        }</span>
+<span class="fc" id="L61">    }</span>
 
     @Override
     public String render() {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (final Map.Entry&lt;String, TemplateModel&gt; fragment : fragments.entrySet()) {</span>
-<span class="fc" id="L64">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
-<span class="fc" id="L65">        }</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (final Map.Entry&lt;String, TemplateModel&gt; fragment : fragments.entrySet()) {</span>
+<span class="fc" id="L66">            assignVariable(fragment.getKey(), fragment.getValue().render());</span>
+<span class="fc" id="L67">        }</span>
 
-<span class="fc" id="L67">        return super.render();</span>
+<span class="fc" id="L69">        return super.render();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
