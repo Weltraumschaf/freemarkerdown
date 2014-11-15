@@ -12,8 +12,10 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
+import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
 import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +23,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
@@ -52,10 +55,15 @@ public final class FreeMarkerDown {
     private final List<PreProcessor> preProcessors = Lists.newArrayList();
 
     /**
+     * Holds interceptors.
+     */
+    private final Map<ExecutionPoint, Collection<Interceptor>> interceptors = Maps.newHashMap();
+
+    /**
      * Used to convert Markdown to HTML.
      * <p>
-     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)}
-     * because not a value, but service object.
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)} because not a value, but service
+     * object.
      * </p>
      */
     private final PegDownProcessor markdown;
@@ -99,6 +107,23 @@ public final class FreeMarkerDown {
     }
 
     /**
+     * Registers an interceptor for an execution point.
+     *
+     * @param interceptor must not be {@code null}
+     * @param point must not be {@code null}
+     */
+    public void register(final Interceptor interceptor, final ExecutionPoint point) {
+        Validate.notNull(interceptor, "interceptor");
+        Validate.notNull(point, "point");
+
+        if (!interceptors.containsKey(point)) {
+            interceptors.put(point, Lists.<Interceptor>newArrayList());
+        }
+
+        interceptors.get(point).add(interceptor);
+    }
+
+    /**
      * Get a copy of the registered pre processors.
      *
      * @return never {@code null}, immutable
@@ -114,23 +139,85 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}
      */
-    public String render(final TemplateModel template, final Options ... options) {
+    public String render(final TemplateModel template, final Options... options) {
         Validate.notNull(template, "template");
         final Set<Options> opt = options == null
                 ? Collections.<Options>emptySet()
                 : Sets.newHashSet(options);
 
-        for (final PreProcessor preProcessor : preProcessors) {
-            template.apply(preProcessor);
-        }
-
-        final String rendered = template.render();
+        preprocess(template);
+        String rendered = render(template);
 
         if (opt.contains(Options.WITHOUT_MARKDOWN)) {
             return rendered;
         }
 
-        return markdown.markdownToHtml(rendered);
+        String html = convertMarkdown(template, rendered);
+
+        return html;
+    }
+
+    /**
+     * Execute all registered preprocessors.
+     *
+     * @param template must not be {@code null}
+     */
+    private void preprocess(final TemplateModel template) {
+        Validate.notNull(template, "template");
+
+        intercept(ExecutionPoint.BEFORE_PREPROCESSING, template);
+
+        for (final PreProcessor preProcessor : preProcessors) {
+            template.apply(preProcessor);
+        }
+
+        intercept(ExecutionPoint.AFTER_PREPROCESSING, template);
+    }
+
+    /**
+     * Render FreeMarker templates.
+     *
+     * @param template must not be {@code null}
+     * @return never {@code null}
+     */
+    private String render(final TemplateModel template) {
+        Validate.notNull(template, "template");
+
+        intercept(ExecutionPoint.BEFORE_RENDERING, template);
+        final String rendered = template.render();
+        intercept(ExecutionPoint.AFTER_RENDERING, template, rendered);
+
+        return rendered == null ? "" : rendered;
+    }
+
+    /**
+     * Markdown conversion.
+     *
+     * @param template must not be {@code null}
+     * @param rendered must not be {@code null}
+     * @return
+     */
+    private String convertMarkdown(final TemplateModel template, final String rendered) {
+        Validate.notNull(template, "template");
+        Validate.notNull(rendered, "rendered");
+
+        intercept(ExecutionPoint.BEFORE_MARKDOWN, template);
+        final String html = markdown.markdownToHtml(rendered);
+        intercept(ExecutionPoint.AFTER_MARKDOWN, template, html);
+
+        return html;
+    }
+
+    private void intercept(final ExecutionPoint point, final TemplateModel template) {
+        intercept(point, template, "");
+    }
+
+    private void intercept(final ExecutionPoint point, final TemplateModel template, final String content) {
+        if (interceptors.containsKey(point)) {
+            for (final Interceptor interceptor : interceptors.get(point)) {
+                interceptor.intercept(template, content);
+            }
+        }
     }
 
     @Override
