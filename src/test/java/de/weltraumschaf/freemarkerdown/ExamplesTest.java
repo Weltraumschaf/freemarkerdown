@@ -204,10 +204,10 @@ public class ExamplesTest {
                 + "\n"
                 + "<#list sequence as item>\n"
                 + "- ${item}\n"
-                + "</#list>");
+                + "</#list>", Options.WITHOUT_MARKDOWN);
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
-        assertThat(fmd.render(template, Options.WITHOUT_MARKDOWN), is(
+        assertThat(fmd.render(template), is(
                 "# A Title\n"
                 + "\n"
                 + "Lorem ipsum dolor sit amet.\n"

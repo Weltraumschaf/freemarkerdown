@@ -37,10 +37,6 @@
         <dependency.jcip.annotations>1.0-1</dependency.jcip.annotations>
     </properties>
 
-    <prerequisites>
-        <maven>${maven.version}</maven>
-    </prerequisites>
-
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/Weltraumschaf/freemarkerdown/issues</url>

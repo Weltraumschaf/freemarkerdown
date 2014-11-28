@@ -136,19 +136,14 @@ public final class FreeMarkerDown {
      * Render the given template.
      *
      * @param template must not be {@code null}
-     * @param options optional options
      * @return never {@code null}
      */
-    public String render(final TemplateModel template, final Options... options) {
+    public String render(final TemplateModel template) {
         Validate.notNull(template, "template");
-        final Set<Options> opt = options == null
-                ? Collections.<Options>emptySet()
-                : Sets.newHashSet(options);
-
         preprocess(template);
-        String rendered = render(template);
+        String rendered = doRender(template);
 
-        if (opt.contains(Options.WITHOUT_MARKDOWN)) {
+        if (template.hasOption(Options.WITHOUT_MARKDOWN)) {
             return rendered;
         }
 
@@ -180,7 +175,7 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}
      */
-    private String render(final TemplateModel template) {
+    private String doRender(final TemplateModel template) {
         Validate.notNull(template, "template");
 
         intercept(ExecutionPoint.BEFORE_RENDERING, template);
@@ -246,8 +241,8 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(final String template) {
-        return createFragemnt(template, DEFAULT_ENCODING);
+    public Fragment createFragemnt(final String template, final Options... options) {
+        return createFragemnt(template, DEFAULT_ENCODING, options);
     }
 
     /**
@@ -255,21 +250,23 @@ public final class FreeMarkerDown {
      *
      * @param template must not be {@code null}
      * @param encoding or empty
+     * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(final String template, final String encoding) {
-        return new FragmentImpl(template, encoding, freeMarkerConfig);
+    public Fragment createFragemnt(final String template, final String encoding, final Options... options) {
+        return new FragmentImpl(template, encoding, freeMarkerConfig, options);
     }
 
     /**
      * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(final Path template) throws IOException {
-        return createFragemnt(template, DEFAULT_ENCODING);
+    public Fragment createFragemnt(final Path template, final Options... options) throws IOException {
+        return createFragemnt(template, DEFAULT_ENCODING, options);
     }
 
     /**
@@ -277,21 +274,23 @@ public final class FreeMarkerDown {
      *
      * @param template must not be {@code null}
      * @param encoding or empty
+     * @param options optional options
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(final Path template, final String encoding) throws IOException {
-        return createFragemnt(read(template, encoding), encoding);
+    public Fragment createFragemnt(final Path template, final String encoding, final Options... options) throws IOException {
+        return createFragemnt(read(template, encoding), encoding, options);
     }
 
     /**
      * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(final String template) {
-        return createLayout(template, DEFAULT_ENCODING);
+    public Layout createLayout(final String template, final Options... options) {
+        return createLayout(template, DEFAULT_ENCODING, options);
     }
 
     /**
@@ -299,21 +298,23 @@ public final class FreeMarkerDown {
      *
      * @param template must not be {@code null}
      * @param encoding or empty
+     * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(final String template, final String encoding) {
-        return new LayoutImpl(template, encoding, freeMarkerConfig);
+    public Layout createLayout(final String template, final String encoding, final Options... options) {
+        return new LayoutImpl(template, encoding, freeMarkerConfig, options);
     }
 
     /**
      * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template) throws IOException {
-        return createLayout(template, DEFAULT_ENCODING);
+    public Layout createLayout(final Path template, final Options... options) throws IOException {
+        return createLayout(template, DEFAULT_ENCODING, options);
     }
 
     /**
@@ -321,11 +322,12 @@ public final class FreeMarkerDown {
      *
      * @param template must not be {@code null}
      * @param encoding or empty
+     * @param options optional options
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template, final String encoding) throws IOException {
-        return createLayout(read(template, encoding), encoding);
+    public Layout createLayout(final Path template, final String encoding, final Options... options) throws IOException {
+        return createLayout(read(template, encoding), encoding, options);
     }
 
     /**

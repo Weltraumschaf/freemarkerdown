@@ -53,4 +53,5 @@ public interface TemplateModel {
      */
     void assignVariable(final String name, final Object value);
 
+    boolean hasOption(final Options option);
 }
