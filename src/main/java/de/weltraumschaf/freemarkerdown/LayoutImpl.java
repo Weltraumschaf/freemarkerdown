@@ -44,21 +44,9 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
-    public void assignVariable(final String name, final Object value) {
-        super.assignVariable(name, value);
-
-        for (final TemplateModel subTemplate : fragments.values()) {
-            subTemplate.assignVariable(name, value);
-        }
-    }
-
-    @Override
     public void assignTemplateModel(final String name, final TemplateModel template) {
+        ((BaseTemplate)template).setParent(this);
         fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(template, "template"));
-
-        for (final Map.Entry<String, Object> variable : getTemplateVariables().entrySet()) {
-            template.assignVariable(variable.getKey(), variable.getValue());
-        }
     }
 
     @Override

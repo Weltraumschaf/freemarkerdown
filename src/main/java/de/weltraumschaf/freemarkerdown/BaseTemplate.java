@@ -21,7 +21,6 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -37,7 +36,7 @@ abstract class BaseTemplate implements TemplateModel {
     /**
      * Holds the assigned variables.
      */
-    private final Variables templateVariables = new Variables();
+    private final VariableScope templateVariables = new VariableScope();
 
     /**
      * Rendered template as original.
@@ -127,17 +126,12 @@ abstract class BaseTemplate implements TemplateModel {
         return preProcessedTemplate;
     }
 
-    /**
-     * Get all assigned variables.
-     *
-     * @return never {@code null}, unmodifiable
-     */
-    final Map<String, Object> getTemplateVariables() {
-        return templateVariables.getVariables();
+    final void setParent(final BaseTemplate parent) {
+        templateVariables.setParent(parent.templateVariables);
     }
 
     @Override
-    public void assignVariable(final String name, final Object value) {
+    public final void assignVariable(final String name, final Object value) {
         templateVariables.assignVariable(name, value);
     }
 
@@ -148,7 +142,7 @@ abstract class BaseTemplate implements TemplateModel {
         try {
             factory.createTemplate(preProcessedTemplate, freeMarkerConfig)
                     .process(
-                            templateVariables.getVariables(),
+                            templateVariables.getData(),
                             new OutputStreamWriter(out, encoding));
 
             return out.toString(encoding);

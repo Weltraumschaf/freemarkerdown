@@ -34,6 +34,8 @@ import static org.mockito.Mockito.*;
  */
 public class BaseTemplateTest {
 
+    private static final FreeMarker FREE_MARKER = new FreeMarker();
+
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
         new BaseTemplateStub(null, Defaults.ENCODING.getValue());
@@ -78,8 +80,11 @@ public class BaseTemplateTest {
     @Test
     public void equalsContract() {
         final FreeMarker fmd = FREE_MARKER;
+        final VariableScope variableScope = new VariableScope();
+        variableScope.assignVariable("foo", "bar");
         EqualsVerifier.forClass(BaseTemplateStub.class)
                 .withPrefabValues(Configuration.class, fmd.createConfiguration(), fmd.createConfiguration())
+                .withPrefabValues(VariableScope.class, variableScope, new VariableScope())
                 .suppress(Warning.NULL_FIELDS)
                 .verify();
     }
@@ -104,7 +109,7 @@ public class BaseTemplateTest {
     public void factory_wrappsIoExceptions() throws IOException {
         final FreeMarker factory = spy(FREE_MARKER);
         final Throwable ex = new IOException("foobar");
-        doThrow(ex).when(factory).createTemplate(anyString(), (Configuration)anyObject());
+        doThrow(ex).when(factory).createTemplate(anyString(), (Configuration) anyObject());
 
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
@@ -117,7 +122,6 @@ public class BaseTemplateTest {
             assertThat(err.getMessage(), is("java.io.IOException: foobar"));
         }
     }
-    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
@@ -125,7 +129,7 @@ public class BaseTemplateTest {
         final Throwable ex = new TemplateException("foobar", null);
         doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
         final FreeMarker factory = spy(FREE_MARKER);
-        doReturn(template).when(factory).createTemplate(anyString(), (Configuration)anyObject());
+        doReturn(template).when(factory).createTemplate(anyString(), (Configuration) anyObject());
 
         final BaseTemplate sut = new BaseTemplateStub("", "utf-8");
         sut.setFactory(factory);
@@ -145,10 +149,16 @@ public class BaseTemplateTest {
 
         assertThat(sut.toString(), is(
                 "BaseTemplate{"
-                + "templateVariables=Variables{templateVariables={}}, "
+                    + "templateVariables=VariableScope{"
+                        + "parent=null, "
+                        + "data=Variables{"
+                            + "vars={}"
+                        + "}"
+                    + "}, "
                 + "template=foobar, "
                 + "encoding=utf-8, "
-                + "preProcessedTemplate=foobar}"));
+                + "preProcessedTemplate=foobar"
+                + "}"));
     }
 
     private static final class BaseTemplateStub extends BaseTemplate {

@@ -70,8 +70,8 @@ public class VariablesTest {
 
     @Test
     public void toStringContainsVariables() {
-        assertThat(sut.toString(), is("Variables{templateVariables={}}"));
+        assertThat(sut.toString(), is("Variables{vars={}}"));
         sut.assignVariable("foo", "bar");
-        assertThat(sut.toString(), is("Variables{templateVariables={foo=bar}}"));
+        assertThat(sut.toString(), is("Variables{vars={foo=bar}}"));
     }
 }

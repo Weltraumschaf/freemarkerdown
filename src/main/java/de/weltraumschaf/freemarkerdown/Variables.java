@@ -29,16 +29,16 @@ final class Variables {
     /**
      * Holds the assigned variables.
      */
-    private final Map<String, Object> templateVariables = Maps.newHashMap();
+    private final Map<String, Object> vars = Maps.newHashMap();
 
     /**
-     * Assign any object as template variable.
+     * Assign any object as variable.
      *
      * @param name must not be {@code null}
      * @param value must not be {@code null}
      */
     void assignVariable(final String name, final Object value) {
-        templateVariables.put(Validate.notEmpty(name, "name"), Validate.notNull(value, "value"));
+        vars.put(Validate.notEmpty(name, "name"), Validate.notNull(value, "value"));
     }
 
     /**
@@ -47,12 +47,12 @@ final class Variables {
      * @return never {@code null}, unmodifiable
      */
     Map<String, Object> getVariables() {
-        return Collections.unmodifiableMap(templateVariables);
+        return Collections.unmodifiableMap(vars);
     }
 
     @Override
     public int hashCode() {
-        return templateVariables.hashCode();
+        return vars.hashCode();
     }
 
     @Override
@@ -62,12 +62,12 @@ final class Variables {
         }
 
         final Variables other = (Variables) obj;
-        return templateVariables.equals(other.templateVariables);
+        return vars.equals(other.vars);
     }
 
     @Override
     public String toString() {
-        return "Variables{" + "templateVariables=" + templateVariables + '}';
+        return "Variables{" + "vars=" + vars + '}';
     }
 
 }
