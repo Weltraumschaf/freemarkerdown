@@ -118,8 +118,8 @@ public final class FreeMarkerDown {
      */
     public String render(final TemplateModel template) {
         Validate.notNull(template, "template");
-        preprocess(template);
-        String rendered = doRender(template);
+        preprocessTemplate(template);
+        String rendered = renderTemplate(template);
 
         if (template.hasOption(Options.WITHOUT_MARKDOWN)) {
             return rendered;
@@ -135,7 +135,7 @@ public final class FreeMarkerDown {
      *
      * @param template must not be {@code null}
      */
-    private void preprocess(final TemplateModel template) {
+    private void preprocessTemplate(final TemplateModel template) {
         Validate.notNull(template, "template");
 
         for (final PreProcessor preProcessor : preProcessors) {
@@ -149,7 +149,7 @@ public final class FreeMarkerDown {
      * @param template must not be {@code null}
      * @return never {@code null}
      */
-    private String doRender(final TemplateModel template) {
+    private String renderTemplate(final TemplateModel template) {
         Validate.notNull(template, "template");
 
         final String rendered = template.render();
