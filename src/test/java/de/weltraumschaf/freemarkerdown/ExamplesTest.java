@@ -13,8 +13,10 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
@@ -317,5 +319,51 @@ public class ExamplesTest {
                     + "----"));
         }
         // END SNIPPET: handlingTemplateErrors
+    }
+
+    @Test
+    public void threeModelsCascadedTwoOfThemWithoutMarkdown() throws URISyntaxException, UnsupportedEncodingException, IOException {
+        // START SNIPPET: threeModelsCascadedTwoOfThemWithoutMarkdown
+        final String BASE = "/de/weltraumschaf/freemarkerdown/";
+        final String ENCODING = "utf-8";
+
+        final FreeMarkerDown fmd = FreeMarkerDown.create();
+
+        final Path contentPath = Paths.get(getClass().getResource(BASE + "2014-05-30T21.29.20_This-is-the-First-Post.md").toURI());
+        final Fragment content = fmd.createFragemnt(contentPath, ENCODING);
+
+        final Path postPath = Paths.get(getClass().getResource(BASE + "post.ftl").toURI());
+        final Layout post = fmd.createLayout(postPath, ENCODING, Options.WITHOUT_MARKDOWN);
+        post.assignTemplateModel("fdm_post_content", content);
+
+        final Path layoutPath = Paths.get(getClass().getResource(BASE + "layout.ftl").toURI());
+        final Layout layout = fmd.createLayout(layoutPath, ENCODING, Options.WITHOUT_MARKDOWN);
+        layout.assignVariable("fdm_config_name", "NAME");
+        layout.assignVariable("fdm_config_description", "DESCRIPTION");
+        layout.assignTemplateModel("fdm_layout_content", post);
+
+        final Map<String, String> keyValues = Maps.newHashMap();
+        final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
+        fmd.register(processor);
+
+        assertThat(fmd.render(layout), is(
+                "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "    <body>\n"
+                + "        <h1>NAME</h1>\n"
+                + "        <h2>DESCRIPTION</h2>\n"
+                + "\n"
+                + "        <article>\n"
+                + "    \n"
+                + "\n"
+                + "### This is the First Post\n\nLorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  "
+                + "nonumy eirmod\ntempor invidunt ut labore et dolore magna aliquyam.\n"
+                + "\n"
+                + "Lorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  nonumy eirmod\ntempor invidunt "
+                + "ut labore et dolore magna aliquyam.\n"
+                + "</article>\n"
+                + "    </body>\n"
+                + "</html>"));
+        // END SNIPPET: threeModelsCascadedTwoOfThemWithoutMarkdown
     }
 }
