@@ -11,6 +11,7 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import java.util.Collections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -39,7 +40,9 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Collections.<Options>emptySet()
         );
 
         assertThat(sut.render(renderable), is(
@@ -54,7 +57,9 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Collections.<Options>emptySet()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -76,7 +81,10 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                + "<?bar snafu ?> bla blub",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Collections.<Options>emptySet()
         );
 
         assertThat(sut.render(renderable), is(
@@ -90,7 +98,10 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "foo bar baz\n"
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
-                + "<?bar snafu ?> bla blub", Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration()
+                + "<?bar snafu ?> bla blub",
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Collections.<Options>emptySet()
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

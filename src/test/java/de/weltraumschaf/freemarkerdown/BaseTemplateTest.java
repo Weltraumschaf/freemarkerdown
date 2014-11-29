@@ -18,6 +18,7 @@ import freemarker.template.TemplateException;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.List;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -164,7 +165,11 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
-            super(template, encoding, FREE_MARKER.createConfiguration());
+            super(
+                    template,
+                    encoding,
+                    FREE_MARKER.createConfiguration(),
+                    Collections.<Options>emptySet());
         }
 
     }

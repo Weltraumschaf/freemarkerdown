@@ -12,7 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
-import de.weltraumschaf.commons.guava.Maps;
+import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import java.io.IOException;
@@ -21,10 +21,8 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import net.jcip.annotations.NotThreadSafe;
-import org.omg.PortableInterceptor.Interceptor;
 import org.pegdown.PegDownProcessor;
 
 /**
@@ -197,6 +195,7 @@ public final class FreeMarkerDown {
      * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
+     * @param options optional options
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template, final Options... options) {
@@ -212,7 +211,13 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template, final String encoding, final Options... options) {
-        return new FragmentImpl(template, encoding, freeMarkerConfig, options);
+        return new FragmentImpl(
+                template,
+                encoding,
+                freeMarkerConfig,
+                null == options
+                        ? Collections.<Options>emptySet()
+                        : Sets.newHashSet(options));
     }
 
     /**
@@ -260,7 +265,13 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Layout createLayout(final String template, final String encoding, final Options... options) {
-        return new LayoutImpl(template, encoding, freeMarkerConfig, options);
+        return new LayoutImpl(
+                template,
+                encoding,
+                freeMarkerConfig,
+                null == options
+                        ? Collections.<Options>emptySet()
+                        : Sets.newHashSet(options));
     }
 
     /**

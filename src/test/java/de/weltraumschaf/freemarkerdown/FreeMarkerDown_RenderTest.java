@@ -11,6 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Sets;
+import java.util.Collections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -39,7 +41,9 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration(), Options.WITHOUT_MARKDOWN
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
 
         assertThat(sut.render(renderable), is(
@@ -58,7 +62,9 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(), new FreeMarker().createConfiguration(), Options.WITHOUT_MARKDOWN
+                Defaults.ENCODING.getValue(),
+                new FreeMarker().createConfiguration(),
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -85,7 +91,7 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Options.WITHOUT_MARKDOWN
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
 
         assertThat(sut.render(renderable), is(
@@ -106,7 +112,7 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Options.WITHOUT_MARKDOWN
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

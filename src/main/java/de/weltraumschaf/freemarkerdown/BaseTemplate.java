@@ -12,7 +12,6 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Objects;
-import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -20,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Collections;
 import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
 
@@ -52,6 +50,10 @@ abstract class BaseTemplate implements TemplateModel {
      * Configures FreeMarker.
      */
     private final Configuration freeMarkerConfig;
+
+    /**
+     * Rendering options.
+     */
     private final Set<Options> options;
 
     /**
@@ -80,17 +82,15 @@ abstract class BaseTemplate implements TemplateModel {
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null} or empty
-     * @param options optional options
+     * @param options must not be {@code null}
      */
-    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Options... options) {
+    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
         super();
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
-        this.options = options == null
-                ? Collections.<Options>emptySet()
-                : Sets.newHashSet(options);
+        this.options = Validate.notNull(options, "options");
     }
 
     @Override

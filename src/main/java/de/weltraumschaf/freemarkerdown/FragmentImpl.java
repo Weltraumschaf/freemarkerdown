@@ -13,6 +13,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import freemarker.template.Configuration;
+import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -30,9 +31,9 @@ final class FragmentImpl extends BaseTemplate implements Fragment {
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null}
-     * @param options optional options
+     * @param options must not be {@code null}
      */
-    public FragmentImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Options... options) {
+    public FragmentImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
         super(template, encoding, freeMarkerConfig, options);
     }
 }

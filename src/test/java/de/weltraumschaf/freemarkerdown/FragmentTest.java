@@ -14,6 +14,7 @@ package de.weltraumschaf.freemarkerdown;
 import de.weltraumschaf.commons.guava.Lists;
 import freemarker.template.TemplateException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -28,19 +29,35 @@ public class FragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new FragmentImpl(null, Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
+        new FragmentImpl(
+                null,
+                Defaults.ENCODING.getValue(),
+                FREE_MARKER.createConfiguration(),
+                Collections.<Options>emptySet());
 
     }
     private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is(""));
+        assertThat(
+                new FragmentImpl(
+                        "",
+                        Defaults.ENCODING.getValue(),
+                        FREE_MARKER.createConfiguration(),
+                        Collections.<Options>emptySet()).render(),
+                is(""));
     }
 
     @Test
     public void render_notEmptyTemplate() throws IOException, TemplateException {
-        assertThat(new FragmentImpl("foo bar baz", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration()).render(), is("foo bar baz"));
+        assertThat(
+                new FragmentImpl(
+                        "foo bar baz",
+                        Defaults.ENCODING.getValue(),
+                        FREE_MARKER.createConfiguration(),
+                        Collections.<Options>emptySet()).render(),
+                is("foo bar baz"));
     }
 
     @Test
@@ -51,20 +68,23 @@ public class FragmentTest {
         fruits.add("pears");
         final Fragment sut = new FragmentImpl(
                 "<p>And BTW we have these fruits:\n"
-                        + "<ul>\n"
-                        + "<#list fruits as fruit>\n"
-                        + " <li>${fruit}</li>\n"
-                        + "</#list>\n"
-                        + "<ul>", Defaults.ENCODING.getValue(), FREE_MARKER.createConfiguration());
+                + "<ul>\n"
+                + "<#list fruits as fruit>\n"
+                + " <li>${fruit}</li>\n"
+                + "</#list>\n"
+                + "<ul>",
+                Defaults.ENCODING.getValue(),
+                FREE_MARKER.createConfiguration(),
+                Collections.<Options>emptySet());
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
-            is("<p>And BTW we have these fruits:\n"
-                + "<ul>\n"
-                + " <li>bananas</li>\n"
-                + " <li>apples</li>\n"
-                + " <li>pears</li>\n"
-                + "<ul>"));
+                is("<p>And BTW we have these fruits:\n"
+                        + "<ul>\n"
+                        + " <li>bananas</li>\n"
+                        + " <li>apples</li>\n"
+                        + " <li>pears</li>\n"
+                        + "<ul>"));
     }
 
 }

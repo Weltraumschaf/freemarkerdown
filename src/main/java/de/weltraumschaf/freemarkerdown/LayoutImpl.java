@@ -15,6 +15,7 @@ import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import freemarker.template.Configuration;
 import java.util.Map;
+import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -37,9 +38,9 @@ final class LayoutImpl extends BaseTemplate implements Layout {
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null}
-     * @param options optional options
+     * @param options must not be {@code null}
      */
-    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Options... options) {
+    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
         super(template, encoding, freeMarkerConfig, options);
     }
 
