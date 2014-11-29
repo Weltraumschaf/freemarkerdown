@@ -340,22 +340,22 @@ public class ExamplesTest {
                 + "tempor invidunt ut labore et dolore magna aliquyam.");
 
         final Layout post = fmd.createLayout("<article>\n"
-                + "    ${fdm_post_content}\n"
+                + "    ${content}\n"
                 + "</article>", Options.WITHOUT_MARKDOWN);
-        post.assignTemplateModel("fdm_post_content", content);
+        post.assignTemplateModel("content", content);
 
         final Layout layout = fmd.createLayout("<!DOCTYPE html>\n"
                 + "<html>\n"
                 + "    <body>\n"
-                + "        <h1>${fdm_config_name}</h1>\n"
-                + "        <h2>${fdm_config_description}</h2>\n"
+                + "        <h1>${name}</h1>\n"
+                + "        <h2>${description}</h2>\n"
                 + "\n"
-                + "        ${fdm_layout_content}\n"
+                + "        ${content}\n"
                 + "    </body>\n"
                 + "</html>", Options.WITHOUT_MARKDOWN);
-        layout.assignVariable("fdm_config_name", "NAME");
-        layout.assignVariable("fdm_config_description", "DESCRIPTION");
-        layout.assignTemplateModel("fdm_layout_content", post);
+        layout.assignVariable("name", "NAME");
+        layout.assignVariable("description", "DESCRIPTION");
+        layout.assignTemplateModel("content", post);
 
         final Map<String, String> keyValues = Maps.newHashMap();
         final PreProcessor processor = PreProcessors.createKeyValueProcessor(keyValues);
