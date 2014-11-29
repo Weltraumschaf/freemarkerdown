@@ -13,9 +13,7 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Maps;
-import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
-import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
 import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,8 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
+import org.omg.PortableInterceptor.Interceptor;
 import org.pegdown.PegDownProcessor;
 
 /**
@@ -53,11 +51,6 @@ public final class FreeMarkerDown {
      * Holds the pre processors keyed by name.
      */
     private final List<PreProcessor> preProcessors = Lists.newArrayList();
-
-    /**
-     * Holds interceptors.
-     */
-    private final Map<ExecutionPoint, Collection<Interceptor>> interceptors = Maps.newHashMap();
 
     /**
      * Used to convert Markdown to HTML.
@@ -106,22 +99,7 @@ public final class FreeMarkerDown {
         preProcessors.add(processor);
     }
 
-    /**
-     * Registers an interceptor for an execution point.
-     *
-     * @param interceptor must not be {@code null}
-     * @param point must not be {@code null}
-     */
-    public void register(final Interceptor interceptor, final ExecutionPoint point) {
-        Validate.notNull(interceptor, "interceptor");
-        Validate.notNull(point, "point");
 
-        if (!interceptors.containsKey(point)) {
-            interceptors.put(point, Lists.<Interceptor>newArrayList());
-        }
-
-        interceptors.get(point).add(interceptor);
-    }
 
     /**
      * Get a copy of the registered pre processors.
@@ -160,13 +138,9 @@ public final class FreeMarkerDown {
     private void preprocess(final TemplateModel template) {
         Validate.notNull(template, "template");
 
-        intercept(ExecutionPoint.BEFORE_PREPROCESSING, template);
-
         for (final PreProcessor preProcessor : preProcessors) {
             template.apply(preProcessor);
         }
-
-        intercept(ExecutionPoint.AFTER_PREPROCESSING, template);
     }
 
     /**
@@ -178,9 +152,7 @@ public final class FreeMarkerDown {
     private String doRender(final TemplateModel template) {
         Validate.notNull(template, "template");
 
-        intercept(ExecutionPoint.BEFORE_RENDERING, template);
         final String rendered = template.render();
-        intercept(ExecutionPoint.AFTER_RENDERING, template, rendered);
 
         return rendered == null ? "" : rendered;
     }
@@ -196,23 +168,9 @@ public final class FreeMarkerDown {
         Validate.notNull(template, "template");
         Validate.notNull(rendered, "rendered");
 
-        intercept(ExecutionPoint.BEFORE_MARKDOWN, template);
         final String html = markdown.markdownToHtml(rendered);
-        intercept(ExecutionPoint.AFTER_MARKDOWN, template, html);
 
         return html;
-    }
-
-    private void intercept(final ExecutionPoint point, final TemplateModel template) {
-        intercept(point, template, "");
-    }
-
-    private void intercept(final ExecutionPoint point, final TemplateModel template, final String content) {
-        if (interceptors.containsKey(point)) {
-            for (final Interceptor interceptor : interceptors.get(point)) {
-                interceptor.intercept(template, content);
-            }
-        }
     }
 
     @Override
