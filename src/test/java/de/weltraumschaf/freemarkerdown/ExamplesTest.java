@@ -324,20 +324,35 @@ public class ExamplesTest {
     @Test
     public void threeModelsCascadedTwoOfThemWithoutMarkdown() throws URISyntaxException, UnsupportedEncodingException, IOException {
         // START SNIPPET: threeModelsCascadedTwoOfThemWithoutMarkdown
-        final String BASE = "/de/weltraumschaf/freemarkerdown/";
-        final String ENCODING = "utf-8";
-
         final FreeMarkerDown fmd = FreeMarkerDown.create();
 
-        final Path contentPath = Paths.get(getClass().getResource(BASE + "2014-05-30T21.29.20_This-is-the-First-Post.md").toURI());
-        final Fragment content = fmd.createFragemnt(contentPath, ENCODING);
+        final Fragment content = fmd.createFragemnt("<?fdm-keyvalue\n"
+                + "    Description: This is the first post.\n"
+                + "    Keywords: first, post\n"
+                + "?>\n"
+                + "\n"
+                + "### This is the First Post\n"
+                + "\n"
+                + "Lorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  nonumy eirmod\n"
+                + "tempor invidunt ut labore et dolore magna aliquyam.\n"
+                + "\n"
+                + "Lorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  nonumy eirmod\n"
+                + "tempor invidunt ut labore et dolore magna aliquyam.");
 
-        final Path postPath = Paths.get(getClass().getResource(BASE + "post.ftl").toURI());
-        final Layout post = fmd.createLayout(postPath, ENCODING, Options.WITHOUT_MARKDOWN);
+        final Layout post = fmd.createLayout("<article>\n"
+                + "    ${fdm_post_content}\n"
+                + "</article>", Options.WITHOUT_MARKDOWN);
         post.assignTemplateModel("fdm_post_content", content);
 
-        final Path layoutPath = Paths.get(getClass().getResource(BASE + "layout.ftl").toURI());
-        final Layout layout = fmd.createLayout(layoutPath, ENCODING, Options.WITHOUT_MARKDOWN);
+        final Layout layout = fmd.createLayout("<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "    <body>\n"
+                + "        <h1>${fdm_config_name}</h1>\n"
+                + "        <h2>${fdm_config_description}</h2>\n"
+                + "\n"
+                + "        ${fdm_layout_content}\n"
+                + "    </body>\n"
+                + "</html>", Options.WITHOUT_MARKDOWN);
         layout.assignVariable("fdm_config_name", "NAME");
         layout.assignVariable("fdm_config_description", "DESCRIPTION");
         layout.assignTemplateModel("fdm_layout_content", post);
