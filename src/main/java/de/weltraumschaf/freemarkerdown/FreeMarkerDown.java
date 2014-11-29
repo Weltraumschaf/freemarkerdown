@@ -319,7 +319,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public static FreeMarkerDown create() {
-        return create(new FreeMarker().createConfiguration());
+        return create(createConfiguration());
     }
 
     /**
