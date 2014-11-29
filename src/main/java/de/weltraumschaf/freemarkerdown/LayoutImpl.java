@@ -69,4 +69,13 @@ final class LayoutImpl extends BaseTemplate implements Layout {
 
         return super.render();
     }
+
+    @Override
+    public void apply(final PreProcessor processor) {
+        super.apply(processor);
+
+        for (final TemplateModel fragment : fragments.values()) {
+            fragment.apply(processor);
+        }
+    }
 }

@@ -161,7 +161,7 @@ abstract class BaseTemplate implements TemplateModel {
     }
 
     @Override
-    public final void apply(final PreProcessor processor) {
+    public void apply(final PreProcessor processor) {
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
     }
 
