@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
+import org.pegdown.PegDownProcessor;
 
 /**
  * Common template functionality.
@@ -35,6 +36,15 @@ abstract class BaseTemplate implements TemplateModel {
      * Holds the assigned variables.
      */
     private final VariableScope templateVariables = new VariableScope();
+
+    /**
+     * Used to convert Markdown to HTML.
+     * <p>
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)} because not a value, but service
+     * object.
+     * </p>
+     */
+    private final PegDownProcessor markdown = new PegDownProcessor();
 
     /**
      * Rendered template as original.
@@ -93,11 +103,6 @@ abstract class BaseTemplate implements TemplateModel {
         this.options = Validate.notNull(options, "options");
     }
 
-    @Override
-    public boolean hasOption(final Options option) {
-        return options.contains(option);
-    }
-
     /**
      * Injection point for factory.
      *
@@ -137,14 +142,30 @@ abstract class BaseTemplate implements TemplateModel {
 
     @Override
     public String render() {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final String content = processTemplate();
 
+        if (options.contains(Options.WITHOUT_MARKDOWN)) {
+            return content;
+        }
+
+        return convertMarkdown(content);
+    }
+
+    /**
+     * Processes the FreeMarker template.
+     * <p>
+     * Throws {@link TemplateError} if template can't be rendered.
+     * </p>
+     *
+     * @return never {@code null}
+     */
+    private String processTemplate() throws TemplateError, IOError {
         try {
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
             factory.createTemplate(preProcessedTemplate, freeMarkerConfig)
                     .process(
                             templateVariables.getData(),
                             new OutputStreamWriter(out, encoding));
-
             return out.toString(encoding);
         } catch (final IOException ex) {
             // Should never happen because we only operate on strings, not on files.
@@ -152,6 +173,17 @@ abstract class BaseTemplate implements TemplateModel {
         } catch (final TemplateException ex) {
             throw new TemplateError(ex.getMessage(), ex);
         }
+    }
+
+    /**
+     * Markdown conversion.
+     *
+     * @param template must not be {@code null}
+     * @param rendered must not be {@code null}
+     * @return
+     */
+    private String convertMarkdown(final String rendered) {
+        return markdown.markdownToHtml(Validate.notNull(rendered, "rendered"));
     }
 
     @Override

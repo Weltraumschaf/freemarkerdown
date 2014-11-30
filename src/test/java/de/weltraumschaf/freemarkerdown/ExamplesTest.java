@@ -156,7 +156,7 @@ public class ExamplesTest {
                 + "  <li>foo</li>\n"
                 + "  <li>bar</li>\n"
                 + "  <li>baz</li>\n"
-                + "</ul>"
+                + "</ul>\n"
                 + "<p>This is bar.</p>"));
         // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromStringTemplate
     }
@@ -187,7 +187,7 @@ public class ExamplesTest {
                 + "  <li>foo</li>\n"
                 + "  <li>bar</li>\n"
                 + "  <li>baz</li>\n"
-                + "</ul>"
+                + "</ul>\n"
                 + "<p>This is bar.</p>"));
         // END SNIPPET: renderLayoutwithFragmentsandMarkdownFromFileTemplate
     }
@@ -280,7 +280,7 @@ public class ExamplesTest {
 
         assertThat(fmd.render(layout), is(
                 "<h1>A Title</h1>"
-                + "<p>Lorem ipsum dolor sit amet.</p>"
+                + "<p>Lorem ipsum dolor sit amet.</p>\n"
                 + "<h2>A List</h2>\n"
                 + "<ul>\n"
                 + "  <li>foo</li>\n"
@@ -369,13 +369,11 @@ public class ExamplesTest {
                 + "        <h2>DESCRIPTION</h2>\n"
                 + "\n"
                 + "        <article>\n"
-                + "    \n"
-                + "\n"
-                + "### This is the First Post\n\nLorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  "
-                + "nonumy eirmod\ntempor invidunt ut labore et dolore magna aliquyam.\n"
-                + "\n"
-                + "Lorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  nonumy eirmod\ntempor invidunt "
-                + "ut labore et dolore magna aliquyam.\n"
+                + "    <h3>This is the First Post</h3>"
+                + "<p>Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumy eirmod tempor "
+                + "invidunt ut labore et dolore magna aliquyam.</p>"
+                + "<p>Lorem ipsum dolor sit amet consetetur sadipscing elitr sed diam nonumy eirmod tempor "
+                + "invidunt ut labore et dolore magna aliquyam.</p>\n"
                 + "</article>\n"
                 + "    </body>\n"
                 + "</html>"));

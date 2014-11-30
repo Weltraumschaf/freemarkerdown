@@ -12,6 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
+import de.weltraumschaf.commons.guava.Sets;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class LayoutTest {
                         Defaults.ENCODING.getValue(),
                         FREE_MARKER.createConfiguration(),
                         Collections.<Options>emptySet()).render(),
-                is("foo bar baz"));
+                is("<p>foo bar baz</p>"));
     }
 
     @Test
@@ -74,7 +75,7 @@ public class LayoutTest {
                 + "<ul>",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
@@ -91,12 +92,12 @@ public class LayoutTest {
         final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
         sut.assignTemplateModel("fragmentOne",
                 new FragmentImpl("foo",
                         Defaults.ENCODING.getValue(),
                         FREE_MARKER.createConfiguration(),
-                        Collections.<Options>emptySet()));
+                        Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
 
         assertThat(sut.render(), is("<p>foo</p>\n"));
     }
@@ -109,23 +110,23 @@ public class LayoutTest {
                 + "<p>${fragmentThree}</p>\n",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
         sut.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
         sut.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
         sut.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
 
         assertThat(sut.render(), is(
                 "<p>foo</p>\n"
@@ -140,14 +141,14 @@ public class LayoutTest {
                 "<p>foobar</p>\n",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(
@@ -164,29 +165,29 @@ public class LayoutTest {
                 + "<p>${fragmentThree}</p>\n",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
         );
         inside.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
         inside.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
         inside.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet()));
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)));
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
         sut.assignTemplateModel("inside", inside);
 
         assertThat(sut.render(), is(

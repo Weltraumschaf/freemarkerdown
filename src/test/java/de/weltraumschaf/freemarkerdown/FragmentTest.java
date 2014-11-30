@@ -12,6 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
+import de.weltraumschaf.commons.guava.Sets;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.Collections;
@@ -57,7 +58,7 @@ public class FragmentTest {
                         Defaults.ENCODING.getValue(),
                         FREE_MARKER.createConfiguration(),
                         Collections.<Options>emptySet()).render(),
-                is("foo bar baz"));
+                is("<p>foo bar baz</p>"));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class FragmentTest {
                 + "<ul>",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),

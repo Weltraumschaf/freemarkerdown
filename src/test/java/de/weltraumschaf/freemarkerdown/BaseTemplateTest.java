@@ -12,6 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
+import de.weltraumschaf.commons.guava.Sets;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import javax.swing.text.html.Option;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
@@ -27,6 +30,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
+import org.pegdown.PegDownProcessor;
 
 /**
  * Tests for {@link BaseTemplate}.
@@ -49,8 +53,13 @@ public class BaseTemplateTest {
     }
 
     @Test
-    public void render_notEmptyTemplate() throws IOException, TemplateException {
+    public void render_notEmptyTemplate_withMarkdown() throws IOException, TemplateException {
         assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue()).render(),
+                is("<p>foo bar baz</p>"));
+    }
+    @Test
+    public void render_notEmptyTemplate_withoutMarkdown() throws IOException, TemplateException {
+        assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue(), Sets.newHashSet(Options.WITHOUT_MARKDOWN)).render(),
                 is("foo bar baz"));
     }
 
@@ -66,7 +75,10 @@ public class BaseTemplateTest {
                 + "<#list fruits as fruit>\n"
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
-                + "<ul>", Defaults.ENCODING.getValue());
+                + "<ul>",
+                Defaults.ENCODING.getValue(),
+                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
+        );
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),
@@ -86,6 +98,7 @@ public class BaseTemplateTest {
         EqualsVerifier.forClass(BaseTemplateStub.class)
                 .withPrefabValues(Configuration.class, fmd.createConfiguration(), fmd.createConfiguration())
                 .withPrefabValues(VariableScope.class, variableScope, new VariableScope())
+                .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
                 .suppress(Warning.NULL_FIELDS)
                 .verify();
     }
@@ -165,11 +178,15 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
+            this(template, encoding, Collections.<Options>emptySet());
+        }
+
+        public BaseTemplateStub(final String template, final String encoding, final Set<Options> options) {
             super(
                     template,
                     encoding,
                     FREE_MARKER.createConfiguration(),
-                    Collections.<Options>emptySet());
+                    options);
         }
 
     }

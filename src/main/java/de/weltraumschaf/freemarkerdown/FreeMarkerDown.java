@@ -51,14 +51,6 @@ public final class FreeMarkerDown {
     private final List<PreProcessor> preProcessors = Lists.newArrayList();
 
     /**
-     * Used to convert Markdown to HTML.
-     * <p>
-     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)} because not a value, but service
-     * object.
-     * </p>
-     */
-    private final PegDownProcessor markdown;
-    /**
      * Configures FreeMarker.
      */
     private final Configuration freeMarkerConfig;
@@ -69,18 +61,7 @@ public final class FreeMarkerDown {
      * @param freeMarkerConfig must not be {@code null}
      */
     private FreeMarkerDown(final Configuration freeMarkerConfig) {
-        this(new PegDownProcessor(), freeMarkerConfig);
-    }
-
-    /**
-     * Dedicated constructor.
-     *
-     * @param markdown must not be {@code null}
-     * @param freeMarkerConfig must not be {@code null}
-     */
-    private FreeMarkerDown(final PegDownProcessor markdown, final Configuration freeMarkerConfig) {
         super();
-        this.markdown = Validate.notNull(markdown, "markdown");
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
     }
 
@@ -117,15 +98,7 @@ public final class FreeMarkerDown {
     public String render(final TemplateModel template) {
         Validate.notNull(template, "template");
         preprocessTemplate(template);
-        String rendered = renderTemplate(template);
-
-        if (template.hasOption(Options.WITHOUT_MARKDOWN)) {
-            return rendered;
-        }
-
-        String html = convertMarkdown(template, rendered);
-
-        return html;
+        return renderTemplate(template);
     }
 
     /**
@@ -153,22 +126,6 @@ public final class FreeMarkerDown {
         final String rendered = template.render();
 
         return rendered == null ? "" : rendered;
-    }
-
-    /**
-     * Markdown conversion.
-     *
-     * @param template must not be {@code null}
-     * @param rendered must not be {@code null}
-     * @return
-     */
-    private String convertMarkdown(final TemplateModel template, final String rendered) {
-        Validate.notNull(template, "template");
-        Validate.notNull(rendered, "rendered");
-
-        final String html = markdown.markdownToHtml(rendered);
-
-        return html;
     }
 
     @Override
