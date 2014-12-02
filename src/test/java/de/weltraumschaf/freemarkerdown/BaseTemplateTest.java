@@ -59,7 +59,7 @@ public class BaseTemplateTest {
     }
     @Test
     public void render_notEmptyTemplate_withoutMarkdown() throws IOException, TemplateException {
-        assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue(), Sets.newHashSet(Options.WITHOUT_MARKDOWN)).render(),
+        assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue(), Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)).render(),
                 is("foo bar baz"));
     }
 
@@ -77,7 +77,7 @@ public class BaseTemplateTest {
                 + "</#list>\n"
                 + "<ul>",
                 Defaults.ENCODING.getValue(),
-                Sets.newHashSet(Options.WITHOUT_MARKDOWN)
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
         );
         sut.assignVariable("fruits", fruits);
 
@@ -178,10 +178,10 @@ public class BaseTemplateTest {
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
-            this(template, encoding, Collections.<Options>emptySet());
+            this(template, encoding, Collections.<RenderOptions>emptySet());
         }
 
-        public BaseTemplateStub(final String template, final String encoding, final Set<Options> options) {
+        public BaseTemplateStub(final String template, final String encoding, final Set<RenderOptions> options) {
             super(
                     template,
                     encoding,

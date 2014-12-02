@@ -34,7 +34,7 @@ public class FragmentTest {
                 null,
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Collections.<Options>emptySet());
+                Collections.<RenderOptions>emptySet());
 
     }
     private static final FreeMarker FREE_MARKER = new FreeMarker();
@@ -46,7 +46,7 @@ public class FragmentTest {
                         "",
                         Defaults.ENCODING.getValue(),
                         FREE_MARKER.createConfiguration(),
-                        Collections.<Options>emptySet()).render(),
+                        Collections.<RenderOptions>emptySet()).render(),
                 is(""));
     }
 
@@ -57,7 +57,7 @@ public class FragmentTest {
                         "foo bar baz",
                         Defaults.ENCODING.getValue(),
                         FREE_MARKER.createConfiguration(),
-                        Collections.<Options>emptySet()).render(),
+                        Collections.<RenderOptions>emptySet()).render(),
                 is("<p>foo bar baz</p>"));
     }
 
@@ -76,7 +76,7 @@ public class FragmentTest {
                 + "<ul>",
                 Defaults.ENCODING.getValue(),
                 FREE_MARKER.createConfiguration(),
-                Sets.newHashSet(Options.WITHOUT_MARKDOWN));
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN));
         sut.assignVariable("fruits", fruits);
 
         assertThat(sut.render(),

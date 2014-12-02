@@ -33,7 +33,7 @@ final class FragmentImpl extends BaseTemplate implements Fragment {
      * @param freeMarkerConfig must not be {@code null}
      * @param options must not be {@code null}
      */
-    public FragmentImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
+    public FragmentImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options) {
         super(template, encoding, freeMarkerConfig, options);
     }
 }

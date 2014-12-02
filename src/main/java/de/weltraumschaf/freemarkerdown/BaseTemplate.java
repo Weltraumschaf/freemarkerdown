@@ -64,7 +64,7 @@ abstract class BaseTemplate implements TemplateModel {
     /**
      * Rendering options.
      */
-    private final Set<Options> options;
+    private final Set<RenderOptions> options;
 
     /**
      * Pre processed template.
@@ -94,7 +94,7 @@ abstract class BaseTemplate implements TemplateModel {
      * @param freeMarkerConfig must not be {@code null} or empty
      * @param options must not be {@code null}
      */
-    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
+    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options) {
         super();
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
@@ -144,7 +144,7 @@ abstract class BaseTemplate implements TemplateModel {
     public String render() {
         final String content = processTemplate();
 
-        if (options.contains(Options.WITHOUT_MARKDOWN)) {
+        if (options.contains(RenderOptions.WITHOUT_MARKDOWN)) {
             return content;
         }
 

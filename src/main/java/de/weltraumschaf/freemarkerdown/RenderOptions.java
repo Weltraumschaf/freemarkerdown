@@ -17,7 +17,7 @@ package de.weltraumschaf.freemarkerdown;
  * @since 1.0.0
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public enum Options {
+public enum RenderOptions {
 
     /**
      * Does not convert the result of the rendered template from Markdown into HTML.

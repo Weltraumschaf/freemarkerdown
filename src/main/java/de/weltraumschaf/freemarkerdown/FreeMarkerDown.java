@@ -155,7 +155,7 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(final String template, final Options... options) {
+    public Fragment createFragemnt(final String template, final RenderOptions... options) {
         return createFragemnt(template, DEFAULT_ENCODING, options);
     }
 
@@ -167,13 +167,13 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(final String template, final String encoding, final Options... options) {
+    public Fragment createFragemnt(final String template, final String encoding, final RenderOptions... options) {
         return new FragmentImpl(
                 template,
                 encoding,
                 freeMarkerConfig,
                 null == options
-                        ? Collections.<Options>emptySet()
+                        ? Collections.<RenderOptions>emptySet()
                         : Sets.newHashSet(options));
     }
 
@@ -185,7 +185,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(final Path template, final Options... options) throws IOException {
+    public Fragment createFragemnt(final Path template, final RenderOptions... options) throws IOException {
         return createFragemnt(template, DEFAULT_ENCODING, options);
     }
 
@@ -198,7 +198,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(final Path template, final String encoding, final Options... options) throws IOException {
+    public Fragment createFragemnt(final Path template, final String encoding, final RenderOptions... options) throws IOException {
         return createFragemnt(read(template, encoding), encoding, options);
     }
 
@@ -209,7 +209,7 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(final String template, final Options... options) {
+    public Layout createLayout(final String template, final RenderOptions... options) {
         return createLayout(template, DEFAULT_ENCODING, options);
     }
 
@@ -221,13 +221,13 @@ public final class FreeMarkerDown {
      * @param options optional options
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(final String template, final String encoding, final Options... options) {
+    public Layout createLayout(final String template, final String encoding, final RenderOptions... options) {
         return new LayoutImpl(
                 template,
                 encoding,
                 freeMarkerConfig,
                 null == options
-                        ? Collections.<Options>emptySet()
+                        ? Collections.<RenderOptions>emptySet()
                         : Sets.newHashSet(options));
     }
 
@@ -239,7 +239,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template, final Options... options) throws IOException {
+    public Layout createLayout(final Path template, final RenderOptions... options) throws IOException {
         return createLayout(template, DEFAULT_ENCODING, options);
     }
 
@@ -252,7 +252,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template, final String encoding, final Options... options) throws IOException {
+    public Layout createLayout(final Path template, final String encoding, final RenderOptions... options) throws IOException {
         return createLayout(read(template, encoding), encoding, options);
     }
 

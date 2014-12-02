@@ -206,7 +206,7 @@ public class ExamplesTest {
                 + "\n"
                 + "<#list sequence as item>\n"
                 + "- ${item}\n"
-                + "</#list>", Options.WITHOUT_MARKDOWN);
+                + "</#list>", RenderOptions.WITHOUT_MARKDOWN);
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
         assertThat(fmd.render(template), is(
@@ -341,7 +341,7 @@ public class ExamplesTest {
 
         final Layout post = fmd.createLayout("<article>\n"
                 + "    ${content}\n"
-                + "</article>", Options.WITHOUT_MARKDOWN);
+                + "</article>", RenderOptions.WITHOUT_MARKDOWN);
         post.assignTemplateModel("content", content);
 
         final Layout layout = fmd.createLayout("<!DOCTYPE html>\n"
@@ -352,7 +352,7 @@ public class ExamplesTest {
                 + "\n"
                 + "        ${content}\n"
                 + "    </body>\n"
-                + "</html>", Options.WITHOUT_MARKDOWN);
+                + "</html>", RenderOptions.WITHOUT_MARKDOWN);
         layout.assignVariable("name", "NAME");
         layout.assignVariable("description", "DESCRIPTION");
         layout.assignTemplateModel("content", post);

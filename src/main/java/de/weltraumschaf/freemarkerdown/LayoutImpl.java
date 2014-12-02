@@ -40,7 +40,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
      * @param freeMarkerConfig must not be {@code null}
      * @param options must not be {@code null}
      */
-    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<Options> options) {
+    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options) {
         super(template, encoding, freeMarkerConfig, options);
     }
 
