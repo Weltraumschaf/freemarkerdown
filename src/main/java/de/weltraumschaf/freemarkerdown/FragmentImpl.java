@@ -36,4 +36,9 @@ final class FragmentImpl extends BaseTemplate implements Fragment {
     public FragmentImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options) {
         super(template, encoding, freeMarkerConfig, options);
     }
+
+    @Override
+    public final String toString() {
+        return "Fragment{" + toStringProperties() + '}';
+    }
 }

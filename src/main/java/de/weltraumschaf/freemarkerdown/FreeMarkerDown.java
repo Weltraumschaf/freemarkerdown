@@ -164,7 +164,7 @@ public final class FreeMarkerDown {
     private void intercept(final ExecutionPoint point, final TemplateModel template, final String content) {
         if (interceptors.containsKey(point)) {
             for (final Interceptor interceptor : interceptors.get(point)) {
-                interceptor.intercept(template, content);
+                interceptor.intercept(point, template, content);
             }
         }
     }

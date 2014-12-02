@@ -67,4 +67,12 @@ final class LayoutImpl extends BaseTemplate implements Layout {
             fragment.apply(processor);
         }
     }
+
+    @Override
+    public final String toString() {
+        return "Layout{"
+                + toStringProperties() + ", "
+                + "fragments=" + fragments
+                + '}';
+    }
 }

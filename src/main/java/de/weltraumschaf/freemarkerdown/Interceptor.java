@@ -28,13 +28,16 @@ public interface Interceptor {
      * smaller and simpler objects.
      * </p>
      *
+     * @param point never {@code null}, execution point of interception
      * @param template never {@code null}, rendered template
      * @param content never {@code null}, maybe empty, any rendered/converted content
      */
-    void intercept(final TemplateModel template, final String content);
+    void intercept(final ExecutionPoint point, final TemplateModel template, final String content);
 
     /**
      * Execution point a interceptor con hook into.
+     *
+     * @since 1.0.0
      */
     public static enum ExecutionPoint {
         /**
@@ -52,14 +55,6 @@ public interface Interceptor {
         /**
          * This is executed after FreeMarker templates were be rendered.
          */
-        AFTER_RENDERING,
-        /**
-         * This is executed before PegDown converts the content from Makrdown to HTML.
-         */
-        BEFORE_MARKDOWN,
-        /**
-         * This is executed after PegDown converts the content from Makrdown to HTML.
-         */
-        AFTER_MARKDOWN;
+        AFTER_RENDERING;
     }
 }

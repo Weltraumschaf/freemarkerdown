@@ -22,7 +22,6 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import javax.swing.text.html.Option;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;

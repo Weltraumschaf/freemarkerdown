@@ -208,14 +208,16 @@ abstract class BaseTemplate implements TemplateModel {
                 && Objects.equal(template, other.template);
     }
 
-    @Override
-    public final String toString() {
-        return "BaseTemplate{"
-                + "templateVariables=" + templateVariables + ", "
+    String toStringProperties() {
+        return "templateVariables=" + templateVariables + ", "
                 + "template=" + template + ", "
                 + "encoding=" + encoding + ", "
-                + "preProcessedTemplate=" + preProcessedTemplate
-                + '}';
+                + "preProcessedTemplate=" + preProcessedTemplate;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseTemplate{" + toStringProperties() + '}';
     }
 
 }
