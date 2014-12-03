@@ -43,7 +43,8 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
+                "name"
         );
 
         assertThat(sut.render(renderable), is(
@@ -64,7 +65,8 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
+                "name"
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");
@@ -91,7 +93,8 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
+                "name"
         );
 
         assertThat(sut.render(renderable), is(
@@ -112,7 +115,8 @@ public class FreeMarkerDown_RenderTest {
                 + "<?bar snafu ?> bla blub",
                 Defaults.ENCODING.getValue(),
                 new FreeMarker().createConfiguration(),
-                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
+                Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
+                "name"
         );
         final PreProcessor one = mock(PreProcessor.class);
         when(one.getTarget()).thenReturn("foo");

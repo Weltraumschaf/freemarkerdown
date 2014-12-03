@@ -53,4 +53,13 @@ public interface TemplateModel {
      */
     void assignVariable(final String name, final Object value);
 
+    /**
+     * Get the name of template.
+     * <p>
+     * This is only useful to determine which template you get in a {@link PreProcessor}
+     * or {@link Interceptor}.
+     *
+     * @return never {@code null} or empty
+     */
+    String getName();
 }

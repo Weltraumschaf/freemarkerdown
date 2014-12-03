@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import static javax.swing.text.html.HTML.Tag.HEAD;
+import java.util.UUID;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -209,13 +209,28 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Fragment createFragemnt(final String template, final String encoding, final RenderOptions... options) {
+        return createFragemnt(template, encoding, createName(), options);
+    }
+
+    /**
+     * Creates a new {@link Fragment}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     * @param options optional options
+     * @param name must not be {@code null} or empty
+     * @return never {@code null}, always new instance
+     */
+    public Fragment createFragemnt(final String template, final String encoding, final String name, final RenderOptions... options) {
         return new FragmentImpl(
                 template,
                 encoding,
                 freeMarkerConfig,
                 null == options
                         ? Collections.<RenderOptions>emptySet()
-                        : Sets.newHashSet(options));
+                        : Sets.newHashSet(options),
+                name
+        );
     }
 
     /**
@@ -263,13 +278,28 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public Layout createLayout(final String template, final String encoding, final RenderOptions... options) {
+        return createLayout(template, encoding, createName(), options);
+    }
+
+    /**
+     * Creates a new {@link Layout}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     * @param options optional options
+     * @param name must not be {@code null} or empty
+     * @return never {@code null}, always new instance
+     */
+    public Layout createLayout(final String template, final String encoding, final String name, final RenderOptions... options) {
         return new LayoutImpl(
                 template,
                 encoding,
                 freeMarkerConfig,
                 null == options
                         ? Collections.<RenderOptions>emptySet()
-                        : Sets.newHashSet(options));
+                        : Sets.newHashSet(options),
+                name
+        );
     }
 
     /**
@@ -337,5 +367,14 @@ public final class FreeMarkerDown {
      */
     public static Configuration createConfiguration() {
         return new FreeMarker().createConfiguration();
+    }
+
+    /**
+     * Creates global unique UUID as name.
+     *
+     * @return never {@code null} or empty
+     */
+    static String createName() {
+        return UUID.randomUUID().toString();
     }
 }

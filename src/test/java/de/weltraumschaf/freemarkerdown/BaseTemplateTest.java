@@ -185,7 +185,8 @@ public class BaseTemplateTest {
                     template,
                     encoding,
                     FREE_MARKER.createConfiguration(),
-                    options);
+                    options,
+                    "name");
         }
 
     }

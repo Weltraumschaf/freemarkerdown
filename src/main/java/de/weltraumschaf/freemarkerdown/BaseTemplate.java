@@ -67,6 +67,11 @@ abstract class BaseTemplate implements TemplateModel {
     private final Set<RenderOptions> options;
 
     /**
+     * Unique name to identify the template.
+     */
+    private final String name;
+
+    /**
      * Pre processed template.
      * <p>
      * Not considered as "state" of the template and thus not included in {@link #hashCode()} and
@@ -94,13 +99,14 @@ abstract class BaseTemplate implements TemplateModel {
      * @param freeMarkerConfig must not be {@code null} or empty
      * @param options must not be {@code null}
      */
-    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options) {
+    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options, final String name) {
         super();
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
         this.options = Validate.notNull(options, "options");
+        this.name = Validate.notEmpty(name, "name");
     }
 
     /**
@@ -189,6 +195,11 @@ abstract class BaseTemplate implements TemplateModel {
     @Override
     public void apply(final PreProcessor processor) {
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
