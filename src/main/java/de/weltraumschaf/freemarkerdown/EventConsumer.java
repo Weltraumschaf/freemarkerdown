@@ -27,7 +27,7 @@ interface EventConsumer {
      *
      * @param event must not be {@code null}
      */
-    void trigegr(Event event);
+    void trigger(Event event);
 
     /**
      * Register an interceptor which will be invoked for events for given execution point.

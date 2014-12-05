@@ -27,14 +27,13 @@ import java.util.Map;
  */
 final class EventDispatcher implements EventConsumer {
 
-
     /**
      * Holds interceptors.
      */
     private final Map<Interceptor.ExecutionPoint, Collection<Interceptor>> interceptors = Maps.newHashMap();
 
     @Override
-    public void trigegr(final Event event) {
+    public void trigger(final Event event) {
         final Interceptor.ExecutionPoint point = event.getPoint();
 
         if (interceptors.containsKey(point)) {

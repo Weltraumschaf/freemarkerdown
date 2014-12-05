@@ -25,6 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
+@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class InterceptorTest {
 

@@ -263,7 +263,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         Validate.notNull(executionPoint, "executionPoint");
 
         for (final EventConsumer listener : listeners) {
-            listener.trigegr(new Event(executionPoint, this, content));
+            listener.trigger(new Event(executionPoint, this, content));
         }
     }
 
