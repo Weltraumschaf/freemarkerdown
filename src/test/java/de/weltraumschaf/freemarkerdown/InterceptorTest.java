@@ -12,12 +12,15 @@
 package de.weltraumschaf.freemarkerdown;
 
 import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
+import java.util.Collection;
+import java.util.Collections;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -113,18 +116,17 @@ public class InterceptorTest {
     }
 
     @Test
-    @Ignore
-    public void interceptLayout_beforePreprocessing_withoPreprocessor() {
-        fmd.register(mock(PreProcessor.class));
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
-        final Layout layout = fmd.createLayout("Layout ${content}");
+    public void interceptLayout_beforePreprocessing_withPreprocessor() {
+        fmd.register(new PreProcessorStub());
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
         fmd.render(layout);
 
-        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
         verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment , "");
     }
 
     @Test
@@ -142,6 +144,30 @@ public class InterceptorTest {
     @Test
     @Ignore
     public void interceptLayout_afterRendering() {
+
+    }
+
+    private static class PreProcessorStub implements PreProcessor {
+
+        @Override
+        public String process(final String input) {
+            return input;
+        }
+
+        @Override
+        public String getTarget() {
+            return "target";
+        }
+
+        @Override
+        public boolean hasWarnings() {
+            return false;
+        }
+
+        @Override
+        public Collection<String> getWarnings() {
+            return Collections.emptyList();
+        }
 
     }
 }

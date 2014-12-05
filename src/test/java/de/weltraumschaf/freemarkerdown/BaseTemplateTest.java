@@ -56,6 +56,7 @@ public class BaseTemplateTest {
         assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue()).render(),
                 is("<p>foo bar baz</p>"));
     }
+
     @Test
     public void render_notEmptyTemplate_withoutMarkdown() throws IOException, TemplateException {
         assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue(), Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)).render(),
@@ -162,16 +163,13 @@ public class BaseTemplateTest {
 
         assertThat(sut.toString(), is(
                 "BaseTemplate{"
-                    + "templateVariables=VariableScope{"
-                        + "parent=null, "
-                        + "data=Variables{"
-                            + "vars={}"
-                        + "}"
-                    + "}, "
+                + "templateVariables=VariableScope{"
+                    + "parent=null, "
+                    + "data=Variables{vars={}}}, "
                 + "template=foobar, "
                 + "encoding=utf-8, "
-                + "preProcessedTemplate=foobar"
-                + "}"));
+                + "name=name, "
+                + "preProcessedTemplate=foobar}"));
     }
 
     @Test

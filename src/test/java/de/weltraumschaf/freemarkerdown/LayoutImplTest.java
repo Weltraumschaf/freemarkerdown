@@ -40,6 +40,7 @@ public class LayoutImplTest {
                 + "}, "
                 + "template=template, "
                 + "encoding=utf-8, "
+                + "name=name, "
                 + "preProcessedTemplate=template, "
                 + "fragments={}"
                 + "}"));

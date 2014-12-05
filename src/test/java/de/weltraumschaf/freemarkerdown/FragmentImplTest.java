@@ -40,8 +40,8 @@ public class FragmentImplTest {
                 + "}, "
                 + "template=template, "
                 + "encoding=utf-8, "
-                + "preProcessedTemplate=template"
-                + "}"));
+                + "name=name, "
+                + "preProcessedTemplate=template}"));
     }
 
 }

@@ -45,8 +45,33 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
+    void register(final EventConsumer consumer) {
+        super.register(consumer);
+
+        for (final TemplateModel fragment : fragments.values()) {
+            if (fragment instanceof BaseTemplate) {
+                ((BaseTemplate)fragment).register(consumer);
+            }
+        }
+    }
+
+    @Override
+    void unregister(final EventConsumer consumer) {
+        super.unregister(consumer);
+
+        for (final TemplateModel fragment : fragments.values()) {
+            if (fragment instanceof BaseTemplate) {
+                ((BaseTemplate)fragment).unregister(consumer);
+            }
+        }
+    }
+
+    @Override
     public void assignTemplateModel(final String name, final TemplateModel template) {
-        ((BaseTemplate)template).setParent(this);
+        if (template instanceof BaseTemplate) {
+            ((BaseTemplate)template).setParent(this);
+        }
+
         fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(template, "template"));
     }
 

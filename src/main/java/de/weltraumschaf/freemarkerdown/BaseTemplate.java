@@ -217,18 +217,18 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     }
 
     @Override
-    final void register(final EventConsumer consumer) {
+    void register(final EventConsumer consumer) {
         listeners.add(Validate.notNull(consumer, "consumer"));
     }
 
     @Override
-    final void unregister(final EventConsumer consumer) {
+    void unregister(final EventConsumer consumer) {
         listeners.remove(Validate.notNull(consumer, "consumer"));
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hashCode(templateVariables, encoding, template);
+        return Objects.hashCode(templateVariables, encoding, template, name);
     }
 
     @Override
@@ -240,13 +240,15 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         final BaseTemplate other = (BaseTemplate) obj;
         return Objects.equal(templateVariables, other.templateVariables)
                 && Objects.equal(encoding, other.encoding)
-                && Objects.equal(template, other.template);
+                && Objects.equal(template, other.template)
+                && Objects.equal(name, other.name);
     }
 
     String toStringProperties() {
         return "templateVariables=" + templateVariables + ", "
                 + "template=" + template + ", "
                 + "encoding=" + encoding + ", "
+                + "name=" + name + ", "
                 + "preProcessedTemplate=" + preProcessedTemplate;
     }
 
