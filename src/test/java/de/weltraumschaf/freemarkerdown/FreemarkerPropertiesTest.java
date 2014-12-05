@@ -36,8 +36,8 @@ public class FreemarkerPropertiesTest {
     }
 
     @Test(expected = IOError.class)
-    public void badfile() {
+    public void badFile() {
         new FreemarkerProperties("foobar");
     }
-
+    
 }
