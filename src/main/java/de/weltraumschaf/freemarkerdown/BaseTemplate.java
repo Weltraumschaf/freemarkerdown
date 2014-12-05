@@ -208,7 +208,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     public void apply(final PreProcessor processor) {
         triggerEvent(BEFORE_PREPROCESSING);
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
-        triggerEvent(AFTER_PREPROCESSING);
+        triggerEvent(AFTER_PREPROCESSING, preProcessedTemplate);
     }
 
     @Override

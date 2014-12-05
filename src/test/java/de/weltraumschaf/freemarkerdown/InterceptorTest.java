@@ -25,6 +25,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 /**
  * Tests for intercepting the rendering.
  *
+ * TODO Tests with options WITHOUT_MARKDOWN.
+ *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -74,7 +76,7 @@ public class InterceptorTest {
 
         fmd.render(fragment);
 
-        verify(interceptor, times(1)).intercept(AFTER_PREPROCESSING, fragment, "");
+        verify(interceptor, times(1)).intercept(AFTER_PREPROCESSING, fragment, "foo bar baz");
     }
 
     @Test
