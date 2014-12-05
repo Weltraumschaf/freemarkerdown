@@ -257,11 +257,11 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         return "BaseTemplate{" + toStringProperties() + '}';
     }
 
-    private void triggerEvent(final ExecutionPoint executionPoint) {
+    void triggerEvent(final ExecutionPoint executionPoint) {
         triggerEvent(executionPoint, "");
     }
 
-    private void triggerEvent(final ExecutionPoint executionPoint, final String content) {
+    void triggerEvent(final ExecutionPoint executionPoint, final String content) {
         Validate.notNull(executionPoint, "executionPoint");
 
         for (final EventConsumer listener : listeners) {

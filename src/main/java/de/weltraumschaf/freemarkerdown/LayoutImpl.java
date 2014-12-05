@@ -13,6 +13,8 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.AFTER_RENDERING;
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.BEFORE_RENDERING;
 import freemarker.template.Configuration;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +83,11 @@ final class LayoutImpl extends BaseTemplate implements Layout {
             assignVariable(fragment.getKey(), fragment.getValue().render());
         }
 
-        return super.render();
+        triggerEvent(BEFORE_RENDERING);
+        final String content = super.render();
+        triggerEvent(AFTER_RENDERING, content);
+
+        return content;
     }
 
     @Override
