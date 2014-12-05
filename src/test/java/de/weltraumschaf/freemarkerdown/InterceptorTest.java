@@ -53,7 +53,7 @@ public class InterceptorTest {
     @Test
     public void interceptFragment_beforePreprocessing_withPreprocessor() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
-        fmd.register(mock(PreProcessor.class));
+        fmd.register(new PreProcessorStub());
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
         fmd.render(fragment);
@@ -74,7 +74,7 @@ public class InterceptorTest {
     @Test
     public void interceptFragment_afterPreprocessing_withtPreprocessor() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
-        fmd.register(mock(PreProcessor.class));
+        fmd.register(new PreProcessorStub());
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
         fmd.render(fragment);
@@ -126,25 +126,52 @@ public class InterceptorTest {
         fmd.render(layout);
 
         verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
-        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment , "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
     }
 
     @Test
     @Ignore
     public void interceptLayout_afterPreprocessing() {
+        fmd.register(new PreProcessorStub());
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
 
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
     }
 
     @Test
     @Ignore
     public void interceptLayout_beforeRendering() {
+        fmd.register(new PreProcessorStub());
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
 
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
     }
 
     @Test
     @Ignore
     public void interceptLayout_afterRendering() {
+        fmd.register(new PreProcessorStub());
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
 
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
     }
 
     private static class PreProcessorStub implements PreProcessor {
