@@ -66,22 +66,10 @@ final class FreemarkerProperties {
      * Only loads th property file once.
      */
     private void load() {
-        InputStream in = null;
-
-        try {
-            in = getClass().getResourceAsStream(propertyFileName);
+        try (final InputStream in = getClass().getResourceAsStream(propertyFileName)) {
             properties.load(in);
-            in.close();
         } catch (final IOException | NullPointerException ex) {
             throw new IOError(ex);
-        } finally {
-            if (null != in) {
-                try {
-                    in.close();
-                } catch (final IOException ex) {
-                    throw new IOError(ex);
-                }
-            }
         }
     }
 

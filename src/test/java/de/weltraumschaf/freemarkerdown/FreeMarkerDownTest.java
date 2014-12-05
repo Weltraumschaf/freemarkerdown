@@ -18,6 +18,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
@@ -53,7 +54,7 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    public void register() {
+    public void registerPreProcessor() {
         final PreProcessor processor = mock(PreProcessor.class);
 
         sut.register(processor);
@@ -301,6 +302,12 @@ public class FreeMarkerDownTest {
     @Test
     public void toStringContainsMembers() {
         assertThat(sut.toString(), is("FreeMarkerDown{preProcessors=[]}"));
+    }
+
+    @Test
+    @Ignore("TODO IMplement test for de.weltraumschaf.freemarkerdown.FreeMarkerDownTest.registerInterceptor().")
+    public void registerInterceptor() {
+
     }
 
 }
