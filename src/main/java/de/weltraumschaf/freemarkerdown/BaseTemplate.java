@@ -156,15 +156,15 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     public String render() {
         triggerEvent(BEFORE_RENDERING);
         String content = processTemplate();
-        triggerEvent(AFTER_RENDERING);
+        triggerEvent(AFTER_RENDERING, content);
 
         if (options.contains(RenderOptions.WITHOUT_MARKDOWN)) {
             return content;
         }
 
-        triggerEvent(BEFORE_MARKDOWN);
+        triggerEvent(BEFORE_MARKDOWN, content);
         content = convertMarkdown(content);
-        triggerEvent(AFTER_MARKDOWN);
+        triggerEvent(AFTER_MARKDOWN, content);
 
         return content;
     }

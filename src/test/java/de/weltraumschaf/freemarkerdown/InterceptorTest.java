@@ -16,6 +16,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -25,7 +27,6 @@ import org.mockito.runners.MockitoJUnitRunner;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class InterceptorTest {
 
@@ -35,8 +36,19 @@ public class InterceptorTest {
     private Interceptor interceptor;
 
     @Test
-    public void interceptFragment_beforePreprocessing() {
+    public void interceptFragment_beforePreprocessing_withoutPreprocessor() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
+
+        fmd.render(fragment);
+
+        verify(interceptor, never()).intercept(BEFORE_PREPROCESSING, fragment, "");
+    }
+
+    @Test
+    public void interceptFragment_beforePreprocessing_withPreprocessor() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(mock(PreProcessor.class));
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
         fmd.render(fragment);
@@ -45,8 +57,19 @@ public class InterceptorTest {
     }
 
     @Test
-    public void interceptFragment_afterPreprocessing() {
+    public void interceptFragment_afterPreprocessing_withoutPreprocessor() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(interceptor, AFTER_PREPROCESSING);
+
+        fmd.render(fragment);
+
+        verify(interceptor, never()).intercept(AFTER_PREPROCESSING, fragment, "");
+    }
+
+    @Test
+    public void interceptFragment_afterPreprocessing_withtPreprocessor() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(mock(PreProcessor.class));
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
         fmd.render(fragment);
@@ -61,7 +84,7 @@ public class InterceptorTest {
 
         fmd.render(fragment);
 
-        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, fragment, "");
+        verify(interceptor, never()).intercept(BEFORE_RENDERING, fragment, "foo bar baz");
     }
 
     @Test
@@ -71,11 +94,26 @@ public class InterceptorTest {
 
         fmd.render(fragment);
 
-        verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "<p>foo bar baz</p>");
+        verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "foo bar baz");
     }
 
     @Test
-    public void interceptLayout_beforePreprocessing() {
+    public void interceptLayout_beforePreprocessing_withoutPreprocessor() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Layout layout = fmd.createLayout("Layout ${content}");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
+
+        fmd.render(layout);
+
+        verify(interceptor, never()).intercept(BEFORE_PREPROCESSING, fragment, "");
+        verify(interceptor, never()).intercept(BEFORE_PREPROCESSING, layout, "");
+    }
+
+    @Test
+    @Ignore
+    public void interceptLayout_beforePreprocessing_withoPreprocessor() {
+        fmd.register(mock(PreProcessor.class));
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
         final Layout layout = fmd.createLayout("Layout ${content}");
         layout.assignTemplateModel("content", fragment);
