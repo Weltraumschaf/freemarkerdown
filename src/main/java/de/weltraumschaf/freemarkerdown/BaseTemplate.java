@@ -11,14 +11,18 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Collection;
 import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
 import org.pegdown.PegDownProcessor;
@@ -30,7 +34,7 @@ import org.pegdown.PegDownProcessor;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @NotThreadSafe
-abstract class BaseTemplate implements TemplateModel {
+abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     /**
      * Holds the assigned variables.
@@ -71,6 +75,13 @@ abstract class BaseTemplate implements TemplateModel {
      */
     private final String name;
 
+    private final Collection<EventConsumer> listeners = Lists.newArrayList();
+
+    /**
+     * Injectable dependency.
+     */
+    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
+
     /**
      * Pre processed template.
      * <p>
@@ -80,11 +91,6 @@ abstract class BaseTemplate implements TemplateModel {
      * </p>
      */
     private String preProcessedTemplate;
-
-    /**
-     * Injectable dependency.
-     */
-    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
 
     /**
      * Provides FreeMarker objects.
@@ -148,13 +154,19 @@ abstract class BaseTemplate implements TemplateModel {
 
     @Override
     public String render() {
-        final String content = processTemplate();
+        triggerEvent(BEFORE_RENDERING);
+        String content = processTemplate();
+        triggerEvent(AFTER_RENDERING);
 
         if (options.contains(RenderOptions.WITHOUT_MARKDOWN)) {
             return content;
         }
 
-        return convertMarkdown(content);
+        triggerEvent(BEFORE_MARKDOWN);
+        content = convertMarkdown(content);
+        triggerEvent(AFTER_MARKDOWN);
+
+        return content;
     }
 
     /**
@@ -194,12 +206,24 @@ abstract class BaseTemplate implements TemplateModel {
 
     @Override
     public void apply(final PreProcessor processor) {
+        triggerEvent(BEFORE_PREPROCESSING);
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
+        triggerEvent(AFTER_PREPROCESSING);
     }
 
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    final void register(final EventConsumer consumer) {
+        listeners.add(Validate.notNull(consumer, "consumer"));
+    }
+
+    @Override
+    final void unregister(final EventConsumer consumer) {
+        listeners.remove(Validate.notNull(consumer, "consumer"));
     }
 
     @Override
@@ -229,6 +253,18 @@ abstract class BaseTemplate implements TemplateModel {
     @Override
     public String toString() {
         return "BaseTemplate{" + toStringProperties() + '}';
+    }
+
+    private void triggerEvent(final ExecutionPoint executionPoint) {
+        triggerEvent(executionPoint, "");
+    }
+
+    private void triggerEvent(final ExecutionPoint executionPoint, final String content) {
+        Validate.notNull(executionPoint, "executionPoint");
+
+        for (final EventConsumer listener : listeners) {
+            listener.trigegr(new Event(executionPoint, this, content));
+        }
     }
 
 }

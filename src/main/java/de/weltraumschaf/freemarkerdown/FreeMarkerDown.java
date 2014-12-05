@@ -54,14 +54,14 @@ public final class FreeMarkerDown {
     private final List<PreProcessor> preProcessors = Lists.newArrayList();
 
     /**
-     * Holds interceptors.
-     */
-    private final Map<ExecutionPoint, Collection<Interceptor>> interceptors = Maps.newHashMap();
-
-    /**
      * Configures FreeMarker.
      */
     private final Configuration freeMarkerConfig;
+
+    /**
+     * Dispatches events to registered interceptors.
+     */
+    private EventDispatcher events;
 
     /**
      * Use {@link #create()} to create new instances.
@@ -71,6 +71,7 @@ public final class FreeMarkerDown {
     private FreeMarkerDown(final Configuration freeMarkerConfig) {
         super();
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
+        this.events = new EventDispatcher();
     }
 
     /**
@@ -93,14 +94,7 @@ public final class FreeMarkerDown {
      * @param point must not be {@code null}
      */
     public void register(final Interceptor interceptor, final ExecutionPoint point) {
-        Validate.notNull(interceptor, "interceptor");
-        Validate.notNull(point, "point");
-
-        if (!interceptors.containsKey(point)) {
-            interceptors.put(point, Lists.<Interceptor>newArrayList());
-        }
-
-        interceptors.get(point).add(interceptor);
+        events.register(interceptor, point);
     }
 
     /**
@@ -120,8 +114,25 @@ public final class FreeMarkerDown {
      */
     public String render(final TemplateModel template) {
         Validate.notNull(template, "template");
+
+        registerForEvents(template);
         preprocessTemplate(template);
-        return renderTemplate(template);
+        final String content = renderTemplate(template);
+        unregisterForEvents(template);
+
+        return content;
+    }
+
+    private void registerForEvents(final TemplateModel template) {
+        if (template instanceof EventProducer) {
+            ((EventProducer) template).register(events);
+        }
+    }
+
+    private void unregisterForEvents(final TemplateModel template) {
+        if (template instanceof EventProducer) {
+            ((EventProducer) template).unregister(events);
+        }
     }
 
     /**
@@ -132,13 +143,9 @@ public final class FreeMarkerDown {
     private void preprocessTemplate(final TemplateModel template) {
         Validate.notNull(template, "template");
 
-        intercept(ExecutionPoint.BEFORE_PREPROCESSING, template);
-
         for (final PreProcessor preProcessor : preProcessors) {
             template.apply(preProcessor);
         }
-
-        intercept(ExecutionPoint.AFTER_PREPROCESSING, template);
     }
 
     /**
@@ -150,23 +157,9 @@ public final class FreeMarkerDown {
     private String renderTemplate(final TemplateModel template) {
         Validate.notNull(template, "template");
 
-        intercept(ExecutionPoint.BEFORE_RENDERING, template);
         final String rendered = template.render();
-        intercept(ExecutionPoint.AFTER_RENDERING, template, rendered);
 
         return rendered == null ? "" : rendered;
-    }
-
-    private void intercept(final ExecutionPoint point, final TemplateModel template) {
-        intercept(point, template, "");
-    }
-
-    private void intercept(final ExecutionPoint point, final TemplateModel template, final String content) {
-        if (interceptors.containsKey(point)) {
-            for (final Interceptor interceptor : interceptors.get(point)) {
-                interceptor.intercept(point, template, content);
-            }
-        }
     }
 
     @Override

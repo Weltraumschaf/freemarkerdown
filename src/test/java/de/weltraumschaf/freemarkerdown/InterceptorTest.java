@@ -12,6 +12,7 @@
 package de.weltraumschaf.freemarkerdown;
 
 import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -70,5 +71,36 @@ public class InterceptorTest {
         fmd.render(fragment);
 
         verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "<p>foo bar baz</p>");
+    }
+
+    @Test
+    public void interceptLayout_beforePreprocessing() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Layout layout = fmd.createLayout("Layout ${content}");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_PREPROCESSING);
+
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
+    }
+
+    @Test
+    @Ignore
+    public void interceptLayout_afterPreprocessing() {
+
+    }
+
+    @Test
+    @Ignore
+    public void interceptLayout_beforeRendering() {
+
+    }
+
+    @Test
+    @Ignore
+    public void interceptLayout_afterRendering() {
+
     }
 }

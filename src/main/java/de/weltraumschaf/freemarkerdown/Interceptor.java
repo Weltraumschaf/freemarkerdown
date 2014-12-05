@@ -55,6 +55,14 @@ public interface Interceptor {
         /**
          * This is executed after FreeMarker templates were be rendered.
          */
-        AFTER_RENDERING;
+        AFTER_RENDERING,
+        /**
+         * This is executed before PegDown converts the content from Makrdown to HTML.
+         */
+        BEFORE_MARKDOWN,
+        /**
+         * This is executed after PegDown converts the content from Makrdown to HTML.
+         */
+        AFTER_MARKDOWN;
     }
 }
