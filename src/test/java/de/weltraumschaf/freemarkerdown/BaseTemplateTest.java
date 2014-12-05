@@ -174,6 +174,13 @@ public class BaseTemplateTest {
                 + "}"));
     }
 
+    @Test
+    public void getName() {
+        final BaseTemplate sut = new BaseTemplateStub("foobar", "utf-8");
+
+        assertThat(sut.getName(), is("name"));
+    }
+
     private static final class BaseTemplateStub extends BaseTemplate {
 
         public BaseTemplateStub(final String template, final String encoding) {
