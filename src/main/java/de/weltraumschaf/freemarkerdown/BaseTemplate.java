@@ -257,7 +257,12 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
                 && Objects.equal(templateName, other.templateName);
     }
 
-    String toStringProperties() {
+    /**
+     * Returns list of properties so sub classes can implement to sting methods easier.
+     *
+     * @return never {@code null}
+     */
+    final String toStringProperties() {
         return "templateVariables=" + templateVariables + ", "
                 + "template=" + template + ", "
                 + "encoding=" + encoding + ", "
