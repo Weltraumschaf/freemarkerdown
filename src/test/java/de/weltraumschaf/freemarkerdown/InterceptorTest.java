@@ -14,6 +14,7 @@ package de.weltraumschaf.freemarkerdown;
 import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
 import java.util.Collection;
 import java.util.Collections;
+import oracle.jrockit.jfr.Options;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -103,6 +104,46 @@ public class InterceptorTest {
     }
 
     @Test
+    public void interceptFragment_beforeMarkdown() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(interceptor, BEFORE_MARKDOWN);
+
+        fmd.render(fragment);
+
+        verify(interceptor, times(1)).intercept(BEFORE_MARKDOWN, fragment, "foo bar baz");
+    }
+
+    @Test
+    public void interceptFragment_afterMarkdown() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        fmd.register(interceptor, AFTER_MARKDOWN);
+
+        fmd.render(fragment);
+
+        verify(interceptor, times(1)).intercept(AFTER_MARKDOWN, fragment, "<p>foo bar baz</p>");
+    }
+
+    @Test
+    public void interceptFragment_beforeMarkdown_withoutMarkdownOption() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", RenderOptions.WITHOUT_MARKDOWN);
+        fmd.register(interceptor, BEFORE_MARKDOWN);
+
+        fmd.render(fragment);
+
+        verify(interceptor, never()).intercept(BEFORE_MARKDOWN, fragment, "foo bar baz");
+    }
+
+    @Test
+    public void interceptFragment_afterMarkdown_withoutMarkdownOption() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", RenderOptions.WITHOUT_MARKDOWN);
+        fmd.register(interceptor, AFTER_MARKDOWN);
+
+        fmd.render(fragment);
+
+        verify(interceptor, never()).intercept(AFTER_MARKDOWN, fragment, "<p>foo bar baz</p>");
+    }
+
+    @Test
     public void interceptLayout_beforePreprocessing_withoutPreprocessor() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz");
         final Layout layout = fmd.createLayout("Layout ${content}");
@@ -180,6 +221,62 @@ public class InterceptorTest {
 
         verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "foo bar baz");
         verify(interceptor, times(1)).intercept(AFTER_RENDERING, layout, "layout: <p>foo bar baz</p>");
+    }
+
+    @Test
+    public void interceptLayout_beforeMarkdown() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_MARKDOWN);
+
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_MARKDOWN, fragment, "foo bar baz");
+        verify(interceptor, times(1)).intercept(BEFORE_MARKDOWN, layout, "layout: <p>foo bar baz</p>");
+    }
+
+    @Test
+    public void interceptLayout_afterMarkdown() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, AFTER_MARKDOWN);
+
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(AFTER_MARKDOWN, fragment, "<p>foo bar baz</p>");
+        verify(interceptor, times(1)).intercept(AFTER_MARKDOWN, layout, "<p>layout: <p>foo bar baz</p></p>");
+    }
+
+    @Test
+    public void interceptLayout_beforeMarkdown_withoutMarkdownOption() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout(
+                "layout: ${content}", "utf-8", "outer-template",
+                RenderOptions.WITHOUT_MARKDOWN);
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, BEFORE_MARKDOWN);
+
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(BEFORE_MARKDOWN, fragment, "foo bar baz");
+        verify(interceptor, never()).intercept(BEFORE_MARKDOWN, layout, "layout: <p>foo bar baz</p>");
+    }
+
+    @Test
+    public void interceptLayout_afterMarkdown_withoutMarkdownOption() {
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
+        final Layout layout = fmd.createLayout(
+                "layout: ${content}", "utf-8", "outer-template",
+                RenderOptions.WITHOUT_MARKDOWN);
+        layout.assignTemplateModel("content", fragment);
+        fmd.register(interceptor, AFTER_MARKDOWN);
+
+        fmd.render(layout);
+
+        verify(interceptor, times(1)).intercept(AFTER_MARKDOWN, fragment, "<p>foo bar baz</p>");
+        verify(interceptor, never()).intercept(AFTER_MARKDOWN, layout, "<p>layout: <p>foo bar baz</p></p>");
     }
 
     private static class PreProcessorStub implements PreProcessor {
