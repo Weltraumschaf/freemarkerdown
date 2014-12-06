@@ -57,7 +57,7 @@ Or you can download the jar-file directly from the [Maven Central Repository][mv
 Links
 -----
 
-The examples in this project site is included with [some Velocity macros][macor].
+The examples in this project site is included with [some Velocity macros][macros].
 
 [freemarker]:   http://freemarker.org/
 [pegdown]:      https://github.com/sirthias/pegdown
