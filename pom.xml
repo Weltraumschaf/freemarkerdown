@@ -137,6 +137,16 @@
             <plugin>
                 <groupId>com.kryshchuk.maven.plugins</groupId>
                 <artifactId>umlet-maven-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>convert-uml</id>
+
+                        <goals>
+                            <goal>convert</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
