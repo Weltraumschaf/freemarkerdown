@@ -75,6 +75,9 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      */
     private final String name;
 
+    /**
+     * Holds registered event consumers.
+     */
     private final Collection<EventConsumer> listeners = Lists.newArrayList();
 
     /**
@@ -90,7 +93,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      * {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied} pre processor.
      * </p>
      */
-    private String preProcessedTemplate;
+    private String preProcessedTemplate = "";
 
     /**
      * Provides FreeMarker objects.
@@ -104,6 +107,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null} or empty
      * @param options must not be {@code null}
+     * @param name must not be {@code null} or empty
      */
     BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options, final String name) {
         super();
@@ -143,6 +147,11 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         return preProcessedTemplate;
     }
 
+    /**
+     * Set the parent template.
+     *
+     * @param parent may be {@code null}
+     */
     final void setParent(final BaseTemplate parent) {
         templateVariables.setParent(parent.templateVariables);
     }
@@ -154,7 +163,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     @Override
     public String render() {
-        triggerEvent(BEFORE_RENDERING);
+        triggerEvent(BEFORE_RENDERING, preProcessedTemplate);
         String content = processTemplate();
         triggerEvent(AFTER_RENDERING, content);
 
@@ -205,7 +214,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     @Override
     public void apply(final PreProcessor processor) {
-        triggerEvent(BEFORE_PREPROCESSING);
+        triggerEvent(BEFORE_PREPROCESSING, preProcessedTemplate);
         preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);
         triggerEvent(AFTER_PREPROCESSING, preProcessedTemplate);
     }
@@ -256,10 +265,12 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         return "BaseTemplate{" + toStringProperties() + '}';
     }
 
-    void triggerEvent(final ExecutionPoint executionPoint) {
-        triggerEvent(executionPoint, "");
-    }
-
+    /**
+     * Triggers a template event to registered event consumers.
+     *
+     * @param executionPoint must not be {@code null}
+     * @param content must not be {@code null}
+     */
     void triggerEvent(final ExecutionPoint executionPoint, final String content) {
         Validate.notNull(executionPoint, "executionPoint");
 

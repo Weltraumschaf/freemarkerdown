@@ -53,7 +53,7 @@ public class InterceptorTest {
 
         fmd.render(fragment);
 
-        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "foo bar baz");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class InterceptorTest {
 
         fmd.render(fragment);
 
-        verify(interceptor, never()).intercept(BEFORE_RENDERING, fragment, "foo bar baz");
+        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, fragment, "foo bar baz");
     }
 
     @Test
@@ -160,8 +160,8 @@ public class InterceptorTest {
 
         fmd.render(layout);
 
-        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "");
-        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, layout, "layout: ${content}");
+        verify(interceptor, times(1)).intercept(BEFORE_PREPROCESSING, fragment, "foo bar baz");
     }
 
     @Test
@@ -200,8 +200,8 @@ public class InterceptorTest {
 
         fmd.render(layout);
 
-        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, fragment, "");
-        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, fragment, "foo bar baz");
+        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, layout, "layout: ${content}");
     }
 
     @Test
