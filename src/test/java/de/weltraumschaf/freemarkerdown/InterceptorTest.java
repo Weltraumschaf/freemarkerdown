@@ -14,22 +14,16 @@ package de.weltraumschaf.freemarkerdown;
 import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
 import java.util.Collection;
 import java.util.Collections;
-import oracle.jrockit.jfr.Options;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Tests for intercepting the rendering.
- *
- * TODO Tests with options WITHOUT_MARKDOWN.
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
