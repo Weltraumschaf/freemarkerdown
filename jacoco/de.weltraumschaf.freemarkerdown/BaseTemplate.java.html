@@ -11,16 +11,21 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import de.weltraumschaf.commons.guava.Lists;
 import de.weltraumschaf.commons.guava.Objects;
 import de.weltraumschaf.commons.validate.Validate;
+import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.*;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Set;
 import net.jcip.annotations.NotThreadSafe;
+import org.pegdown.PegDownProcessor;
 
 /**
  * Common template functionality.
@@ -29,12 +34,21 @@ import net.jcip.annotations.NotThreadSafe;
  * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
  */
 @NotThreadSafe
-abstract class BaseTemplate implements TemplateModel {
+abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     /**
      * Holds the assigned variables.
      */
-<span class="fc" id="L37">    private final Variables templateVariables = new Variables();</span>
+<span class="fc" id="L42">    private final VariableScope templateVariables = new VariableScope();</span>
+
+    /**
+     * Used to convert Markdown to HTML.
+     * &lt;p&gt;
+     * Not included into {@link #hashCode()} and {@link #equals(java.lang.Object)} because not a value, but service
+     * object.
+     * &lt;/p&gt;
+     */
+<span class="fc" id="L51">    private final PegDownProcessor markdown = new PegDownProcessor();</span>
 
     /**
      * Rendered template as original.
@@ -52,6 +66,26 @@ abstract class BaseTemplate implements TemplateModel {
     private final Configuration freeMarkerConfig;
 
     /**
+     * Rendering options.
+     */
+    private final Set&lt;RenderOptions&gt; options;
+
+    /**
+     * Unique templateName to identify the template.
+     */
+    private final String templateName;
+
+    /**
+     * Holds registered event consumers.
+     */
+<span class="fc" id="L81">    private final Collection&lt;EventConsumer&gt; listeners = Lists.newArrayList();</span>
+
+    /**
+     * Injectable dependency.
+     */
+<span class="fc" id="L86">    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();</span>
+
+    /**
      * Pre processed template.
      * &lt;p&gt;
      * Not considered as &quot;state&quot; of the template and thus not included in {@link #hashCode()} and
@@ -59,17 +93,12 @@ abstract class BaseTemplate implements TemplateModel {
      * {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied} pre processor.
      * &lt;/p&gt;
      */
-    private String preProcessedTemplate;
-
-    /**
-     * Injectable dependency.
-     */
-<span class="fc" id="L67">    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();</span>
+<span class="fc" id="L96">    private String preProcessedTemplate = &quot;&quot;;</span>
 
     /**
      * Provides FreeMarker objects.
      */
-<span class="fc" id="L72">    private FreeMarker factory = new FreeMarker();</span>
+<span class="fc" id="L101">    private FreeMarker factory = new FreeMarker();</span>
 
     /**
      * Dedicated constructor.
@@ -77,14 +106,23 @@ abstract class BaseTemplate implements TemplateModel {
      * @param template must not be {@code null}
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null} or empty
+     * @param options must not be {@code null}
+     * @param templateName must not be {@code null} or empty
      */
-    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig) {
-<span class="fc" id="L82">        super();</span>
-<span class="fc" id="L83">        this.template = Validate.notNull(template, &quot;template&quot;);</span>
-<span class="fc" id="L84">        this.preProcessedTemplate = this.template;</span>
-<span class="fc" id="L85">        this.encoding = Validate.notEmpty(encoding, &quot;encoding&quot;);</span>
-<span class="fc" id="L86">        this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, &quot;freeMarkerConfig&quot;);</span>
-<span class="fc" id="L87">    }</span>
+    BaseTemplate(
+            final String template,
+            final String encoding,
+            final Configuration freeMarkerConfig,
+            final Set&lt;RenderOptions&gt; options,
+            final String templateName) {
+<span class="fc" id="L118">        super();</span>
+<span class="fc" id="L119">        this.template = Validate.notNull(template, &quot;template&quot;);</span>
+<span class="fc" id="L120">        this.preProcessedTemplate = this.template;</span>
+<span class="fc" id="L121">        this.encoding = Validate.notEmpty(encoding, &quot;encoding&quot;);</span>
+<span class="fc" id="L122">        this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, &quot;freeMarkerConfig&quot;);</span>
+<span class="fc" id="L123">        this.options = Validate.notNull(options, &quot;options&quot;);</span>
+<span class="fc" id="L124">        this.templateName = Validate.notEmpty(templateName, &quot;name&quot;);</span>
+<span class="fc" id="L125">    }</span>
 
     /**
      * Injection point for factory.
@@ -92,8 +130,8 @@ abstract class BaseTemplate implements TemplateModel {
      * @param factory must not be {@code null}
      */
     final void setFactory(final FreeMarker factory) {
-<span class="fc" id="L95">        this.factory = Validate.notNull(factory, &quot;factory&quot;);</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L133">        this.factory = Validate.notNull(factory, &quot;factory&quot;);</span>
+<span class="fc" id="L134">    }</span>
 
     /**
      * Injection point for applier.
@@ -101,8 +139,8 @@ abstract class BaseTemplate implements TemplateModel {
      * @param preProcessorApplier must not be {@code null}
      */
     final void setPreProcessorApplier(final PreProcessorApplier preProcessorApplier) {
-<span class="fc" id="L104">        this.preProcessorApplier = Validate.notNull(preProcessorApplier, &quot;preProcessorApplier&quot;);</span>
-<span class="fc" id="L105">    }</span>
+<span class="fc" id="L142">        this.preProcessorApplier = Validate.notNull(preProcessorApplier, &quot;preProcessorApplier&quot;);</span>
+<span class="fc" id="L143">    }</span>
 
     /**
      * The preprocessed template contains the current template after
@@ -111,73 +149,145 @@ abstract class BaseTemplate implements TemplateModel {
      * @return never {@code null}
      */
     final String getPreProcessedTemplate() {
-<span class="fc" id="L114">        return preProcessedTemplate;</span>
+<span class="fc" id="L152">        return preProcessedTemplate;</span>
     }
 
     /**
-     * Get all assigned variables.
+     * Set the parent template.
      *
-     * @return never {@code null}, unmodifiable
+     * @param parent may be {@code null}
      */
-    final Map&lt;String, Object&gt; getTemplateVariables() {
-<span class="fc" id="L123">        return templateVariables.getVariables();</span>
-    }
+    final void setParent(final BaseTemplate parent) {
+<span class="fc" id="L161">        templateVariables.setParent(parent.templateVariables);</span>
+<span class="fc" id="L162">    }</span>
 
     @Override
-    public void assignVariable(final String name, final Object value) {
-<span class="fc" id="L128">        templateVariables.assignVariable(name, value);</span>
-<span class="fc" id="L129">    }</span>
+    public final void assignVariable(final String name, final Object value) {
+<span class="fc" id="L166">        templateVariables.assignVariable(name, value);</span>
+<span class="fc" id="L167">    }</span>
 
     @Override
     public String render() {
-<span class="fc" id="L133">        final ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="fc" id="L171">        triggerEvent(BEFORE_RENDERING, preProcessedTemplate);</span>
+<span class="fc" id="L172">        String content = processTemplate();</span>
+<span class="fc" id="L173">        triggerEvent(AFTER_RENDERING, content);</span>
 
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        if (options.contains(RenderOptions.WITHOUT_MARKDOWN)) {</span>
+<span class="fc" id="L176">            return content;</span>
+        }
+
+<span class="fc" id="L179">        triggerEvent(BEFORE_MARKDOWN, content);</span>
+<span class="fc" id="L180">        content = convertMarkdown(content);</span>
+<span class="fc" id="L181">        triggerEvent(AFTER_MARKDOWN, content);</span>
+
+<span class="fc" id="L183">        return content;</span>
+    }
+
+    /**
+     * Processes the FreeMarker template.
+     * &lt;p&gt;
+     * Throws {@link TemplateError} if template can't be rendered.
+     * &lt;/p&gt;
+     *
+     * @return never {@code null}
+     */
+    private String processTemplate() {
         try {
-<span class="fc" id="L136">            factory.createTemplate(preProcessedTemplate, freeMarkerConfig)</span>
+<span class="fc" id="L196">            final ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="fc" id="L197">            factory.createTemplate(preProcessedTemplate, freeMarkerConfig)</span>
                     .process(
-                            templateVariables.getVariables(),
+                            templateVariables.getData(),
                             new OutputStreamWriter(out, encoding));
-
-<span class="fc" id="L141">            return out.toString(encoding);</span>
-<span class="fc" id="L142">        } catch (final IOException ex) {</span>
+<span class="fc" id="L201">            return out.toString(encoding);</span>
+<span class="fc" id="L202">        } catch (final IOException ex) {</span>
             // Should never happen because we only operate on strings, not on files.
-<span class="fc" id="L144">            throw new IOError(ex);</span>
-<span class="fc" id="L145">        } catch (final TemplateException ex) {</span>
-<span class="fc" id="L146">            throw new TemplateError(ex.getMessage(), ex);</span>
+<span class="fc" id="L204">            throw new IOError(ex);</span>
+<span class="fc" id="L205">        } catch (final TemplateException ex) {</span>
+<span class="fc" id="L206">            throw new TemplateError(ex.getMessage(), ex);</span>
         }
     }
 
+    /**
+     * Markdown conversion.
+     *
+     * @param rendered must not be {@code null}
+     * @return never {@code null}
+     */
+    private String convertMarkdown(final String rendered) {
+<span class="fc" id="L217">        return markdown.markdownToHtml(Validate.notNull(rendered, &quot;rendered&quot;));</span>
+    }
+
     @Override
-    public final void apply(final PreProcessor processor) {
-<span class="fc" id="L152">        preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);</span>
-<span class="fc" id="L153">    }</span>
+    public void apply(final PreProcessor processor) {
+<span class="fc" id="L222">        triggerEvent(BEFORE_PREPROCESSING, preProcessedTemplate);</span>
+<span class="fc" id="L223">        preProcessedTemplate = preProcessorApplier.apply(preProcessedTemplate, processor);</span>
+<span class="fc" id="L224">        triggerEvent(AFTER_PREPROCESSING, preProcessedTemplate);</span>
+<span class="fc" id="L225">    }</span>
+
+    @Override
+    public String getName() {
+<span class="fc" id="L229">        return templateName;</span>
+    }
+
+    @Override
+    void register(final EventConsumer consumer) {
+<span class="fc" id="L234">        listeners.add(Validate.notNull(consumer, &quot;consumer&quot;));</span>
+<span class="fc" id="L235">    }</span>
+
+    @Override
+    void unregister(final EventConsumer consumer) {
+<span class="fc" id="L239">        listeners.remove(Validate.notNull(consumer, &quot;consumer&quot;));</span>
+<span class="fc" id="L240">    }</span>
 
     @Override
     public final int hashCode() {
-<span class="fc" id="L157">        return Objects.hashCode(templateVariables, encoding, template);</span>
+<span class="fc" id="L244">        return Objects.hashCode(templateVariables, encoding, template, templateName);</span>
     }
 
     @Override
     public final boolean equals(final Object obj) {
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (!(obj instanceof BaseTemplate)) {</span>
-<span class="fc" id="L163">            return false;</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">        if (!(obj instanceof BaseTemplate)) {</span>
+<span class="fc" id="L250">            return false;</span>
         }
 
-<span class="fc" id="L166">        final BaseTemplate other = (BaseTemplate) obj;</span>
-<span class="fc bfc" id="L167" title="All 6 branches covered.">        return Objects.equal(templateVariables, other.templateVariables)</span>
+<span class="fc" id="L253">        final BaseTemplate other = (BaseTemplate) obj;</span>
+<span class="fc bfc" id="L254" title="All 8 branches covered.">        return Objects.equal(templateVariables, other.templateVariables)</span>
                 &amp;&amp; Objects.equal(encoding, other.encoding)
-                &amp;&amp; Objects.equal(template, other.template);
+                &amp;&amp; Objects.equal(template, other.template)
+                &amp;&amp; Objects.equal(templateName, other.templateName);
+    }
+
+    /**
+     * Returns list of properties so sub classes can implement to sting methods easier.
+     *
+     * @return never {@code null}
+     */
+    final String toStringProperties() {
+<span class="fc" id="L266">        return &quot;templateVariables=&quot; + templateVariables + &quot;, &quot;</span>
+                + &quot;template=&quot; + template + &quot;, &quot;
+                + &quot;encoding=&quot; + encoding + &quot;, &quot;
+                + &quot;templateName=&quot; + templateName + &quot;, &quot;
+                + &quot;preProcessedTemplate=&quot; + preProcessedTemplate;
     }
 
     @Override
-    public final String toString() {
-<span class="fc" id="L174">        return &quot;BaseTemplate{&quot;</span>
-                + &quot;templateVariables=&quot; + templateVariables + &quot;, &quot;
-                + &quot;template=&quot; + template + &quot;, &quot;
-                + &quot;encoding=&quot; + encoding + &quot;, &quot;
-                + &quot;preProcessedTemplate=&quot; + preProcessedTemplate
-                + '}';
+    public String toString() {
+<span class="fc" id="L275">        return &quot;BaseTemplate{&quot; + toStringProperties() + '}';</span>
     }
 
+    /**
+     * Triggers a template event to registered event consumers.
+     *
+     * @param executionPoint must not be {@code null}
+     * @param content must not be {@code null}
+     */
+    void triggerEvent(final ExecutionPoint executionPoint, final String content) {
+<span class="fc" id="L285">        Validate.notNull(executionPoint, &quot;executionPoint&quot;);</span>
+
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        for (final EventConsumer listener : listeners) {</span>
+<span class="fc" id="L288">            listener.trigger(new Event(executionPoint, this, content));</span>
+<span class="fc" id="L289">        }</span>
+<span class="fc" id="L290">    }</span>
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

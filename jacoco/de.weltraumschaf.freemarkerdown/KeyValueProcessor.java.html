@@ -111,9 +111,9 @@ final class KeyValueProcessor implements PreProcessor {
 
 <span class="fc" id="L112">            final String[] tokens = line.split(SPLIT_TOKEN);</span>
 
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            if (tokens.length == 0) {</span>
-<span class="nc" id="L115">                warnings.add(String.format(&quot;No key given: '%s'! Skipping line.&quot;, line));</span>
-<span class="nc" id="L116">                continue;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">            if (tokens.length == 0) {</span>
+<span class="fc" id="L115">                warnings.add(String.format(&quot;No key given: '%s'! Skipping line.&quot;, line));</span>
+<span class="fc" id="L116">                continue;</span>
             }
 
 <span class="fc" id="L119">            final String name = tokens[0].trim();</span>
@@ -125,9 +125,9 @@ final class KeyValueProcessor implements PreProcessor {
 
             final String value;
 
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">            if (tokens.length == 1) {</span>
-<span class="nc" id="L129">                warnings.add(String.format(&quot;No value given: '%s'! Set vlaue empty.&quot;, name));</span>
-<span class="nc" id="L130">                value = &quot;&quot;;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            if (tokens.length == 1) {</span>
+<span class="fc" id="L129">                warnings.add(String.format(&quot;No value given: '%s'! Set vlaue empty.&quot;, name));</span>
+<span class="fc" id="L130">                value = &quot;&quot;;</span>
             } else {
 <span class="fc" id="L132">                value = tokens[1].trim();</span>
 
@@ -144,4 +144,4 @@ final class KeyValueProcessor implements PreProcessor {
 
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Interceptor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FreeMarkerDown</a> &gt; <a href="index.source.html" class="el_package">de.weltraumschaf.freemarkerdown</a> &gt; <span class="el_source">Interceptor.java</span></div><h1>Interceptor.java</h1><pre class="source lang-java linenums">/*
+ *  LICENSE
+ *
+ * &quot;THE BEER-WARE LICENSE&quot; (Revision 43):
+ * &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt; wrote this file.
+ * As long as you retain this notice you can do whatever you want with
+ * this stuff. If we meet some day, and you think this stuff is worth it,
+ * you can buy me a non alcohol-free beer in return.
+ *
+ * Copyright (C) 2012 &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt;
+ */
+
+package de.weltraumschaf.freemarkerdown;
+
+/**
+ * An interceptor can hook into the FreeMarkerDown execution process.
+ *
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ */
+public interface Interceptor {
+
+    /**
+     * Called from {@link FreeMarkerDown} on particular execution points.
+     * &lt;p&gt;
+     * You are not provided with the execution point. You should register own implementations for
+     * each execution point, rather than using the same for multiple points in execution. This leads
+     * smaller and simpler objects.
+     * &lt;/p&gt;
+     *
+     * @param point never {@code null}, execution point of interception
+     * @param template never {@code null}, rendered template
+     * @param content never {@code null}, maybe empty, any rendered/converted content
+     */
+    void intercept(final ExecutionPoint point, final TemplateModel template, final String content);
+
+    /**
+     * Execution point a interceptor con hook into.
+     *
+     * @since 1.0.0
+     */
+<span class="pc" id="L42">    public static enum ExecutionPoint {</span>
+        /**
+         * This is executed before preprocessors will be executed.
+         */
+<span class="fc" id="L46">        BEFORE_PREPROCESSING,</span>
+        /**
+         * This is executed after preprocessors were executed.
+         */
+<span class="fc" id="L50">        AFTER_PREPROCESSING,</span>
+        /**
+         * This is executed before FreeMarker templates will be rendered.
+         */
+<span class="fc" id="L54">        BEFORE_RENDERING,</span>
+        /**
+         * This is executed after FreeMarker templates were be rendered.
+         */
+<span class="fc" id="L58">        AFTER_RENDERING,</span>
+        /**
+         * This is executed before PegDown converts the content from Makrdown to HTML.
+         */
+<span class="fc" id="L62">        BEFORE_MARKDOWN,</span>
+        /**
+         * This is executed after PegDown converts the content from Makrdown to HTML.
+         */
+<span class="fc" id="L66">        AFTER_MARKDOWN;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

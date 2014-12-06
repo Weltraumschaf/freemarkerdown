@@ -66,24 +66,12 @@ final class FreemarkerProperties {
      * Only loads th property file once.
      */
     private void load() {
-<span class="fc" id="L69">        InputStream in = null;</span>
-
-        try {
-<span class="fc" id="L72">            in = getClass().getResourceAsStream(propertyFileName);</span>
-<span class="fc" id="L73">            properties.load(in);</span>
-<span class="fc" id="L74">            in.close();</span>
-<span class="fc" id="L75">        } catch (final IOException | NullPointerException ex) {</span>
-<span class="fc" id="L76">            throw new IOError(ex);</span>
-        } finally {
-<span class="pc bpc" id="L78" title="2 of 4 branches missed.">            if (null != in) {</span>
-                try {
-<span class="pc" id="L80">                    in.close();</span>
-<span class="nc" id="L81">                } catch (final IOException ex) {</span>
-<span class="pc" id="L82">                    throw new IOError(ex);</span>
-<span class="pc" id="L83">                }</span>
-            }
-        }
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L69">        try (final InputStream in = getClass().getResourceAsStream(propertyFileName)) {</span>
+<span class="fc" id="L70">            properties.load(in);</span>
+<span class="pc bpc" id="L71" title="5 of 8 branches missed.">        } catch (final IOException | NullPointerException ex) {</span>
+<span class="fc" id="L72">            throw new IOError(ex);</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
 
     /**
      * Get the version string.
@@ -91,7 +79,7 @@ final class FreemarkerProperties {
      * @return The version string.
      */
     public String getVersion() {
-<span class="fc" id="L94">        return properties.getProperty(PropertyNames.VERSION.toString(),</span>
+<span class="fc" id="L82">        return properties.getProperty(PropertyNames.VERSION.toString(),</span>
                 PropertyNames.VERSION.getDefaultValue());
     }
 
@@ -102,18 +90,18 @@ final class FreemarkerProperties {
      */
     @Override
     public String toString() {
-<span class="fc" id="L105">        return getVersion();</span>
+<span class="fc" id="L93">        return getVersion();</span>
     }
 
     /**
      * Available properties in the file.
      */
-<span class="pc" id="L111">    private enum PropertyNames {</span>
+<span class="pc" id="L99">    private enum PropertyNames {</span>
 
         /**
          * Version property.
          */
-<span class="fc" id="L116">        VERSION(&quot;version&quot;, &quot;n/a&quot;);</span>
+<span class="fc" id="L104">        VERSION(&quot;version&quot;, &quot;n/a&quot;);</span>
 
         /**
          * Property name.
@@ -131,10 +119,10 @@ final class FreemarkerProperties {
          * @param name The property name.
          * @param defaultValue Fall back value.
          */
-<span class="fc" id="L134">        PropertyNames(final String name, final String defaultValue) {</span>
-<span class="fc" id="L135">            this.name = name;</span>
-<span class="fc" id="L136">            this.defaultValue = defaultValue;</span>
-<span class="fc" id="L137">        }</span>
+<span class="fc" id="L122">        PropertyNames(final String name, final String defaultValue) {</span>
+<span class="fc" id="L123">            this.name = name;</span>
+<span class="fc" id="L124">            this.defaultValue = defaultValue;</span>
+<span class="fc" id="L125">        }</span>
 
         /**
          * Returns the property name.
@@ -143,7 +131,7 @@ final class FreemarkerProperties {
          */
         @Override
         public String toString() {
-<span class="fc" id="L146">            return name;</span>
+<span class="fc" id="L134">            return name;</span>
         }
 
         /**
@@ -152,9 +140,9 @@ final class FreemarkerProperties {
          * @return Return default value string.
          */
         public String getDefaultValue() {
-<span class="fc" id="L155">            return defaultValue;</span>
+<span class="fc" id="L143">            return defaultValue;</span>
         }
 
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

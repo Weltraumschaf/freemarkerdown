@@ -29,16 +29,16 @@ import net.jcip.annotations.NotThreadSafe;
     /**
      * Holds the assigned variables.
      */
-<span class="fc" id="L32">    private final Map&lt;String, Object&gt; templateVariables = Maps.newHashMap();</span>
+<span class="fc" id="L32">    private final Map&lt;String, Object&gt; vars = Maps.newHashMap();</span>
 
     /**
-     * Assign any object as template variable.
+     * Assign any object as variable.
      *
      * @param name must not be {@code null}
      * @param value must not be {@code null}
      */
     void assignVariable(final String name, final Object value) {
-<span class="fc" id="L41">        templateVariables.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
+<span class="fc" id="L41">        vars.put(Validate.notEmpty(name, &quot;name&quot;), Validate.notNull(value, &quot;value&quot;));</span>
 <span class="fc" id="L42">    }</span>
 
     /**
@@ -47,12 +47,12 @@ import net.jcip.annotations.NotThreadSafe;
      * @return never {@code null}, unmodifiable
      */
     Map&lt;String, Object&gt; getVariables() {
-<span class="fc" id="L50">        return Collections.unmodifiableMap(templateVariables);</span>
+<span class="fc" id="L50">        return Collections.unmodifiableMap(vars);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L55">        return templateVariables.hashCode();</span>
+<span class="fc" id="L55">        return vars.hashCode();</span>
     }
 
     @Override
@@ -62,13 +62,13 @@ import net.jcip.annotations.NotThreadSafe;
         }
 
 <span class="fc" id="L64">        final Variables other = (Variables) obj;</span>
-<span class="fc" id="L65">        return templateVariables.equals(other.templateVariables);</span>
+<span class="fc" id="L65">        return vars.equals(other.vars);</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L70">        return &quot;Variables{&quot; + &quot;templateVariables=&quot; + templateVariables + '}';</span>
+<span class="fc" id="L70">        return &quot;Variables{&quot; + &quot;vars=&quot; + vars + '}';</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>

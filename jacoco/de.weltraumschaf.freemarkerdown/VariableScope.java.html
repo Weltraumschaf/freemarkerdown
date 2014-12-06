@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>VariableScope.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FreeMarkerDown</a> &gt; <a href="index.source.html" class="el_package">de.weltraumschaf.freemarkerdown</a> &gt; <span class="el_source">VariableScope.java</span></div><h1>VariableScope.java</h1><pre class="source lang-java linenums">/*
+ *  LICENSE
+ *
+ * &quot;THE BEER-WARE LICENSE&quot; (Revision 43):
+ * &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt; wrote this file.
+ * As long as you retain this notice you can do whatever you want with
+ * this stuff. If we meet some day, and you think this stuff is worth it,
+ * you can buy me a non alcohol-free beer in return.
+ *
+ * Copyright (C) 2012 &quot;Sven Strittmatter&quot; &lt;weltraumschaf@googlemail.com&gt;
+ */
+package de.weltraumschaf.freemarkerdown;
+
+import de.weltraumschaf.commons.guava.Maps;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import net.jcip.annotations.NotThreadSafe;
+
+/**
+ * Provides scope for variables.
+ *
+ * @since 1.0.0
+ * @author Sven Strittmatter &lt;weltraumschaf@googlemail.com&gt;
+ */
+@NotThreadSafe
+<span class="fc" id="L27">final class VariableScope {</span>
+
+    /**
+     * Parent scope (may be {@code null}).
+     */
+    private VariableScope parent;
+    /**
+     * Variables of this scope.
+     */
+<span class="fc" id="L36">    private final Variables data = new Variables();</span>
+
+    /**
+     * Whether this scope has a parent scope.
+     *
+     * @return {@code true} if {@link #parent} is not {@code null}, else {@code false}
+     */
+    boolean hasParent() {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        return null != parent;</span>
+    }
+
+    /**
+     * Set a parent scope.
+     * &lt;p&gt;
+     * Throws {@link IllegalArgumentException} if self is passed in.
+     * &lt;/p&gt;
+     *
+     * @param parent may be {@code null}
+     */
+    void setParent(final VariableScope parent) {
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (this == parent) {</span>
+<span class="fc" id="L57">            throw new IllegalArgumentException(&quot;Do not set self!&quot;);</span>
+        }
+
+<span class="fc" id="L60">        this.parent = parent;</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * Get all variables for all scopes.
+     * &lt;p&gt;
+     * Collects the variables up all parents. But does not overwrite local variables.
+     * &lt;/p&gt;
+     *
+     * @return never {@code null}, unmodifiable
+     */
+    Map&lt;String, Object&gt; getData() {
+<span class="fc" id="L72">        final Map&lt;String, Object&gt; result = Maps.newHashMap();</span>
+<span class="fc" id="L73">        result.putAll(data.getVariables());</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (hasParent()) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            for (final Map.Entry&lt;String, Object&gt; entry : parent.getData().entrySet()) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">                if (!result.containsKey(entry.getKey())) {</span>
+<span class="fc" id="L78">                    result.put(entry.getKey(), entry.getValue());</span>
+                }
+<span class="fc" id="L80">            }</span>
+        }
+
+<span class="fc" id="L83">        return Collections.unmodifiableMap(result);</span>
+    }
+
+    /**
+     * Assign any object as variable.
+     *
+     * @param name must not be {@code null}
+     * @param value must not be {@code null}
+     */
+    void assignVariable(final String name, final Object value) {
+<span class="fc" id="L93">        data.assignVariable(name, value);</span>
+<span class="fc" id="L94">    }</span>
+
+    @Override
+    public String toString() {
+<span class="fc" id="L98">        return &quot;VariableScope{&quot;</span>
+                + &quot;parent=&quot; + parent + &quot;, &quot;
+                + &quot;data=&quot; + data
+                + '}';
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L106">        return Objects.hash(parent, data);</span>
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (!(obj instanceof VariableScope)) {</span>
+<span class="fc" id="L112">            return false;</span>
+        }
+
+<span class="fc" id="L115">        final VariableScope other = (VariableScope) obj;</span>
+<span class="fc bfc" id="L116" title="All 4 branches covered.">        return Objects.equals(parent, other.parent)</span>
+                &amp;&amp; Objects.equals(data, other.data);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span></div></body></html>
