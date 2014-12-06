@@ -4,6 +4,12 @@
 
 <img src="uml/overview.png"/>
 
-## Sequence
+## Template Model
 
 TODO
+
+## Interceptors
+
+<img src="uml/event_model.png"/>
+
+## Preprocessors
