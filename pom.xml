@@ -138,6 +138,10 @@
                 <groupId>com.kryshchuk.maven.plugins</groupId>
                 <artifactId>umlet-maven-plugin</artifactId>
 
+                <configuration>
+                    <format>svg</format>
+                </configuration>
+
                 <executions>
                     <execution>
                         <id>convert-uml</id>

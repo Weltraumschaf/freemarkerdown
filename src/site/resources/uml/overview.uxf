@@ -5,39 +5,45 @@
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>370</x>
-      <y>10</y>
-      <w>360</w>
-      <h>70</h>
+      <y>20</y>
+      <w>510</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 PreProcessor
 --
 --
-+process(String):String</panel_attributes>
++process(String):String
++getTarget():String
++hasWarnings():boolean
++getWarnings():Collection&lt;String&gt;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>20</x>
-      <y>120</y>
+      <y>160</y>
       <w>240</w>
-      <h>80</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>FreeMarkerDown
 --
 --
 +register(PreProcessor)
 +register(Interceptor)
-+render(TemplateModel):String</panel_attributes>
++render(TemplateModel):String
++createFragemnt(...):Fragment
++createLayout(...):Layout
+_+create():FreeMarkerDown_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>370</x>
-      <y>120</y>
-      <w>360</w>
+      <y>170</y>
+      <w>510</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
@@ -54,97 +60,116 @@ TemplateModel
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>370</x>
-      <y>280</y>
-      <w>180</w>
-      <h>30</h>
+      <y>320</y>
+      <w>330</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>Layout</panel_attributes>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Layout
+--
+--
++assignTemplateModel(String, TemplateModel)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>570</x>
-      <y>280</y>
-      <w>160</w>
-      <h>30</h>
+      <x>710</x>
+      <y>320</y>
+      <w>170</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>Fragment</panel_attributes>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Fragment
+--
+--</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>440</x>
-      <y>210</y>
+      <x>430</x>
+      <y>260</y>
       <w>50</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;30;30;70</additional_attributes>
+    <additional_attributes>30;30;30;60</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>620</x>
-      <y>210</y>
+      <x>760</x>
+      <y>260</y>
       <w>50</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>30;30;30;70</additional_attributes>
+    <additional_attributes>30;30;30;60</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>230</x>
-      <y>130</y>
+      <y>180</y>
       <w>160</w>
-      <h>50</h>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=-
 m2=0..n
-r1=render</panel_attributes>
-    <additional_attributes>30;30;140;30</additional_attributes>
+render&gt;</panel_attributes>
+    <additional_attributes>30;50;140;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>70</x>
-      <y>0</y>
-      <w>320</w>
+      <x>40</x>
+      <y>40</y>
+      <w>350</w>
       <h>140</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=-
 m2=0..n
-r2=receives string before rendering</panel_attributes>
-    <additional_attributes>30;120;30;30;300;30</additional_attributes>
+invoke&gt;</panel_attributes>
+    <additional_attributes>60;120;60;50;330;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>370</x>
-      <y>350</y>
-      <w>360</w>
-      <h>70</h>
+      <y>420</y>
+      <w>510</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 Interceptor
 --
 --
-intercept(ExecutionPoint, TemplateModel, String)</panel_attributes>
+intercept(ExecutionPoint, TemplateModel, String)
+{innerclass
+&lt;&lt;enum&gt;&gt;
+ExecutionPoint
+--
+_+BEFORE_PREPROCESSING_
+_+AFTER_PREPROCESSING_
+_+BEFORE_RENDERING_
+_+AFTER_RENDERING_
+_+BEFORE_MARKDOWN_
+_+AFTER_MARKDOWN_
+innerclass}</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>70</x>
-      <y>170</y>
-      <w>320</w>
-      <h>230</h>
+      <x>40</x>
+      <y>270</y>
+      <w>350</w>
+      <h>270</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
-m2=0..n</panel_attributes>
-    <additional_attributes>30;30;30;210;300;210</additional_attributes>
+    <panel_attributes>lt=-
+m2=0..n
+invoke&gt;</panel_attributes>
+    <additional_attributes>60;30;60;250;330;250</additional_attributes>
   </element>
 </diagram>
