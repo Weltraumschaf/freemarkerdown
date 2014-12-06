@@ -17,6 +17,7 @@ import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -59,6 +60,10 @@ final class EventDispatcher implements EventConsumer {
         }
 
         interceptors.get(point).add(interceptor);
+    }
+
+    Map<ExecutionPoint, Collection<Interceptor>> getInterceptors() {
+        return Collections.unmodifiableMap(interceptors);
     }
 
 }

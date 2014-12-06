@@ -11,6 +11,8 @@
  */
 package de.weltraumschaf.freemarkerdown;
 
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.AFTER_MARKDOWN;
+import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.BEFORE_MARKDOWN;
 import freemarker.template.Configuration;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,7 +20,6 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
@@ -41,7 +42,8 @@ public class FreeMarkerDownTest {
     public final TemporaryFolder tmp = new TemporaryFolder();
     //CHECKSTYLE:ON
 
-    private final FreeMarkerDown sut = FreeMarkerDown.create();
+    private final EventDispatcher events = new EventDispatcher();
+    private final FreeMarkerDown sut = new FreeMarkerDown(FreeMarkerDown.createConfiguration(), events);
 
     @Test(expected = NullPointerException.class)
     public void register_preProcesorMustNotBeNull() {
@@ -305,9 +307,21 @@ public class FreeMarkerDownTest {
     }
 
     @Test
-    @Ignore("TODO IMplement test for de.weltraumschaf.freemarkerdown.FreeMarkerDownTest.registerInterceptor().")
     public void registerInterceptor() {
+        final Interceptor interceptorOne = mock(Interceptor.class);
+        final Interceptor interceptorTwo = mock(Interceptor.class);
+        final Interceptor interceptorThree = mock(Interceptor.class);
 
+        sut.register(interceptorOne, AFTER_MARKDOWN);
+        sut.register(interceptorTwo, AFTER_MARKDOWN);
+        sut.register(interceptorThree, BEFORE_MARKDOWN);
+
+        assertThat(events.getInterceptors(), hasKey(AFTER_MARKDOWN));
+        assertThat(events.getInterceptors(), hasKey(BEFORE_MARKDOWN));
+        assertThat(events.getInterceptors().size(), is(2));
+
+        assertThat(events.getInterceptors().get(AFTER_MARKDOWN), contains(interceptorOne, interceptorTwo));
+        assertThat(events.getInterceptors().get(BEFORE_MARKDOWN), contains(interceptorThree));
     }
 
 }

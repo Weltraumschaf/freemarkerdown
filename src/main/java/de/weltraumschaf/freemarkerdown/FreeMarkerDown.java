@@ -12,7 +12,6 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Lists;
-import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.guava.Sets;
 import de.weltraumschaf.commons.validate.Validate;
 import de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint;
@@ -23,7 +22,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import net.jcip.annotations.NotThreadSafe;
@@ -61,17 +59,18 @@ public final class FreeMarkerDown {
     /**
      * Dispatches events to registered interceptors.
      */
-    private EventDispatcher events;
+    private final EventDispatcher events;
 
     /**
      * Use {@link #create()} to create new instances.
      *
      * @param freeMarkerConfig must not be {@code null}
+     * @param events must not be {@code null}
      */
-    private FreeMarkerDown(final Configuration freeMarkerConfig) {
+    FreeMarkerDown(final Configuration freeMarkerConfig, final EventDispatcher events) {
         super();
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
-        this.events = new EventDispatcher();
+        this.events = Validate.notNull(events, "events");
     }
 
     /**
@@ -350,7 +349,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      */
     public static FreeMarkerDown create(final Configuration freeMarkerConfig) {
-        return new FreeMarkerDown(freeMarkerConfig);
+        return new FreeMarkerDown(freeMarkerConfig, new EventDispatcher());
     }
 
     /**
