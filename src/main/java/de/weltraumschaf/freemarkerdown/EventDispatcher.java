@@ -62,6 +62,11 @@ final class EventDispatcher implements EventConsumer {
         interceptors.get(point).add(interceptor);
     }
 
+    /**
+     * Get the registered interceptors.
+     *
+     * @return never {@code null}, unmodifiable
+     */
     Map<ExecutionPoint, Collection<Interceptor>> getInterceptors() {
         return Collections.unmodifiableMap(interceptors);
     }
