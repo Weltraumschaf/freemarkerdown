@@ -16,7 +16,8 @@ that for you: Here is FreeMarkerDown.
 With  FreeMarkerDown you  can  render an  string  as a  [FrreMarker][freemarker]
 template  and  after   that  it  will  be   converted  to  [Markdown][markdowm].
 Additionaly you can  process the template string before the  rendering with [pre
-processors][proc-instr].
+processors][proc-instr].  Also  you  can  intercept each  part  of  the  content
+generation. See [architecture](architecture.html) site dor more information.
 
 Example
 -------
