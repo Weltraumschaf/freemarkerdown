@@ -39,35 +39,38 @@ This example shows how to suppress the Markdown processing.
 Render With Preprocessor
 ------------------------
 
-This example shows how to use preprocessors. The used key value preprocessor
-is part of FreeMarkerDown by default.
+This example shows how to use  preprocessors. The used key value preprocessor is
+part of FreeMarkerDown by default.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "renderWithPreprocessor")
 
 Layout Propagates Variables
 ---------------------------
 
-Template variables assigned to a layout are propagated to all
-subsequent assigned template models. It does not matter if you assign
-the model before or after assigning variables. They will be propagated
-anyway.
+Template  variables  assigned to  a  layout  are  propagated to  all  subsequent
+assigned template models. It  does not matter if you assign  the model before or
+after assigning variables. They will be propagated anyway.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "layoutPropagatesVariables")
 
 Handling Template Errors
 ------------------------
 
-Except the standard Java exceptions (IOExceptio etc.) no checked exceptions
-will be thrown. The Checked template exception from FreeMarker is wrapped
-into an unchecked template error. This does not clutter the code with "throws",
-but gives you the responsibility to ensure that templates will render in all circumstances
-or catch them at appropriate position.
+Except  the standard  Java exceptions  (IOExceptio etc.)  no checked  exceptions
+will be thrown.  The Checked template exception from FreeMarker  is wrapped into
+an unchecked template  error. This does not clutter the  code with "throws", but
+gives  you the  responsibility  to  ensure that  templates  will  render in  all
+circumstances or catch them at appropriate position.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "handlingTemplateErrors")
 
 More Complex Example
 --------------------
 
-TODO
+This is an  example of a so  called "two step layout pattern".  Which means that
+you stack  tmplates in  an other.  In this  use case  three layouts  are stackes
+inside and  additionaly a fragment  is in the inner  layout. And only  the inner
+fragment is converted to  markdwn to prevent conversion of the  HTML tags in the
+outer layout templates.
 
 #snippet( "/src/test/java/de/weltraumschaf/freemarkerdown/ExamplesTest.java" , "threeModelsCascadedTwoOfThemWithoutMarkdown")
