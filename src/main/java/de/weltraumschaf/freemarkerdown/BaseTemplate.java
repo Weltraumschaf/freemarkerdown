@@ -196,9 +196,8 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     /**
      * Markdown conversion.
      *
-     * @param template must not be {@code null}
      * @param rendered must not be {@code null}
-     * @return
+     * @return never {@code null}
      */
     private String convertMarkdown(final String rendered) {
         return markdown.markdownToHtml(Validate.notNull(rendered, "rendered"));
