@@ -83,11 +83,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
             assignVariable(fragment.getKey(), fragment.getValue().render());
         }
 
-        triggerEvent(BEFORE_RENDERING);
-        final String content = super.render();
-        triggerEvent(AFTER_RENDERING, content);
-
-        return content;
+        return super.render();
     }
 
     @Override

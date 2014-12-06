@@ -166,11 +166,10 @@ public class InterceptorTest {
         fmd.render(layout);
 
         verify(interceptor, times(1)).intercept(BEFORE_RENDERING, fragment, "");
-        verify(interceptor, times(2)).intercept(BEFORE_RENDERING, layout, "");
+        verify(interceptor, times(1)).intercept(BEFORE_RENDERING, layout, "");
     }
 
     @Test
-    @Ignore
     public void interceptLayout_afterRendering() {
         final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
         final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
@@ -179,8 +178,8 @@ public class InterceptorTest {
 
         fmd.render(layout);
 
-        verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "");
-        verify(interceptor, times(1)).intercept(AFTER_RENDERING, layout, "");
+        verify(interceptor, times(1)).intercept(AFTER_RENDERING, fragment, "foo bar baz");
+        verify(interceptor, times(1)).intercept(AFTER_RENDERING, layout, "layout: <p>foo bar baz</p>");
     }
 
     private static class PreProcessorStub implements PreProcessor {
