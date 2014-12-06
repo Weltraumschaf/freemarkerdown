@@ -35,7 +35,6 @@
         <dependency.comons.version>1.1.3</dependency.comons.version>
         <dependency.equalsverifier.version>1.5.1</dependency.equalsverifier.version>
         <dependency.jcip.annotations>1.0-1</dependency.jcip.annotations>
-        <dependency.asm.annotations>5.0.3</dependency.asm.annotations>
     </properties>
 
     <issueManagement>
@@ -67,12 +66,6 @@
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>${dependnecy.version.pegdown}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.ow2.asm</groupId>
-                    <artifactId>asm</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
