@@ -1,15 +1,19 @@
 # Architecture
 
+TODO
+
 ## Overview
-
-<img src="uml/overview.png"/>
-
-## Template Model
 
 TODO
 
+<img src="uml/overview.png"/>
+
 ## Interceptors
+
+TODO
 
 <img src="uml/event_model.png"/>
 
 ## Preprocessors
+
+TODO
