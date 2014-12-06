@@ -153,4 +153,25 @@ public class KeyValueProcessorTest {
         assertThat(result, hasEntry("Navi", "Projects"));
         assertThat(result, hasEntry("Keywords", "Projects, Jenkins, Darcs"));
     }
+
+    @Test
+    public void process_processSingleColon() {
+        assertThat(sut.process(":" + NL), is(""));
+
+        assertThat(sut.hasWarnings(), is(true));
+        assertThat(sut.getWarnings().size(), is(1));
+        assertThat(sut.getWarnings(), contains("No key given: ':'! Skipping line."));
+        assertThat(result.size(), is(0));
+    }
+
+    @Test
+    public void process_noValueForKey() {
+        assertThat(sut.process("foo:" + NL), is(""));
+
+        assertThat(sut.hasWarnings(), is(true));
+        assertThat(sut.getWarnings().size(), is(1));
+        assertThat(sut.getWarnings(), contains("No value given: 'foo'! Set vlaue empty."));
+        assertThat(result.size(), is(1));
+        assertThat(result, hasEntry("foo", ""));
+    }
 }
