@@ -1,18 +1,21 @@
 # Architecture
 
-TODO
+The basic  concept is:  You have  templates and  you can  put them  inside other
+templates as cascade.
+
+
 
 ## Overview
 
 TODO
 
-<img src="uml/overview.png"/>
+![Overview](uml/overview.png)
 
 ## Interceptors
 
 TODO
 
-<img src="uml/event_model.png"/>
+![Event Model](uml/event_model.png)
 
 ## Preprocessors
 
