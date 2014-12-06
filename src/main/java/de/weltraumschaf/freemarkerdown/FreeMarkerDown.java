@@ -122,12 +122,22 @@ public final class FreeMarkerDown {
         return content;
     }
 
+    /**
+     * Register the event dispatcher to receive events from the template model.
+     *
+     * @param template must not be {@code null}
+     */
     private void registerForEvents(final TemplateModel template) {
         if (template instanceof EventProducer) {
             ((EventProducer) template).register(events);
         }
     }
 
+    /**
+     * Unregister the event dispatcher to receive events from the template model.
+     *
+     * @param template must not be {@code null}
+     */
     private void unregisterForEvents(final TemplateModel template) {
         if (template instanceof EventProducer) {
             ((EventProducer) template).unregister(events);
@@ -213,7 +223,11 @@ public final class FreeMarkerDown {
      * @param name must not be {@code null} or empty
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(final String template, final String encoding, final String name, final RenderOptions... options) {
+    public Fragment createFragemnt(
+            final String template,
+            final String encoding,
+            final String name,
+            final RenderOptions... options) {
         return new FragmentImpl(
                 template,
                 encoding,
@@ -246,7 +260,10 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(final Path template, final String encoding, final RenderOptions... options) throws IOException {
+    public Fragment createFragemnt(
+            final Path template,
+            final String encoding,
+            final RenderOptions... options) throws IOException {
         return createFragemnt(read(template, encoding), encoding, options);
     }
 
@@ -282,7 +299,11 @@ public final class FreeMarkerDown {
      * @param name must not be {@code null} or empty
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(final String template, final String encoding, final String name, final RenderOptions... options) {
+    public Layout createLayout(
+            final String template,
+            final String encoding,
+            final String name,
+            final RenderOptions... options) {
         return new LayoutImpl(
                 template,
                 encoding,
@@ -315,7 +336,8 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template, final String encoding, final RenderOptions... options) throws IOException {
+    public Layout createLayout(final Path template, final String encoding, final RenderOptions... options)
+            throws IOException {
         return createLayout(read(template, encoding), encoding, options);
     }
 

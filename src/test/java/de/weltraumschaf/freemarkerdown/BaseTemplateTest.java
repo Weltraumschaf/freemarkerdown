@@ -168,7 +168,7 @@ public class BaseTemplateTest {
                     + "data=Variables{vars={}}}, "
                 + "template=foobar, "
                 + "encoding=utf-8, "
-                + "name=name, "
+                + "templateName=name, "
                 + "preProcessedTemplate=foobar}"));
     }
 

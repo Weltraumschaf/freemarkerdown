@@ -71,9 +71,9 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     private final Set<RenderOptions> options;
 
     /**
-     * Unique name to identify the template.
+     * Unique templateName to identify the template.
      */
-    private final String name;
+    private final String templateName;
 
     /**
      * Holds registered event consumers.
@@ -107,16 +107,21 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null} or empty
      * @param options must not be {@code null}
-     * @param name must not be {@code null} or empty
+     * @param templateName must not be {@code null} or empty
      */
-    BaseTemplate(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options, final String name) {
+    BaseTemplate(
+            final String template,
+            final String encoding,
+            final Configuration freeMarkerConfig,
+            final Set<RenderOptions> options,
+            final String templateName) {
         super();
         this.template = Validate.notNull(template, "template");
         this.preProcessedTemplate = this.template;
         this.encoding = Validate.notEmpty(encoding, "encoding");
         this.freeMarkerConfig = Validate.notNull(freeMarkerConfig, "freeMarkerConfig");
         this.options = Validate.notNull(options, "options");
-        this.name = Validate.notEmpty(name, "name");
+        this.templateName = Validate.notEmpty(templateName, "name");
     }
 
     /**
@@ -186,7 +191,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      *
      * @return never {@code null}
      */
-    private String processTemplate() throws TemplateError, IOError {
+    private String processTemplate() {
         try {
             final ByteArrayOutputStream out = new ByteArrayOutputStream();
             factory.createTemplate(preProcessedTemplate, freeMarkerConfig)
@@ -221,7 +226,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     @Override
     public String getName() {
-        return name;
+        return templateName;
     }
 
     @Override
@@ -236,7 +241,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
 
     @Override
     public final int hashCode() {
-        return Objects.hashCode(templateVariables, encoding, template, name);
+        return Objects.hashCode(templateVariables, encoding, template, templateName);
     }
 
     @Override
@@ -249,14 +254,14 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
         return Objects.equal(templateVariables, other.templateVariables)
                 && Objects.equal(encoding, other.encoding)
                 && Objects.equal(template, other.template)
-                && Objects.equal(name, other.name);
+                && Objects.equal(templateName, other.templateName);
     }
 
     String toStringProperties() {
         return "templateVariables=" + templateVariables + ", "
                 + "template=" + template + ", "
                 + "encoding=" + encoding + ", "
-                + "name=" + name + ", "
+                + "templateName=" + templateName + ", "
                 + "preProcessedTemplate=" + preProcessedTemplate;
     }
 

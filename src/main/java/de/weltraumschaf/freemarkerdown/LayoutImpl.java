@@ -13,8 +13,6 @@ package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Maps;
 import de.weltraumschaf.commons.validate.Validate;
-import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.AFTER_RENDERING;
-import static de.weltraumschaf.freemarkerdown.Interceptor.ExecutionPoint.BEFORE_RENDERING;
 import freemarker.template.Configuration;
 import java.util.Map;
 import java.util.Set;
@@ -41,9 +39,14 @@ final class LayoutImpl extends BaseTemplate implements Layout {
      * @param encoding must not be {@code null} or empty
      * @param freeMarkerConfig must not be {@code null}
      * @param options must not be {@code null}
+     * @param templateName must not be {@code null} or empty
      */
-    LayoutImpl(final String template, final String encoding, final Configuration freeMarkerConfig, final Set<RenderOptions> options, final String name) {
-        super(template, encoding, freeMarkerConfig, options, name);
+    LayoutImpl(
+            final String template,
+            final String encoding,
+            final Configuration freeMarkerConfig,
+            final Set<RenderOptions> options, final String templateName) {
+        super(template, encoding, freeMarkerConfig, options, templateName);
     }
 
     @Override
@@ -52,7 +55,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
 
         for (final TemplateModel fragment : fragments.values()) {
             if (fragment instanceof BaseTemplate) {
-                ((BaseTemplate)fragment).register(consumer);
+                ((BaseTemplate) fragment).register(consumer);
             }
         }
     }
@@ -63,7 +66,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
 
         for (final TemplateModel fragment : fragments.values()) {
             if (fragment instanceof BaseTemplate) {
-                ((BaseTemplate)fragment).unregister(consumer);
+                ((BaseTemplate) fragment).unregister(consumer);
             }
         }
     }
@@ -71,7 +74,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     @Override
     public void assignTemplateModel(final String name, final TemplateModel template) {
         if (template instanceof BaseTemplate) {
-            ((BaseTemplate)template).setParent(this);
+            ((BaseTemplate) template).setParent(this);
         }
 
         fragments.put(Validate.notEmpty(name, "name"), Validate.notNull(template, "template"));
@@ -96,7 +99,7 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "Layout{"
                 + toStringProperties() + ", "
                 + "fragments=" + fragments

@@ -40,7 +40,7 @@ public class FragmentImplTest {
                 + "}, "
                 + "template=template, "
                 + "encoding=utf-8, "
-                + "name=name, "
+                + "templateName=name, "
                 + "preProcessedTemplate=template}"));
     }
 
