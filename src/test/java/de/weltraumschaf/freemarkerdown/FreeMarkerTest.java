@@ -26,16 +26,16 @@ import org.junit.Test;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FreeMarkerTest {
+public class FreeMarkerTest extends TestCaseBase {
 
     private final FreeMarker sut = new FreeMarker();
 
     @Test
     public void createTemplate_alwaysNewInstance() throws IOException {
         final FreeMarker fm = new FreeMarker();
-        final Template one = sut.createTemplate("", fm.createConfiguration());
-        final Template two = sut.createTemplate("", fm.createConfiguration());
-        final Template three = sut.createTemplate("", fm.createConfiguration());
+        final Template one = sut.createTemplate("", fm.createConfiguration(ENCODING));
+        final Template two = sut.createTemplate("", fm.createConfiguration(ENCODING));
+        final Template three = sut.createTemplate("", fm.createConfiguration(ENCODING));
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -44,9 +44,9 @@ public class FreeMarkerTest {
 
     @Test
     public void createConfiguration_alwaysNewInstance() {
-        final Configuration one = sut.createConfiguration();
-        final Configuration two = sut.createConfiguration();
-        final Configuration three = sut.createConfiguration();
+        final Configuration one = sut.createConfiguration(ENCODING);
+        final Configuration two = sut.createConfiguration(ENCODING);
+        final Configuration three = sut.createConfiguration(ENCODING);
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));

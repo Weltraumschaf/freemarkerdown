@@ -21,12 +21,12 @@ import static org.junit.Assert.assertThat;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class LayoutImplTest {
+public class LayoutImplTest extends TestCaseBase {
 
     private final LayoutImpl sut = new LayoutImpl(
             "template",
             "utf-8",
-            FreeMarkerDown.createConfiguration(),
+            FreeMarkerDown.createConfiguration(ENCODING),
             Collections.<RenderOptions>emptySet(),
             "name");
 

@@ -26,26 +26,25 @@ import static org.junit.Assert.assertThat;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class LayoutTest {
+public class LayoutTest extends TestCaseBase {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
         new LayoutImpl(
                 null,
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name");
     }
-    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
         assertThat(
                 new LayoutImpl(
                         "",
-                        Defaults.ENCODING.getValue(),
-                        FREE_MARKER.createConfiguration(),
+                        ENCODING,
+                        FREE_MARKER.createConfiguration(ENCODING),
                         Collections.<RenderOptions>emptySet(),
                         "name").render(),
                 is(""));
@@ -56,8 +55,8 @@ public class LayoutTest {
         assertThat(
                 new LayoutImpl(
                         "foo bar baz",
-                        Defaults.ENCODING.getValue(),
-                        FREE_MARKER.createConfiguration(),
+                        ENCODING,
+                        FREE_MARKER.createConfiguration(ENCODING),
                         Collections.<RenderOptions>emptySet(),
                         "name").render(),
                 is("<p>foo bar baz</p>"));
@@ -76,8 +75,8 @@ public class LayoutTest {
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
                 + "<ul>",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name");
         sut.assignVariable("fruits", fruits);
@@ -94,14 +93,14 @@ public class LayoutTest {
     @Test
     public void render_withOneFragement() throws IOException, TemplateException {
         final Layout sut = new LayoutImpl("<p>${fragmentOne}</p>\n",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name");
         sut.assignTemplateModel("fragmentOne",
                 new FragmentImpl("foo",
-                        Defaults.ENCODING.getValue(),
-                        FREE_MARKER.createConfiguration(),
+                        ENCODING,
+                        FREE_MARKER.createConfiguration(ENCODING),
                         Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                         "name")
         );
@@ -115,27 +114,27 @@ public class LayoutTest {
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
         sut.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
         sut.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
         sut.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
 
@@ -150,16 +149,16 @@ public class LayoutTest {
     public void render_withLayoutInside() {
         final Layout inside = new LayoutImpl(
                 "<p>foobar</p>\n",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name");
         sut.assignTemplateModel("inside", inside);
@@ -176,34 +175,34 @@ public class LayoutTest {
                 "<p>${fragmentOne}</p>\n"
                 + "<p>${fragmentTwo}</p>\n"
                 + "<p>${fragmentThree}</p>\n",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
         inside.assignTemplateModel("fragmentOne", new FragmentImpl(
                 "foo",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
         inside.assignTemplateModel("fragmentTwo", new FragmentImpl(
                 "bar",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
         inside.assignTemplateModel("fragmentThree", new FragmentImpl(
                 "baz",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"));
         final Layout sut = new LayoutImpl(
                 "<h1>snafu</h1>\n"
                 + "${inside}",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name");
         sut.assignTemplateModel("inside", inside);

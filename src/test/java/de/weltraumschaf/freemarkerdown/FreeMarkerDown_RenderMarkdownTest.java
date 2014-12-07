@@ -23,9 +23,9 @@ import static org.mockito.Mockito.when;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FreeMarkerDown_RenderMarkdownTest {
+public class FreeMarkerDown_RenderMarkdownTest extends TestCaseBase {
 
-    private final FreeMarkerDown sut = FreeMarkerDown.create();
+    private final FreeMarkerDown sut = FreeMarkerDown.create(ENCODING);
 
     @Test(expected = NullPointerException.class)
     public void render_nullPassedIn() {
@@ -40,8 +40,8 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name"
         );
@@ -58,8 +58,8 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name"
         );
@@ -84,8 +84,8 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name"
         );
@@ -102,8 +102,8 @@ public class FreeMarkerDown_RenderMarkdownTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name"
         );

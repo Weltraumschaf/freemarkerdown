@@ -53,11 +53,11 @@ class FreeMarker {
      *
      * @return never {@code null}, always new instance.
      */
-    Configuration createConfiguration() {
+    Configuration createConfiguration(final String encoding) {
         final Configuration cfg = new Configuration(version);
 
         cfg.setObjectWrapper(createDefaultObjectWrapper());
-        cfg.setDefaultEncoding(Defaults.ENCODING.getValue());
+        cfg.setDefaultEncoding(Validate.notEmpty(encoding, "encoding"));
 
         return cfg;
     }

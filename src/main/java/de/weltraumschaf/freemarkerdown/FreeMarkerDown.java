@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import net.jcip.annotations.NotThreadSafe;
 
 /**
@@ -40,11 +39,6 @@ import net.jcip.annotations.NotThreadSafe;
  */
 @NotThreadSafe
 public final class FreeMarkerDown {
-
-    /**
-     * This is the default encoding used for all string operations.
-     */
-    public static final String DEFAULT_ENCODING = Defaults.ENCODING.getValue();
 
     /**
      * Holds the pre processors keyed by name.
@@ -192,29 +186,6 @@ public final class FreeMarkerDown {
     }
 
     /**
-     * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
-     *
-     * @param template must not be {@code null}
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     */
-    public Fragment createFragemnt(final String template, final RenderOptions... options) {
-        return createFragemnt(template, DEFAULT_ENCODING, options);
-    }
-
-    /**
-     * Creates a new {@link Fragment}.
-     *
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     */
-    public Fragment createFragemnt(final String template, final String encoding, final RenderOptions... options) {
-        return createFragemnt(template, encoding, createName(), options);
-    }
-
-    /**
      * Creates a new {@link Fragment}.
      *
      * @param template must not be {@code null}
@@ -240,34 +211,6 @@ public final class FreeMarkerDown {
     }
 
     /**
-     * Creates a new {@link Fragment} with {@link #DEFAULT_ENCODING default encoding}.
-     *
-     * @param template must not be {@code null}
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Fragment createFragemnt(final Path template, final RenderOptions... options) throws IOException {
-        return createFragemnt(template, DEFAULT_ENCODING, options);
-    }
-
-    /**
-     * Creates a new {@link Fragment}.
-     *
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Fragment createFragemnt(
-            final Path template,
-            final String encoding,
-            final RenderOptions... options) throws IOException {
-        return createFragemnt(read(template, encoding), encoding, options);
-    }
-
-    /**
      * Creates a new {@link Fragment}.
      *
      * @param template must not be {@code null}
@@ -283,29 +226,6 @@ public final class FreeMarkerDown {
             final String name,
             final RenderOptions... options) throws IOException {
         return createFragemnt(read(template, encoding), encoding, name, options);
-    }
-
-    /**
-     * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
-     *
-     * @param template must not be {@code null}
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     */
-    public Layout createLayout(final String template, final RenderOptions... options) {
-        return createLayout(template, DEFAULT_ENCODING, options);
-    }
-
-    /**
-     * Creates a new {@link Layout}.
-     *
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     */
-    public Layout createLayout(final String template, final String encoding, final RenderOptions... options) {
-        return createLayout(template, encoding, createName(), options);
     }
 
     /**
@@ -331,32 +251,6 @@ public final class FreeMarkerDown {
                         : Sets.newHashSet(options),
                 name
         );
-    }
-
-    /**
-     * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
-     *
-     * @param template must not be {@code null}
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Layout createLayout(final Path template, final RenderOptions... options) throws IOException {
-        return createLayout(template, DEFAULT_ENCODING, options);
-    }
-
-    /**
-     * Creates a new {@link Layout}.
-     *
-     * @param template must not be {@code null}
-     * @param encoding or empty
-     * @param options optional options
-     * @return never {@code null}, always new instance
-     * @throws IOException if file can't be read
-     */
-    public Layout createLayout(final Path template, final String encoding, final RenderOptions... options)
-            throws IOException {
-        return createLayout(read(template, encoding), encoding, options);
     }
 
     /*
@@ -391,10 +285,11 @@ public final class FreeMarkerDown {
     /**
      * Factory method.
      *
+     * @param encoding must not be {@code null} or empty
      * @return never {@code null}, always new instance
      */
-    public static FreeMarkerDown create() {
-        return create(createConfiguration());
+    public static FreeMarkerDown create(final String encoding) {
+        return create(createConfiguration(encoding));
     }
 
     /**
@@ -410,18 +305,11 @@ public final class FreeMarkerDown {
     /**
      * Factory method to create FreeMarker template configuration.
      *
+     * @param encoding must not be {@code null} or empty
      * @return never {@code null}, may return same instance
      */
-    public static Configuration createConfiguration() {
-        return new FreeMarker().createConfiguration();
+    public static Configuration createConfiguration(final String encoding) {
+        return new FreeMarker().createConfiguration(encoding);
     }
 
-    /**
-     * Creates global unique UUID as name.
-     *
-     * @return never {@code null} or empty
-     */
-    static String createName() {
-        return UUID.randomUUID().toString();
-    }
 }

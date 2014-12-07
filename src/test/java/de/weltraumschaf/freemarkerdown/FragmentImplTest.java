@@ -21,12 +21,12 @@ import org.junit.Test;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FragmentImplTest {
+public class FragmentImplTest extends TestCaseBase {
 
     private final FragmentImpl sut = new FragmentImpl(
             "template",
             "utf-8",
-            FreeMarkerDown.createConfiguration(),
+            FreeMarkerDown.createConfiguration(ENCODING),
             Collections.<RenderOptions>emptySet(),
             "name");
 

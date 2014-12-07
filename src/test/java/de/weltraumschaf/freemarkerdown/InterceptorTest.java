@@ -28,16 +28,16 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
 @RunWith(MockitoJUnitRunner.class)
-public class InterceptorTest {
+public class InterceptorTest extends TestCaseBase {
 
-    private final FreeMarkerDown fmd = FreeMarkerDown.create();
+    private final FreeMarkerDown fmd = FreeMarkerDown.create(ENCODING);
 
     @Mock
     private Interceptor interceptor;
 
     @Test
     public void interceptFragment_beforePreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
         fmd.render(fragment);
@@ -47,7 +47,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_beforePreprocessing_withPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(new PreProcessorStub());
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
@@ -58,7 +58,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_afterPreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
         fmd.render(fragment);
@@ -68,7 +68,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_afterPreprocessing_withtPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(new PreProcessorStub());
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
@@ -79,7 +79,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_beforeRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, BEFORE_RENDERING);
 
         fmd.render(fragment);
@@ -89,7 +89,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_afterRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, AFTER_RENDERING);
 
         fmd.render(fragment);
@@ -99,7 +99,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_beforeMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
         fmd.render(fragment);
@@ -109,7 +109,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_afterMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
         fmd.register(interceptor, AFTER_MARKDOWN);
 
         fmd.render(fragment);
@@ -119,7 +119,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_beforeMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment", RenderOptions.WITHOUT_MARKDOWN);
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
         fmd.render(fragment);
@@ -129,7 +129,7 @@ public class InterceptorTest {
 
     @Test
     public void interceptFragment_afterMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment", RenderOptions.WITHOUT_MARKDOWN);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
         fmd.render(fragment);
@@ -139,8 +139,8 @@ public class InterceptorTest {
 
     @Test
     public void interceptLayout_beforePreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz");
-        final Layout layout = fmd.createLayout("Layout ${content}");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Layout layout = fmd.createLayout("Layout ${content}", ENCODING, "layout");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 

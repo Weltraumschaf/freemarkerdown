@@ -12,7 +12,6 @@
 package de.weltraumschaf.freemarkerdown;
 
 import de.weltraumschaf.commons.guava.Sets;
-import java.util.Collections;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
@@ -24,9 +23,9 @@ import static org.mockito.Mockito.when;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FreeMarkerDown_RenderTest {
+public class FreeMarkerDown_RenderTest extends TestCaseBase{
 
-    private final FreeMarkerDown sut = FreeMarkerDown.create();
+    private final FreeMarkerDown sut = FreeMarkerDown.create(ENCODING);
 
     @Test(expected = NullPointerException.class)
     public void render_nullPassedIn() {
@@ -41,8 +40,8 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
@@ -63,8 +62,8 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
@@ -91,8 +90,8 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );
@@ -113,8 +112,8 @@ public class FreeMarkerDown_RenderTest {
                 + "?>\n"
                 + "Lorem ipsum dolor.\n"
                 + "<?bar snafu ?> bla blub",
-                Defaults.ENCODING.getValue(),
-                new FreeMarker().createConfiguration(),
+                ENCODING,
+                new FreeMarker().createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name"
         );

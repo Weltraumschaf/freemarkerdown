@@ -26,26 +26,25 @@ import org.junit.Test;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class FragmentTest {
+public class FragmentTest extends TestCaseBase {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
         new FragmentImpl(
                 null,
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Collections.<RenderOptions>emptySet(),
                 "name");
     }
-    private static final FreeMarker FREE_MARKER = new FreeMarker();
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
         assertThat(
                 new FragmentImpl(
                         "",
-                        Defaults.ENCODING.getValue(),
-                        FREE_MARKER.createConfiguration(),
+                        ENCODING,
+                        FREE_MARKER.createConfiguration(ENCODING),
                         Collections.<RenderOptions>emptySet(),
                         "name").render(),
                 is(""));
@@ -56,8 +55,8 @@ public class FragmentTest {
         assertThat(
                 new FragmentImpl(
                         "foo bar baz",
-                        Defaults.ENCODING.getValue(),
-                        FREE_MARKER.createConfiguration(),
+                        ENCODING,
+                        FREE_MARKER.createConfiguration(ENCODING),
                         Collections.<RenderOptions>emptySet(),
                         "name").render(),
                 is("<p>foo bar baz</p>"));
@@ -76,8 +75,8 @@ public class FragmentTest {
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
                 + "<ul>",
-                Defaults.ENCODING.getValue(),
-                FREE_MARKER.createConfiguration(),
+                ENCODING,
+                FREE_MARKER.createConfiguration(ENCODING),
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN),
                 "name");
         sut.assignVariable("fruits", fruits);

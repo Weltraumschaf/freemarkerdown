@@ -36,30 +36,28 @@ import org.pegdown.PegDownProcessor;
  *
  * @author Sven Strittmatter <weltraumschaf@googlemail.com>
  */
-public class BaseTemplateTest {
-
-    private static final FreeMarker FREE_MARKER = new FreeMarker();
+public class BaseTemplateTest extends TestCaseBase {
 
     @Test(expected = NullPointerException.class)
     public void render_nullTemplate() {
-        new BaseTemplateStub(null, Defaults.ENCODING.getValue());
+        new BaseTemplateStub(null, ENCODING);
     }
 
     @Test
     public void render_emptyTemplate() throws IOException, TemplateException {
-        assertThat(new BaseTemplateStub("", Defaults.ENCODING.getValue()).render(),
+        assertThat(new BaseTemplateStub("", ENCODING).render(),
                 is(""));
     }
 
     @Test
     public void render_notEmptyTemplate_withMarkdown() throws IOException, TemplateException {
-        assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue()).render(),
+        assertThat(new BaseTemplateStub("foo bar baz", ENCODING).render(),
                 is("<p>foo bar baz</p>"));
     }
 
     @Test
     public void render_notEmptyTemplate_withoutMarkdown() throws IOException, TemplateException {
-        assertThat(new BaseTemplateStub("foo bar baz", Defaults.ENCODING.getValue(), Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)).render(),
+        assertThat(new BaseTemplateStub("foo bar baz", ENCODING, Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)).render(),
                 is("foo bar baz"));
     }
 
@@ -76,7 +74,7 @@ public class BaseTemplateTest {
                 + " <li>${fruit}</li>\n"
                 + "</#list>\n"
                 + "<ul>",
-                Defaults.ENCODING.getValue(),
+                ENCODING,
                 Sets.newHashSet(RenderOptions.WITHOUT_MARKDOWN)
         );
         sut.assignVariable("fruits", fruits);
@@ -96,7 +94,7 @@ public class BaseTemplateTest {
         final VariableScope variableScope = new VariableScope();
         variableScope.assignVariable("foo", "bar");
         EqualsVerifier.forClass(BaseTemplateStub.class)
-                .withPrefabValues(Configuration.class, fmd.createConfiguration(), fmd.createConfiguration())
+                .withPrefabValues(Configuration.class, fmd.createConfiguration(ENCODING), fmd.createConfiguration(ENCODING))
                 .withPrefabValues(VariableScope.class, variableScope, new VariableScope())
                 .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
                 .suppress(Warning.NULL_FIELDS)
@@ -139,7 +137,7 @@ public class BaseTemplateTest {
 
     @Test
     public void factory_wrappsTemplateException() throws IOException, TemplateException {
-        final Template template = spy(FREE_MARKER.createTemplate("", FREE_MARKER.createConfiguration()));
+        final Template template = spy(FREE_MARKER.createTemplate("", FREE_MARKER.createConfiguration(ENCODING)));
         final Throwable ex = new TemplateException("foobar", null);
         doThrow(ex).when(template).process(anyObject(), (Writer) anyObject());
         final FreeMarker factory = spy(FREE_MARKER);
@@ -189,7 +187,7 @@ public class BaseTemplateTest {
             super(
                     template,
                     encoding,
-                    FREE_MARKER.createConfiguration(),
+                    FREE_MARKER.createConfiguration(ENCODING),
                     options,
                     "name");
         }
