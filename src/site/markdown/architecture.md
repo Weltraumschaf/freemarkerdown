@@ -16,11 +16,19 @@ the  `Layout`.   The  distinction  is  that   you  can  assign  as   many  other
 `Fragment`  to a  `Laout` its  rendered content  is available  in the  `Layout`s
 scope as variable:
 
-    final FreeMarkerDown fmd = FreeMarkerDown.create();
+    final FreeMarkerDown fmd = FreeMarkerDown.create("utf-8");
     ...
-    final Fragment inner = fmd.createFragemnt("inner content");
+    final Fragment inner = fmd.createFragemnt(
+        "inner content",
+        "utf-8",
+        "inner"
+    );
     ...
-    final Layout outer = fmd.createLayout("outer content. Inner content ${inner}");
+    final Layout outer = fmd.createLayout(
+        "outer content. Inner content ${inner}",
+        "utf-8",
+        "outer"
+    );
     outer.assignTemplateModel("inner", inner);
     ...
 
@@ -73,17 +81,21 @@ So if you implement a pre processor like this:
 
 And applies it to a model like this:
 
-    final FreeMarkerDown fmd = FreeMarkerDown.create();
+    final FreeMarkerDown fmd = FreeMarkerDown.create("utf-8");
     final Fragment inner = fmd.createFragemnt(
           "<?myproc  SOME_CONTENT_1 ?>\n"
         + "inner content\n"
-        + "<?myproc  SOME_CONTENT_2 ?>\n"
+        + "<?myproc  SOME_CONTENT_2 ?>\n",
+        "utf-8",
+        "inner"
     );
     final Layout outer = fmd.createLayout(
         "outer content.\n"
         + "<?myproc  SOME_CONTENT_3 ?>\n"
         +"${inner}\n");
-        + "<?myproc  SOME_CONTENT_4 ?>\n"
+        + "<?myproc  SOME_CONTENT_4 ?>\n",
+        "utf-8",
+        "outer"
     outer.assignTemplateModel("inner", inner);
     ...
     final PreProcessor processor = new MyPreProcessor();
