@@ -268,6 +268,24 @@ public final class FreeMarkerDown {
     }
 
     /**
+     * Creates a new {@link Fragment}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     * @param name must not be {@code null} or empty
+     * @param options optional options
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Fragment createFragemnt(
+            final Path template,
+            final String encoding,
+            final String name,
+            final RenderOptions... options) throws IOException {
+        return createFragemnt(read(template, encoding), encoding, name, options);
+    }
+
+    /**
      * Creates a new {@link Layout} with {@link #DEFAULT_ENCODING default encoding}.
      *
      * @param template must not be {@code null}
@@ -339,6 +357,21 @@ public final class FreeMarkerDown {
     public Layout createLayout(final Path template, final String encoding, final RenderOptions... options)
             throws IOException {
         return createLayout(read(template, encoding), encoding, options);
+    }
+
+    /*
+     * Creates a new {@link Layout}.
+     *
+     * @param template must not be {@code null}
+     * @param encoding must not be {@code null} or empty
+     * @param name must not be {@code null} or empty
+     * @param options optional options
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Layout createLayout(final Path template, final String encoding, final String name, final RenderOptions... options)
+            throws IOException {
+        return createLayout(read(template, encoding), encoding, name, options);
     }
 
     /**
