@@ -249,7 +249,7 @@ bg=yellow</panel_attributes>
       <w>200</w>
       <h>650</h>
     </coordinates>
-    <panel_attributes>topcenter:Event Model
+    <panel_attributes>topcenter:Template Model
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -294,7 +294,7 @@ bg=yellow</panel_attributes>
       <w>250</w>
       <h>380</h>
     </coordinates>
-    <panel_attributes>topcenter:Interceptors
+    <panel_attributes>topcenter:Event Despatcher
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -312,12 +312,12 @@ bg=yellow</panel_attributes>
   <element>
     <type>com.umlet.element.custom.ReceiveSignal</type>
     <coordinates>
-      <x>580</x>
+      <x>550</x>
       <y>90</y>
-      <w>100</w>
+      <w>160</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>taxi arrived
+    <panel_attributes>receive event
 bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
@@ -326,11 +326,11 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>390</x>
       <y>80</y>
-      <w>220</w>
+      <w>190</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;..</panel_attributes>
-    <additional_attributes>200;30;30;30</additional_attributes>
+    <additional_attributes>170;30;30;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -433,8 +433,7 @@ bg=green</panel_attributes>
     <panel_attributes>*Contains:*
 - reference to intercepted template
 - intercepted execution point
-- content from previous point,
-   if any available</panel_attributes>
+- content from previous execution point</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

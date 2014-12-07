@@ -112,6 +112,37 @@ is invoked for all assigned template modles recursively in no particula order.
 
 ## Interceptors
 
-TODO
+The interceptor concept provides an API  to intercept all stages of the template
+rendering process. At the moment there are six execution points:
+
+- `ExecutionPoint#BEFORE_PREPROCESSING`: Interceptors registered for this execution
+  point will be invoked _before_ any preprocessor for each template. At this point
+  the raw template string is passed to the interceptor as content.
+- `ExecutionPoint#AFTER_PREPROCESSING`: Interceptors registered for this execution
+  point will be invoked _after_ any preprocessor for each template. At this point
+  the preprocessed template string is passed to the interceptor as content.
+- `ExecutionPoint#BEFORE_RENDERING`: Interceptors registered for this execution
+  point will be invoked _before_ the template will be processed by FreeMarker.
+  At this point the preprocessed template string is passed to the interceptor as
+  content.
+- `ExecutionPoint#AFTER_RENDERING`: Interceptors registered for this execution
+  point will be invoked _after_ the template will be processed by FreeMarker.
+  At this point the rendered template string is passed to the interceptor as
+  content.
+- `ExecutionPoint#BEFORE_MARKDOWN`: Interceptors registered for this execution
+  point will be invoked _before_ the rendered template string will be converted
+  to Markdown. At this point the rendered template string is passed to the
+  interceptor as content.
+- `ExecutionPoint#AFTER_MARKDOWN`: Interceptors registered for this execution
+  point will be invoked _after_ the rendered template string was converted to
+  Markdown. At this point the converted string is passed to the interceptor as
+  content.
+
+Internal this  is abstracted  as an  event model  in which  each `TemplateModel`
+triggers events.  If a template is  given to `FreeMarkerDown` for  rendereing an
+event dispatcher  is registered on  that template  model and all  containing sub
+template  models.  Any triggered  event  wil  be  forwared to  the  interceptors
+registered  for the  particualr execution  point. After  the whole  rendering is
+finished `FreeMarkerDown` unregisters the event dispatcher.
 
 ![Event Model](uml/event_model.svg)
