@@ -51,6 +51,7 @@ class FreeMarker {
     /**
      * Create configuration.
      *
+     * @param encoding must not be {@code null} or empty
      * @return never {@code null}, always new instance.
      */
     Configuration createConfiguration(final String encoding) {

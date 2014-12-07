@@ -253,7 +253,7 @@ public final class FreeMarkerDown {
         );
     }
 
-    /*
+    /**
      * Creates a new {@link Layout}.
      *
      * @param template must not be {@code null}
@@ -263,7 +263,8 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(final Path template, final String encoding, final String name, final RenderOptions... options)
+    public Layout createLayout(
+            final Path template, final String encoding, final String name, final RenderOptions... options)
             throws IOException {
         return createLayout(read(template, encoding), encoding, name, options);
     }
