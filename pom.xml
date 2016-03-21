@@ -17,7 +17,7 @@
     <parent>
         <groupId>de.weltraumschaf.organization</groupId>
         <artifactId>organization-parent</artifactId>
-        <version>2.0.6</version>
+        <version>2.0.7</version>
     </parent>
 
     <groupId>de.weltraumschaf</groupId>
@@ -32,7 +32,7 @@
     <properties>
         <dependnecy.version.pegdown>1.4.2</dependnecy.version.pegdown>
         <dependency.freemarker.version>2.3.21</dependency.freemarker.version>
-        <dependency.comons.version>2.0.0-SNAPSHOT</dependency.comons.version>
+        <dependency.comons.version>2.1.0</dependency.comons.version>
         <dependency.equalsverifier.version>1.5.1</dependency.equalsverifier.version>
         <dependency.jcip.annotations>1.0-1</dependency.jcip.annotations>
     </properties>
