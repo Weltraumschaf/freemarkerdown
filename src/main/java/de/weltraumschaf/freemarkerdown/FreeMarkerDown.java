@@ -17,7 +17,7 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * This is the main API entry point to render stuff.
  * <p>
- * Use the {@link #create() factory method} to create an instance.
+ * Use the {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create an instance.
  * </p>
  * <p>
  * For examples see the <a href="http://weltraumschaf.github.io/freemarkerdown/examples.html">this site</a>
@@ -45,7 +45,7 @@ public final class FreeMarkerDown {
     private final EventDispatcher events;
 
     /**
-     * Use {@link #create()} to create new instances.
+     * Use {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create new instances.
      *
      * @param freeMarkerConfig must not be {@code null}
      * @param events must not be {@code null}
