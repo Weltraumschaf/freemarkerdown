@@ -32,7 +32,7 @@
     <properties>
         <dependnecy.version.pegdown>1.4.2</dependnecy.version.pegdown>
         <dependency.freemarker.version>2.3.21</dependency.freemarker.version>
-        <dependency.comons.version>2.1.0</dependency.comons.version>
+        <dependency.comons.version>2.2.0-SNAPSHOT</dependency.comons.version>
         <dependency.jcip.annotations>1.0-1</dependency.jcip.annotations>
     </properties>
 
