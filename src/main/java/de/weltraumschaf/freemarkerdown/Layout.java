@@ -85,7 +85,6 @@ import net.jcip.annotations.NotThreadSafe;
 @NotThreadSafe
 public interface Layout extends TemplateModel {
 
-
     /**
      * Assigns a fragment to the layout.
      * <p>
@@ -96,5 +95,13 @@ public interface Layout extends TemplateModel {
      * @param fragment must not be {@code null}
      */
     void assignTemplateModel(String name, TemplateModel fragment);
+    /**
+     * Assigns a fragment to the layout.
+     *
+     * @see #assignTemplateModel(java.lang.String, de.weltraumschaf.freemarkerdown.TemplateModel)
+     * @param name must not be {@code null}
+     * @param fragment must not be {@code null}
+     */
+    void assignTemplateModel(VariableName name, TemplateModel fragment);
 
 }

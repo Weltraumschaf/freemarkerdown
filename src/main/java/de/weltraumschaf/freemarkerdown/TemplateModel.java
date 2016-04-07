@@ -1,5 +1,7 @@
 package de.weltraumschaf.freemarkerdown;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * A template model is the base to render templates.
  * <p>
@@ -14,6 +16,7 @@ package de.weltraumschaf.freemarkerdown;
  * @since 1.0.0
  * @author Sven Strittmatter
  */
+@NotThreadSafe
 public interface TemplateModel {
 
     /**
@@ -40,6 +43,15 @@ public interface TemplateModel {
      * @param value must not be {@code null}
      */
     void assignVariable(final String name, final Object value);
+
+    /**
+     * Assign any object as template variable.
+     *
+     * @see #assignVariable(java.lang.String, java.lang.Object) 
+     * @param name must not be {@code null}
+     * @param value must not be {@code null}
+     */
+    void assignVariable(final VariableName name, final Object value);
 
     /**
      * Get the name of template.

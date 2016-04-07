@@ -61,6 +61,11 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     }
 
     @Override
+    public void assignTemplateModel(final VariableName name, final TemplateModel template) {
+        assignTemplateModel(name.getVariableName(), template);
+    }
+
+    @Override
     public void assignTemplateModel(final String name, final TemplateModel template) {
         if (template instanceof BaseTemplate) {
             ((BaseTemplate) template).setParent(this);

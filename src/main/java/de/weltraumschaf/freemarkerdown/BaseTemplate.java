@@ -156,6 +156,11 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     }
 
     @Override
+    public final void assignVariable(final VariableName name, final Object value) {
+        assignVariable(name.getVariableName(), value);
+    }
+
+    @Override
     public String render() {
         triggerEvent(BEFORE_RENDERING, preProcessedTemplate);
         String content = processTemplate();
