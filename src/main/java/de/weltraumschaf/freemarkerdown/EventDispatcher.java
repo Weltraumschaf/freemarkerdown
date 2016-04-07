@@ -50,6 +50,12 @@ final class EventDispatcher implements EventConsumer {
         interceptors.get(point).add(interceptor);
     }
 
+    @Override
+    public String toString() {
+        return "EventDispatcher{" + "interceptors=" + interceptors + '}';
+    }
+
+
     /**
      * Get the registered interceptors.
      *

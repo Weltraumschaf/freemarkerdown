@@ -45,22 +45,36 @@ final class KeyValueProcessor implements PreProcessor {
      */
     private static final String COMMENT_TOKEN = "//";
     /**
+     * Collects warnings during processing.
+     */
+    private final Collection<String> warnings = Lists.newArrayList();
+    /**
      * Collects the found key value pairs.
      */
     private final Map<String, String> result;
     /**
-     * Collects warnings during processing.
+     * The runtime target to listen for.
      */
-    private final Collection<String> warnings = Lists.newArrayList();
+    private final String target;
 
+    /**
+     * Convenience constructor with default target.
+     *
+     * * @param result must not be {@code null}
+     */
+    KeyValueProcessor(final Map<String, String> result) {
+        this(result, TARGET);
+    }
     /**
      * Dedicated constructor.
      *
      * @param result must not be {@code null}
+     * @param target must not be {@code null} or empty
      */
-    KeyValueProcessor(final Map<String, String> result) {
+    KeyValueProcessor(final Map<String, String> result,final String target) {
         super();
         this.result = Validate.notNull(result, "result");
+        this.target = Validate.notEmpty(target, "target");
     }
 
     @Override
@@ -75,7 +89,7 @@ final class KeyValueProcessor implements PreProcessor {
 
     @Override
     public String getTarget() {
-        return TARGET;
+        return target;
     }
 
     @Override
