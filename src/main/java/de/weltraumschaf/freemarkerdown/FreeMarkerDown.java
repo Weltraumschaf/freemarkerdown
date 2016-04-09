@@ -178,19 +178,14 @@ public final class FreeMarkerDown {
      * Creates a new {@link Fragment}.
      *
      * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
      * @param options optional options
      * @param name must not be {@code null} or empty
      * @return never {@code null}, always new instance
      */
-    public Fragment createFragemnt(
-            final String template,
-            final String encoding,
-            final String name,
-            final RenderOptions... options) {
+    public Fragment createFragemnt(final String template, final String name, final RenderOptions... options) {
         return new FragmentImpl(
                 template,
-                encoding,
+                freeMarkerConfig.getDefaultEncoding(),
                 freeMarkerConfig,
                 null == options
                         ? Collections.<RenderOptions>emptySet()
@@ -203,7 +198,6 @@ public final class FreeMarkerDown {
      * Creates a new {@link Fragment}.
      *
      * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
      * @param name must not be {@code null} or empty
      * @param options optional options
      * @return never {@code null}, always new instance
@@ -211,29 +205,23 @@ public final class FreeMarkerDown {
      */
     public Fragment createFragemnt(
             final Path template,
-            final String encoding,
             final String name,
             final RenderOptions... options) throws IOException {
-        return createFragemnt(read(template, encoding), encoding, name, options);
+        return createFragemnt(read(template), name, options);
     }
 
     /**
      * Creates a new {@link Layout}.
      *
      * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
      * @param options optional options
      * @param name must not be {@code null} or empty
      * @return never {@code null}, always new instance
      */
-    public Layout createLayout(
-            final String template,
-            final String encoding,
-            final String name,
-            final RenderOptions... options) {
+    public Layout createLayout(final String template, final String name, final RenderOptions... options) {
         return new LayoutImpl(
                 template,
-                encoding,
+                freeMarkerConfig.getDefaultEncoding(),
                 freeMarkerConfig,
                 null == options
                         ? Collections.<RenderOptions>emptySet()
@@ -246,30 +234,25 @@ public final class FreeMarkerDown {
      * Creates a new {@link Layout}.
      *
      * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
      * @param name must not be {@code null} or empty
      * @param options optional options
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Layout createLayout(
-            final Path template, final String encoding, final String name, final RenderOptions... options)
-            throws IOException {
-        return createLayout(read(template, encoding), encoding, name, options);
+    public Layout createLayout(final Path template, final String name, final RenderOptions... options) throws IOException {
+        return createLayout(read(template), name, options);
     }
 
     /**
-     * Read file into string with encoding.
+     * Read file into string with configured encoding.
      *
      * @param template must not be {@code null}
-     * @param encoding must not be {@code null} or empty
      * @return never {@code null}
      * @throws IOException if file can't be read
      */
-    private String read(final Path template, final String encoding) throws IOException {
+    private String read(final Path template) throws IOException {
         Validate.notNull(template, "template");
-        Validate.notEmpty(encoding, "encoding");
-        return new String(Files.readAllBytes(template), encoding);
+        return new String(Files.readAllBytes(template), freeMarkerConfig.getDefaultEncoding());
     }
 
     /**

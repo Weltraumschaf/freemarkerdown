@@ -40,7 +40,7 @@ public class ExamplesTest {
                 + "\n"
                 + "<#list sequence as item>\n"
                 + "- ${item}\n"
-                + "</#list>", "utf-8", "template");
+                + "</#list>", "template");
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
         final Map<String, String> keyValues = Maps.newHashMap();
@@ -75,7 +75,7 @@ public class ExamplesTest {
                 + "\n"
                 + "<#list sequence as item>\n"
                 + "- ${item}\n"
-                + "</#list>", "utf-8", "template");
+                + "</#list>", "template");
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
         assertThat(fmd.render(template), is(
@@ -98,7 +98,7 @@ public class ExamplesTest {
         final URI file = getClass()
                 .getResource("renderSingleFragmentwithMarkdownFromFileTemplate.md.ftl")
                 .toURI();
-        final Fragment template = fmd.createFragemnt(Paths.get(file), "utf-8", "template");
+        final Fragment template = fmd.createFragemnt(Paths.get(file), "template");
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
         assertThat(fmd.render(template), is(
@@ -129,10 +129,10 @@ public class ExamplesTest {
                 + "- ${item}\n"
                 + "</#list>\n"
                 + "\n"
-                + "${fragment}", "utf-8", "layout");
+                + "${fragment}", "layout");
         layout.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
-        final Fragment fragment = fmd.createFragemnt("This is ${foo}.", "utf-8", "fragment");
+        final Fragment fragment = fmd.createFragemnt("This is ${foo}.", "fragment");
         fragment.assignVariable("foo", "bar");
         layout.assignTemplateModel("fragment", fragment);
 
@@ -157,13 +157,13 @@ public class ExamplesTest {
         final URI fileLayout = getClass()
                 .getResource("renderLayoutwithFragmentsandMarkdownFromStringTemplate_layout.md.ftl")
                 .toURI();
-        final Layout layout = fmd.createLayout(Paths.get(fileLayout), "utf-8", "layout");
+        final Layout layout = fmd.createLayout(Paths.get(fileLayout), "layout");
         layout.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
         final URI fileFragment = getClass()
                 .getResource("renderLayoutwithFragmentsandMarkdownFromStringTemplate_fragment.md.ftl")
                 .toURI();
-        final Fragment fragment = fmd.createFragemnt(Paths.get(fileFragment), "utf-8", "fragment");
+        final Fragment fragment = fmd.createFragemnt(Paths.get(fileFragment), "fragment");
         fragment.assignVariable("foo", "bar");
         layout.assignTemplateModel("fragment", fragment);
 
@@ -195,7 +195,6 @@ public class ExamplesTest {
                 + "<#list sequence as item>\n"
                 + "- ${item}\n"
                 + "</#list>",
-                "utf-8",
                 "template",
                 RenderOptions.WITHOUT_MARKDOWN);
         template.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
@@ -227,7 +226,6 @@ public class ExamplesTest {
                 + "?>\n"
                 + "\n"
                 + "Lorem ipsum dolor sit amet.\n",
-                "utf-8",
                 "template");
 
         final Map<String, String> keyValues = Maps.newHashMap();
@@ -260,7 +258,6 @@ public class ExamplesTest {
                 + "Lorem ipsum dolor sit amet.\n"
                 + "\n"
                 + "${fragment}",
-                "utf-8",
                 "layout");
         layout.assignVariable("sequence", Arrays.asList("foo", "bar", "baz"));
 
@@ -271,7 +268,6 @@ public class ExamplesTest {
                 + "- ${item}\n"
                 + "</#list>\n"
                 + "\n",
-                "utf-8",
                 "fragment");
         layout.assignTemplateModel("fragment", fragment);
 
@@ -292,7 +288,7 @@ public class ExamplesTest {
         // START SNIPPET: handlingTemplateErrors
         final FreeMarkerDown fmd = FreeMarkerDown.create("utf-8");
 
-        final Fragment fragment = fmd.createFragemnt("Lorem ipsum dolor: ${foo}", "utf-8", "fragment");
+        final Fragment fragment = fmd.createFragemnt("Lorem ipsum dolor: ${foo}", "fragment");
 
         try {
             fmd.render(fragment);
@@ -335,13 +331,11 @@ public class ExamplesTest {
                 + "\n"
                 + "Lorem ipsum  dolor sit amet consetetur  sadipscing elitr sed diam  nonumy eirmod\n"
                 + "tempor invidunt ut labore et dolore magna aliquyam.",
-                "utf-8",
                 "content");
 
         final Layout post = fmd.createLayout("<article>\n"
                 + "    ${content}\n"
                 + "</article>",
-                "utf-8",
                 "post",
                 RenderOptions.WITHOUT_MARKDOWN);
         post.assignTemplateModel("content", content);
@@ -355,7 +349,6 @@ public class ExamplesTest {
                 + "        ${content}\n"
                 + "    </body>\n"
                 + "</html>",
-                "utf-8",
                 "layout",
                 RenderOptions.WITHOUT_MARKDOWN);
         layout.assignVariable("name", "NAME");

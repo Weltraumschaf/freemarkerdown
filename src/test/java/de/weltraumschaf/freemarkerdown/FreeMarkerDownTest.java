@@ -20,7 +20,7 @@ import org.pegdown.PegDownProcessor;
  *
  * @author Sven Strittmatter
  */
-public class FreeMarkerDownTest extends TestCaseBase{
+public class FreeMarkerDownTest extends TestCaseBase {
 
     @Rule
     //CHECKSTYLE:OFF
@@ -55,38 +55,37 @@ public class FreeMarkerDownTest extends TestCaseBase{
     }
 
     @Test
-    public void createFragemnt_fromString_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createFragemnt_fromString_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createFragemnt((String) null, "utf-8", "name");
+        sut.createFragemnt((String) null, "name");
     }
 
     @Test
     public void createFragemnt_fromString_alwaysNewInstance() {
-        final Fragment one = sut.createFragemnt("", ENCODING, "one");
-        final Fragment two = sut.createFragemnt("", ENCODING, "two");
-        final Fragment three = sut.createFragemnt("", ENCODING, "three");
+        final Fragment one = sut.createFragemnt("", "one");
+        final Fragment two = sut.createFragemnt("", "two");
+        final Fragment three = sut.createFragemnt("", "three");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
         assertThat(two, is(not(sameInstance(three))));
     }
 
-
     @Test
-    public void createLayout_fromString_withEncoding_throwsExceptionIfTemplateIsNull() {
+    public void createLayout_fromString_throwsExceptionIfTemplateIsNull() {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createLayout((String) null, "utf-8", "name");
+        sut.createLayout((String) null, "name");
     }
 
     @Test
     public void createLayout_fromString_alwaysNewInstance() {
-        final Layout one = sut.createLayout("", ENCODING, "one");
-        final Layout two = sut.createLayout("", ENCODING, "two");
-        final Layout three = sut.createLayout("", ENCODING, "three");
+        final Layout one = sut.createLayout("", "one");
+        final Layout two = sut.createLayout("", "two");
+        final Layout three = sut.createLayout("", "three");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -94,34 +93,18 @@ public class FreeMarkerDownTest extends TestCaseBase{
     }
 
     @Test
-    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfTemplateIsNull() throws IOException {
+    public void createFragemnt_fromPath_throwsExceptionIfTemplateIsNull() throws IOException {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createFragemnt((Path) null, "utf-8", "name");
-    }
-
-    @Test
-    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfEncodingIsNull() throws IOException {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("'encoding'");
-
-        sut.createFragemnt(mock(Path.class), (String) null, "name");
-    }
-
-    @Test
-    public void createFragemnt_fromPath_withEncoding_throwsExceptionIfEncodingIsEmpty() throws IOException {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("'encoding'");
-
-        sut.createFragemnt(mock(Path.class), "", "name");
+        sut.createFragemnt((Path) null, "name");
     }
 
     @Test
     public void createFragemnt_fromPath_alwaysNewInstance() throws IOException {
-        final Fragment one = sut.createFragemnt(tmp.newFile().toPath(), ENCODING, "one");
-        final Fragment two = sut.createFragemnt(tmp.newFile().toPath(), ENCODING, "two");
-        final Fragment three = sut.createFragemnt(tmp.newFile().toPath(), ENCODING, "three");
+        final Fragment one = sut.createFragemnt(tmp.newFile().toPath(), "one");
+        final Fragment two = sut.createFragemnt(tmp.newFile().toPath(), "two");
+        final Fragment three = sut.createFragemnt(tmp.newFile().toPath(), "three");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -133,49 +116,14 @@ public class FreeMarkerDownTest extends TestCaseBase{
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("'template'");
 
-        sut.createLayout((Path) null, ENCODING, "name");
-    }
-
-    @Test
-    public void createLayout_fromPath_withEncoding_throwsExceptionIfTemplateIsNull() throws IOException {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("'template'");
-
-        sut.createLayout((Path) null, "utf-8", "name");
-    }
-
-    @Test
-    public void createLayout_fromPath_withEncoding_throwsExceptionIfEncodingIsNull() throws IOException {
-        thrown.expect(NullPointerException.class);
-        thrown.expectMessage("'encoding'");
-
-        sut.createLayout(mock(Path.class), (String) null, "name");
-    }
-
-    @Test
-    public void createLayout_fromPath_withEncoding_throwsExceptionIfEncodingIsEmpty() throws IOException {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("'encoding'");
-
-        sut.createLayout(mock(Path.class), "", "name");
+        sut.createLayout((Path) null, "name");
     }
 
     @Test
     public void createLayout_fromPath_alwaysNewInstance() throws IOException {
-        final Layout one = sut.createLayout(tmp.newFile().toPath(), ENCODING, "one");
-        final Layout two = sut.createLayout(tmp.newFile().toPath(), ENCODING, "two");
-        final Layout three = sut.createLayout(tmp.newFile().toPath(), ENCODING, "three");
-
-        assertThat(one, is(not(sameInstance(two))));
-        assertThat(one, is(not(sameInstance(three))));
-        assertThat(two, is(not(sameInstance(three))));
-    }
-
-    @Test
-    public void createLayout_fromPath_withEncoding_alwaysNewInstance() throws IOException {
-        final Layout one = sut.createLayout(tmp.newFile().toPath(), "utf-8", "name");
-        final Layout two = sut.createLayout(tmp.newFile().toPath(), "utf-8", "name");
-        final Layout three = sut.createLayout(tmp.newFile().toPath(), "utf-8", "name");
+        final Layout one = sut.createLayout(tmp.newFile().toPath(), "one");
+        final Layout two = sut.createLayout(tmp.newFile().toPath(), "two");
+        final Layout three = sut.createLayout(tmp.newFile().toPath(), "three");
 
         assertThat(one, is(not(sameInstance(two))));
         assertThat(one, is(not(sameInstance(three))));
@@ -197,9 +145,9 @@ public class FreeMarkerDownTest extends TestCaseBase{
     public void equalsContract() {
         final FreeMarker fm = new FreeMarker();
         EqualsVerifier.forClass(FreeMarkerDown.class)
-                .withPrefabValues(Configuration.class, fm.createConfiguration(ENCODING), fm.createConfiguration(ENCODING))
-                .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
-                .verify();
+            .withPrefabValues(Configuration.class, fm.createConfiguration(ENCODING), fm.createConfiguration(ENCODING))
+            .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
+            .verify();
     }
 
     @Test

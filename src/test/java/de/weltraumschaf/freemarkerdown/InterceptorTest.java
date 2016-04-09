@@ -26,7 +26,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_beforePreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
         fmd.render(fragment);
@@ -36,7 +36,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_beforePreprocessing_withPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(new PreProcessorStub());
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
@@ -47,7 +47,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_afterPreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
         fmd.render(fragment);
@@ -57,7 +57,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_afterPreprocessing_withtPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(new PreProcessorStub());
         fmd.register(interceptor, AFTER_PREPROCESSING);
 
@@ -68,7 +68,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_beforeRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, BEFORE_RENDERING);
 
         fmd.render(fragment);
@@ -78,7 +78,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_afterRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, AFTER_RENDERING);
 
         fmd.render(fragment);
@@ -88,7 +88,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_beforeMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
         fmd.render(fragment);
@@ -98,7 +98,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_afterMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
         fmd.register(interceptor, AFTER_MARKDOWN);
 
         fmd.render(fragment);
@@ -108,7 +108,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_beforeMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment", RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment", RenderOptions.WITHOUT_MARKDOWN);
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
         fmd.render(fragment);
@@ -118,7 +118,7 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptFragment_afterMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment", RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment", RenderOptions.WITHOUT_MARKDOWN);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
         fmd.render(fragment);
@@ -128,8 +128,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_beforePreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", ENCODING, "fragment");
-        final Layout layout = fmd.createLayout("Layout ${content}", ENCODING, "layout");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "fragment");
+        final Layout layout = fmd.createLayout("Layout ${content}", "layout");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
@@ -142,8 +142,8 @@ public class InterceptorTest extends TestCaseBase {
     @Test
     public void interceptLayout_beforePreprocessing_withPreprocessor() {
         fmd.register(new PreProcessorStub());
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_PREPROCESSING);
 
@@ -155,8 +155,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_afterPreprocessing_withoutPreprocessor() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
@@ -169,8 +169,8 @@ public class InterceptorTest extends TestCaseBase {
     @Test
     public void interceptLayout_afterPreprocessing_withPreprocessor() {
         fmd.register(new PreProcessorStub());
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
@@ -182,8 +182,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_beforeRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_RENDERING);
 
@@ -195,8 +195,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_afterRendering() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, AFTER_RENDERING);
 
@@ -208,8 +208,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_beforeMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
@@ -221,8 +221,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_afterMarkdown() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout("layout: ${content}", "utf-8", "outer-template");
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template");
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
@@ -234,10 +234,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_beforeMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout(
-                "layout: ${content}", "utf-8", "outer-template",
-                RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template", RenderOptions.WITHOUT_MARKDOWN);
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, BEFORE_MARKDOWN);
 
@@ -249,10 +247,8 @@ public class InterceptorTest extends TestCaseBase {
 
     @Test
     public void interceptLayout_afterMarkdown_withoutMarkdownOption() {
-        final Fragment fragment = fmd.createFragemnt("foo bar baz", "utf-8", "inner-template");
-        final Layout layout = fmd.createLayout(
-                "layout: ${content}", "utf-8", "outer-template",
-                RenderOptions.WITHOUT_MARKDOWN);
+        final Fragment fragment = fmd.createFragemnt("foo bar baz", "inner-template");
+        final Layout layout = fmd.createLayout("layout: ${content}", "outer-template", RenderOptions.WITHOUT_MARKDOWN);
         layout.assignTemplateModel("content", fragment);
         fmd.register(interceptor, AFTER_MARKDOWN);
 
