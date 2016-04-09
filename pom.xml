@@ -129,94 +129,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
-                    <excludes />
+                    <excludes>
+                        <exclude>${jacoco.exclude.1}</exclude>
+                        <exclude>${jacoco.exclude.2}</exclude>
+                    </excludes>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.kryshchuk.maven.plugins</groupId>
-                <artifactId>umlet-maven-plugin</artifactId>
-
-                <configuration>
-                    <format>svg</format>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>convert-uml</id>
-
-                        <goals>
-                            <goal>convert</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>javadoc</goal>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.7</version>
-
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>summary</report>
-                            <report>dependency-info</report>
-                            <report>license</report>
-                            <report>issue-tracking</report>
-                            <report>cim</report>
-                            <report>scm</report>
-                            <report>project-team</report>
-                            <report>dependencies</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
-
-                <configuration>
-                    <show>public</show>
-                </configuration>
-
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>javadoc</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>taglist-maven-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
