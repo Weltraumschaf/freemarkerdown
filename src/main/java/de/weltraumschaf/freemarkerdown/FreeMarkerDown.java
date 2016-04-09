@@ -17,7 +17,8 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * This is the main API entry point to render stuff.
  * <p>
- * Use the {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create an instance.
+ * Use the {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create an
+ * instance.
  * </p>
  * <p>
  * For examples see the <a href="http://weltraumschaf.github.io/freemarkerdown/examples.html">this site</a>
@@ -45,7 +46,8 @@ public final class FreeMarkerDown {
     private final EventDispatcher events;
 
     /**
-     * Use {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create new instances.
+     * Use {@link #create(java.lang.String)} or {@link #create(freemarker.template.Configuration)} to create new
+     * instances.
      *
      * @param freeMarkerConfig must not be {@code null}
      * @param events must not be {@code null}
@@ -184,14 +186,26 @@ public final class FreeMarkerDown {
      */
     public Fragment createFragemnt(final String template, final String name, final RenderOptions... options) {
         return new FragmentImpl(
-                template,
-                freeMarkerConfig.getDefaultEncoding(),
-                freeMarkerConfig,
-                null == options
-                        ? Collections.<RenderOptions>emptySet()
-                        : Sets.newHashSet(options),
-                name
+            template,
+            freeMarkerConfig.getDefaultEncoding(),
+            freeMarkerConfig,
+            null == options
+                ? Collections.<RenderOptions>emptySet()
+                : Sets.newHashSet(options),
+            name
         );
+    }
+
+    /**
+     * Creates a new {@link Fragment} with the template file name as template name.
+     *
+     * @param template must not be {@code null}
+     * @param options optional options
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Fragment createFragemnt(final Path template, final RenderOptions... options) throws IOException {
+        return createFragemnt(template, template.toString(), options);
     }
 
     /**
@@ -203,10 +217,7 @@ public final class FreeMarkerDown {
      * @return never {@code null}, always new instance
      * @throws IOException if file can't be read
      */
-    public Fragment createFragemnt(
-            final Path template,
-            final String name,
-            final RenderOptions... options) throws IOException {
+    public Fragment createFragemnt(final Path template, final String name, final RenderOptions... options) throws IOException {
         return createFragemnt(read(template), name, options);
     }
 
@@ -220,14 +231,26 @@ public final class FreeMarkerDown {
      */
     public Layout createLayout(final String template, final String name, final RenderOptions... options) {
         return new LayoutImpl(
-                template,
-                freeMarkerConfig.getDefaultEncoding(),
-                freeMarkerConfig,
-                null == options
-                        ? Collections.<RenderOptions>emptySet()
-                        : Sets.newHashSet(options),
-                name
+            template,
+            freeMarkerConfig.getDefaultEncoding(),
+            freeMarkerConfig,
+            null == options
+                ? Collections.<RenderOptions>emptySet()
+                : Sets.newHashSet(options),
+            name
         );
+    }
+
+    /**
+     * Creates a new {@link Layout} with the template file name as template name.
+     *
+     * @param template must not be {@code null}
+     * @param options optional options
+     * @return never {@code null}, always new instance
+     * @throws IOException if file can't be read
+     */
+    public Layout createLayout(final Path template, final RenderOptions... options) throws IOException {
+        return createLayout(template, template.toString(), options);
     }
 
     /**
