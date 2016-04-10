@@ -20,13 +20,11 @@ scope as variable:
     ...
     final Fragment inner = fmd.createFragemnt(
         "inner content",
-        "utf-8",
         "inner"
     );
     ...
     final Layout outer = fmd.createLayout(
         "outer content. Inner content ${inner}",
-        "utf-8",
         "outer"
     );
     outer.assignTemplateModel("inner", inner);
@@ -57,22 +55,22 @@ you only want to strip the instrcutions, then return an empty string.
 So if you implement a pre processor like this:
 
     class MyPreProcessor implements PreProcessor {
-
+        
         @Override
         public String process(String input) {
             return ">>" + input + "<<";
         }
-
+        
         @Override
         public String getTarget() {
             return "myproc";
         }
-
+        
         @Override
         public boolean hasWarnings() {
             return false;
         }
-
+        
         @Override
         public Collection<String> getWarnings() {
             return Collections.emptyCollection();
@@ -86,7 +84,6 @@ And applies it to a model like this:
           "<?myproc  SOME_CONTENT_1 ?>\n"
         + "inner content\n"
         + "<?myproc  SOME_CONTENT_2 ?>\n",
-        "utf-8",
         "inner"
     );
     final Layout outer = fmd.createLayout(
@@ -94,7 +91,6 @@ And applies it to a model like this:
         + "<?myproc  SOME_CONTENT_3 ?>\n"
         +"${inner}\n");
         + "<?myproc  SOME_CONTENT_4 ?>\n",
-        "utf-8",
         "outer"
     outer.assignTemplateModel("inner", inner);
     ...
