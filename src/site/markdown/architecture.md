@@ -7,12 +7,12 @@ templates as cascade.
 
 The "template" is  called `TemplateModel` in the API. Why  this strange name you
 may wonder.  The reason is  that I don't wanted  to interfere with  the template
-class name  from FreeMarker. That  was the best name  I were possible  to figure
+class name  from FreeMarker.  That was the  best name I  was possible  to figure
 out: It "models what a template is".
 
 There are two  sub types of the  `TemplateModel` in the API:  The `Fragment` and
 the  `Layout`.   The  distinction  is  that   you  can  assign  as   many  other
-`TemplateModels`  to  it  in contrast  to  a  `Fragment`.  so  if you  assign  a
+`TemplateModels` to a `Layout`  in contrast to a `Fragment`. So  if you assign a
 `Fragment`  to a  `Laout` its  rendered content  is available  in the  `Layout`s
 scope as variable:
 
@@ -104,7 +104,7 @@ The preprocesor will be called like this:
 
 As you  can see the  preprocessor is invoked for  the instructions of  the outer
 most template model as they occure  in the template. After that the preprocessor
-is invoked for all assigned template modles recursively in no particula order.
+is invoked for all assigned template modles recursively in no particular order.
 
 ## Interceptors
 
