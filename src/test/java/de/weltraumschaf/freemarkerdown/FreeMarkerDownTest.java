@@ -142,15 +142,6 @@ public class FreeMarkerDownTest extends TestCaseBase {
     }
 
     @Test
-    public void equalsContract() {
-        final FreeMarker fm = new FreeMarker();
-        EqualsVerifier.forClass(FreeMarkerDown.class)
-            .withPrefabValues(Configuration.class, fm.createConfiguration(ENCODING), fm.createConfiguration(ENCODING))
-            .withPrefabValues(PegDownProcessor.class, new PegDownProcessor(), new PegDownProcessor())
-            .verify();
-    }
-
-    @Test
     public void toStringContainsMembers() {
         assertThat(sut.toString(), is("FreeMarkerDown{preProcessors=[]}"));
     }

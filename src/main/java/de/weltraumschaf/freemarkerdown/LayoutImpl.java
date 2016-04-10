@@ -31,10 +31,10 @@ final class LayoutImpl extends BaseTemplate implements Layout {
      * @param templateName must not be {@code null} or empty
      */
     LayoutImpl(
-            final String template,
-            final String encoding,
-            final Configuration freeMarkerConfig,
-            final Set<RenderOptions> options, final String templateName) {
+        final String template,
+        final String encoding,
+        final Configuration freeMarkerConfig,
+        final Set<RenderOptions> options, final String templateName) {
         super(template, encoding, freeMarkerConfig, options, templateName);
     }
 
@@ -95,8 +95,8 @@ final class LayoutImpl extends BaseTemplate implements Layout {
     @Override
     public String toString() {
         return "Layout{"
-                + toStringProperties() + ", "
-                + "fragments=" + fragments
-                + '}';
+            + toStringProperties() + ", "
+            + "fragments=" + fragments
+            + '}';
     }
 }

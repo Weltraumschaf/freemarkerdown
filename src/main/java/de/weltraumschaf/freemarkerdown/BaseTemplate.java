@@ -37,7 +37,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      * object.
      * </p>
      */
-    private final PegDownProcessor markdown = new PegDownProcessor();
+    private final transient PegDownProcessor markdown = new PegDownProcessor();
 
     /**
      * Rendered template as original.
@@ -52,7 +52,7 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     /**
      * Configures FreeMarker.
      */
-    private final Configuration freeMarkerConfig;
+    private transient final Configuration freeMarkerConfig;
 
     /**
      * Rendering options.
@@ -67,12 +67,12 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     /**
      * Holds registered event consumers.
      */
-    private final Collection<EventConsumer> listeners = Lists.newArrayList();
+    private transient final Collection<EventConsumer> listeners = Lists.newArrayList();
 
     /**
      * Injectable dependency.
      */
-    private PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
+    private transient PreProcessorApplier preProcessorApplier = new PreProcessorApplierImpl();
 
     /**
      * Pre processed template.
@@ -82,12 +82,12 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
      * {@link #apply(de.weltraumschaf.freemarkerdown.PreProcessor) applied} pre processor.
      * </p>
      */
-    private String preProcessedTemplate = "";
+    private transient String preProcessedTemplate = "";
 
     /**
      * Provides FreeMarker objects.
      */
-    private FreeMarker factory = new FreeMarker();
+    private transient FreeMarker factory = new FreeMarker();
 
     /**
      * Dedicated constructor.
@@ -231,24 +231,6 @@ abstract class BaseTemplate extends EventProducer implements TemplateModel {
     @Override
     void unregister(final EventConsumer consumer) {
         listeners.remove(Validate.notNull(consumer, "consumer"));
-    }
-
-    @Override
-    public final int hashCode() {
-        return Objects.hashCode(templateVariables, encoding, template, templateName);
-    }
-
-    @Override
-    public final boolean equals(final Object obj) {
-        if (!(obj instanceof BaseTemplate)) {
-            return false;
-        }
-
-        final BaseTemplate other = (BaseTemplate) obj;
-        return Objects.equal(templateVariables, other.templateVariables)
-                && Objects.equal(encoding, other.encoding)
-                && Objects.equal(template, other.template)
-                && Objects.equal(templateName, other.templateName);
     }
 
     /**
